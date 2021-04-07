@@ -35,7 +35,7 @@ pygments_style = "colorful"
 #
 
 html_theme = "furo"
-html_title = "Atlas Documentation"
+html_title = "Atlas ETL Documentation"
 html_logo = "images/icon.png"
 html_favicon = "images/favicon.ico"
 
