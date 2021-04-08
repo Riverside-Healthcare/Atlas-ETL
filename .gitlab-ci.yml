@@ -73,5 +73,5 @@ github:
     - git status
     - git add . && git commit -m "$MESSAGE"
     - git status
-    - git branch -m master main
-    - git push -u origin main
+    - git branch -m master master
+    - git push -u origin master
