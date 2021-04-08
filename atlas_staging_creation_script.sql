@@ -138,3 +138,13 @@ GO
 
 ALTER DATABASE [atlas_staging] SET  READ_WRITE 
 GO
+
+USE [atlas_staging]
+GO
+CREATE SCHEMA [stage]
+GO
+
+USE [atlas_staging]
+GO
+CREATE SCHEMA [raw]
+GO

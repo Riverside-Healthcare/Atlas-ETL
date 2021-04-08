@@ -30,7 +30,6 @@ There are two primary ETLs -
 The ETL's are both SSIS packages which are scheduled to run as jobs on a Microsft SQL Server. The metadata ETl can be scheduled to run at a fairly frequent interval - every 15 minutes - hour, while the run data ETL can be run daily.
 
 
-
 Credits
 -------
 
