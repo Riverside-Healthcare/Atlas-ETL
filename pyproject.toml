@@ -18,6 +18,7 @@ packages = [{ include = "LDAP" }]
 
 [tool.poetry.dependencies]
 python = "^3.6"
+lxml = "^4.6.3"
 
 [tool.black]
 max_line_length = 99

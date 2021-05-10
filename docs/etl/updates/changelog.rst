@@ -19,6 +19,14 @@
 Changelog
 *********
 
+Version 2021.05.1
+-----------------
+
+- Added step to import repository information
+- Updated run data ETL connections
+- Fixed a bug in ReportObjectQuery where queries were not being removed
+
+
 Version 2021.03.1
 -----------------
 
