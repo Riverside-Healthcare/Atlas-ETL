@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/9/2021 1:19:35 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ANALYTICSVM1"
+  DTS:CreatorName="YOURORGNAME\Sean-Pickering"
+  DTS:DTSID="{CB45E589-FB42-4A03-BC38-FA6C3BCBF7AE}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ETL-Setup"
+  DTS:PackageType="5"
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{DACE737A-6FAA-4943-947E-49C8F7D4BFA4}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
+      DTS:ObjectName="atlas_database.atlas_staging">
+      <DTS:PropertyExpression
+        DTS:Name="InitialCatalog">@[$Package::DG_Staging_InitialCatalog]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ssrs_database;Initial Catalog=atlas_staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{79A42EF8-82E2-40A0-ACAF-C5E211EB69B6}"
+      DTS:ObjectName="Data_Governance_InitialCatalog">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">atlas</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{C5A269A0-4C23-416C-BB40-70B58F5E984E}"
+      DTS:ObjectName="DG_Staging_InitialCatalog">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">atlas_staging</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{38DDE486-B6AF-44E1-ADE5-369042B09BEE}"
+      DTS:ObjectName="Org_AD_Name">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">YOURORGNAME</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create Main ETL tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{00b4b64e-059e-413f-85f7-222d11b03fd7}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create Main ETL tables"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
+          SQLTask:SqlStatementSource=";DROP TABLE IF EXISTS [stage].[ReportObjectStaging]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [stage].[ReportObjectStaging](&#xA; [SourceServer] [nvarchar](255) NOT NULL,&#xA; [SourceDB] [nvarchar](255) NOT NULL,&#xA; [SourceTable] [nvarchar](255) NOT NULL,&#xA; [Name] [nvarchar](max) NULL,&#xA; [Description] [nvarchar](max) NULL,&#xA; [DetailedDescription] [nvarchar](max) NULL,&#xA; [ReportObjectType] [nvarchar](255) NOT NULL,&#xA; [Author] [nvarchar](max) NULL,&#xA; [LastModifiedBy] [nvarchar](max) NULL,&#xA; [LastModifiedDate] [datetime] NULL,&#xA; [ReportObjectURL] [nvarchar](max) NULL,&#xA; [EpicMasterFile] [nvarchar](3) NULL,&#xA; [EpicRecordID] [numeric](18, 0) NULL,&#xA; [ReportServerCatalogID] [nvarchar](50) NULL,&#xA; [DefaultVisibilityYN] [nvarchar](1) NULL,&#xA; [EpicReportTemplateId] [numeric](18, 0) NULL,&#xA; [ReportServerPath] [nvarchar](max) NULL,&#xA; [DisplayTitle] [nvarchar](max) NULL,&#xA; [Availability] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;&#xA;;DROP TABLE IF EXISTS [stage].[ReportObjectHierarchyStaging]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [stage].[ReportObjectHierarchyStaging](&#xA; [ParentReportObjectBizKey] [nvarchar](255) NOT NULL,&#xA; [ChildReportObjectBizKey] [nvarchar](255) NOT NULL,&#xA; [Line] [int] NULL&#xA;) ON [PRIMARY]&#xA;GO&#xA;&#xA;;DROP TABLE IF EXISTS [stage].[ReportObjectQueryStaging]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [stage].[ReportObjectQueryStaging](&#xA; [BizKey] [nvarchar](max) NULL,&#xA; [Query] [nvarchar](max) NULL,&#xA; [LastLoadDate] [datetime] NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;&#xA;&#xA;; drop table if exists [stage].[ReportObjectUser]&#xA;go&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE stage.ReportObjectUser (&#xA;    [UserID] [int] IDENTITY(1,1) NOT NULL,&#xA;    [Username] [nvarchar](max) NOT NULL,&#xA;    [EmployeeID] [nvarchar](max) NULL,&#xA;    [AccountName] [nvarchar](max) NULL,&#xA;    [DisplayName] [nvarchar](max) NULL,&#xA;    [FullName] [nvarchar](max) NULL,&#xA;    [FirstName] [nvarchar](max) NULL,&#xA;    [LastName] [nvarchar](max) NULL,&#xA;    [Department] [nvarchar](max) NULL,&#xA;    [Title] [nvarchar](max) NULL,&#xA;    [Phone] [nvarchar](max) NULL,&#xA;    [Email] [nvarchar](max) NULL,&#xA;    [Base] [nvarchar](max) NULL,&#xA;    [EpicId] [nvarchar](max) NULL,&#xA;    [LastLoadDate] [datetime] NULL,&#xA;    [LastLogin] [datetime] NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;&#xA;; drop table if exists  [stage].[ReportObjectUserGroups]&#xA;go&#xA;&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;&#xA;CREATE TABLE [stage].[ReportObjectUserGroups](&#xA; [GroupId] [int] IDENTITY(1,1) NOT NULL,&#xA; [AccountName] [nvarchar](max) NULL,&#xA; [GroupName] [nvarchar](max) NULL,&#xA; [GroupEmail] [nvarchar](max) NULL,&#xA; [GroupType] [nvarchar](max) NULL,&#xA; [GroupSource] [nvarchar](max) NULL,&#xA; [LastLoadDate] [datetime] NULL,&#xA; [EpicId] [nvarchar](max) NULL,&#xA; [Username] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;&#xA;DROP TABLE IF EXISTS [stage].[ReportObjectSubscriptions]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [stage].[ReportObjectSubscriptions](&#xA; [ReportObjectId] [nvarchar](max) NULL,&#xA; [SubscriptionId] [nvarchar](max) NULL,&#xA; [InactiveFlags] [int] NULL,&#xA; [EmailList] [nvarchar](max) NULL,&#xA; [Description] [nvarchar](max) NULL,&#xA; [LastStatus] [nvarchar](max) NULL,&#xA; [LastRunTime] [datetime] NULL,&#xA; [SubscriptionTo] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;&#xA;DROP TABLE IF EXISTS [stage].[ReportObjectGroupsMemberships]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [stage].[ReportObjectGroupsMemberships](&#xA; [GroupId] [bigint] NULL,&#xA; [ReportId] [bigint] NULL,&#xA; [GroupName] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="194,42"
+          Id="Package\Create Main ETL tables"
+          TopLeft="100,75" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

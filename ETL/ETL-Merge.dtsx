@@ -1,0 +1,896 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/22/2019 10:12:33 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="WS3865"
+  DTS:CreatorName="YOURORGNAME\eric-shultz"
+  DTS:DTSID="{8A51CD3F-D59F-45C3-BFE4-49C7D24C9457}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ETL-Merge"
+  DTS:PackageType="5"
+  DTS:VersionBuild="438"
+  DTS:VersionGUID="{1359E41B-9B39-46CF-BE13-15511187EC8D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[atlas_database.atlas]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+      DTS:ObjectName="atlas_database.atlas">
+      <DTS:PropertyExpression
+        DTS:Name="InitialCatalog">@[$Package::Data_Governance_InitialCatalog]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ssrs_database;Initial Catalog=atlas;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
+      DTS:ObjectName="atlas_database.atlas_staging">
+      <DTS:PropertyExpression
+        DTS:Name="InitialCatalog">@[$Package::DG_Staging_InitialCatalog]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ssrs_database;Initial Catalog=atlas_staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ssrs_database.EpicReportLibrary]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{818e0d4b-8a27-4e1b-96a5-61be8cd25b9b}"
+      DTS:ObjectName="ssrs_database.EpicReportLibrary">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ssrs_database;Initial Catalog=EpicReportLibrary;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Configurations>
+    <DTS:Configuration
+      DTS:ConfigurationString="R:\Data Governance ETL\Settings.dtsConfig"
+      DTS:ConfigurationType="1"
+      DTS:CreationName=""
+      DTS:DTSID="{83E81AAF-A5CB-4D60-9743-35616E0F2641}"
+      DTS:ObjectName="Atlas ETL Settings" />
+  </DTS:Configurations>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:Description="Set the DG database (prd, _Dev, or _Dev_Test)"
+      DTS:DTSID="{ECCAA4B5-207F-4D9E-BAF5-68ECEB5EE1C4}"
+      DTS:ObjectName="Data_Governance_InitialCatalog">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">atlas</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:Description="Set the DG Stage database (prd, or _Test)"
+      DTS:DTSID="{B569B24F-0DAB-4BE6-93C1-F927C5A85D19}"
+      DTS:ObjectName="DG_Staging_InitialCatalog">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">atlas_staging</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{ADCB400A-0024-493F-884E-FE18EB972780}"
+      DTS:ObjectName="Org_AD_Name">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">YOURORGNAME</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\EpicReleased"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{E1CF8627-A0DB-423E-AA50-0DF751A67AB4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="EpicReleased"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:SqlStatementSource="delete from app.ReportObjectImages_doc  where ImageSource = 'Report Repository'&#xA;&#xA;insert into app.ReportObjectImages_doc (ReportObjectID, ImageData, ImageSource)&#xA;&#xA;select&#xA;r.ReportObjectID, CONVERT&#xA;&#xA;    (&#xA;&#xA;        varbinary(MAX),&#xA; &#xA;        CAST('' AS XML).value('xs:base64Binary(sql:column(&quot;image&quot;))', 'VARBINARY(MAX)')&#xA;&#xA;    ), 'Report Repository'&#xA;&#xA;from dbo.ReportObject r&#xA;&#xA;inner join epicreportlibrary.dbo.Report_EpicRecordList p on cast(p.uniqueid as numeric)=r.epicrecordid&#xA; &#xA;&#x9;&#x9;and p.Abbreviation=r.EpicMasterFile&#xA;&#xA;&#x9;inner join (select replace(image, 'data:image/png;base64,','') as image  , ReportID&#xA;&#xA;from epicreportlibrary.dbo.Report_Images)  i on p.ReportID = i.ReportID&#xA;&#xA;&#x9;where isnumeric(p.uniqueID)=1&#xA;&#xA;&#x9;and CONVERT&#xA;&#xA;    (&#xA;&#xA;        varbinary(MAX),&#xA; &#xA;        CAST('' AS XML).value('xs:base64Binary(sql:column(&quot;image&quot;))', 'VARBINARY(MAX)')&#xA;&#xA;    ) is not null&#xA;&#xA;;&#xA;&#xA;update r &#xA;set r.EpicReleased='Y'&#xA;from dbo.reportobject r&#xA;where ((r.EpicMasterFile='HGR' and EpicRecordID&lt;100000)&#xA;or (r.EpicMasterFile='IDM' and EpicRecordID&lt;100000)&#xA;or (r.EpicMasterFile='IDB' and EpicRecordID&lt;100000)&#xA;or (r.EpicMasterFile='IDK' and EpicRecordID&lt;1000000)&#xA;or (r.EpicMasterFile='IDN' and EpicRecordID&lt;1000000)) &#xA;and r.RepositoryDescription is not null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Hide Reports"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0d53c483-8040-414e-b3fb-fcfe084d8664}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Hide Reports"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @SQL nvarchar(max);&#xA;SELECT @DG_DB =?;&#xA;Set @SQL = 'use ' + @DG_DB;&#xA;exec Sp_executesql @SQL&#xA;&#xA;Declare @Months varchar(100) = (select top(1) cast([Value] as int) from app.globalsitesettings where [Name] = 'Default Visibiliy Time' and isNumeric([Value]) = 1);&#xA;&#xA;if @Months &gt; 0&#xA;&#xA;&#x9;Set @SQL = 'use ' + @DG_DB + ';&#xA;&#x9;select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunData'&#xA;&#xA;&#x9;exec Sp_executesql @SQL&#xA;&#xA;&#x9;-- only hide reports if there is run data present.&#xA;&#x9;-- @@rowcount can only be accesed 1 time and is cleared&#xA;&#x9;if @@ROWCOUNT &gt; 0&#xA;&#x9;&#x9;Set @SQL = '&#xA;&#x9;&#x9;update  ' + @DG_DB + '.dbo.ReportObject&#xA;&#x9;&#x9;set DefaultVisibilityYN = ''N'', LastLoadDate = GetDate()&#xA;&#x9;&#x9;from dbo.ReportObject r&#xA;&#xA;&#x9;&#x9;  where DefaultVisibilityYN = ''Y''&#xA;&#x9;&#x9;  and OrphanedReportObjectYN = ''N''&#xA;&#x9;&#x9;  and (select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunData&#xA;&#x9;&#x9;  where ReportObjectID = r.reportobjectid&#xA;&#x9;&#x9;  and RunStartTime &gt; Dateadd(month,-' + @Months + ',getdate()))  = 0&#xA;&#x9;&#x9;  and not  exists (select * from ' + @DG_DB + '.app.ReportObject_doc d where d.ReportObjectID = r.ReportObjectID and DoNotPurge = ''Y'')&#xA;&#x9;&#x9;  and r.ReportObjectTypeID in (28,20,21,3,17)&#xA;&#xA;&#x9;&#x9;&#x9;and ((r.ReportObjectTypeID &lt;&gt; 21 and coalesce(r.lastmodifieddate, &#xA;&#x9;&#x9;&#x9;&#x9;(select coalesce(CreatedDateTime, d.lastupdatedatetime) from app.ReportObject_doc d where r.reportObjectid = d.reportObjectid ),&#xA;&#x9;&#x9;&#x9;&#x9;Dateadd(month,-2,getdate())) &lt; Dateadd(month,-1,getdate())) or r.ReportObjectTypeID = 21)&#xA;&#x9;&#x9;  '&#xA;&#x9;&#x9;  &#xA;&#x9;&#x9;exec (@SQL)&#xA;&#xA;-- for children with parents that are not visible&#xA;&#xA;set @sql = ' use ' + @DG_DB + ';&#xA;update ReportObject&#xA;set ReportObject.DefaultVisibilityYN = ''N''&#xA;from ReportObject r &#xA;-- visible reports&#xA;where r.DefaultVisibilityYN = ''Y''&#xA;-- that have parents&#xA;and (&#xA;&#x9;select count(1) from ReportObjectHierarchy h &#xA;&#x9;where  r.ReportObjectID = h.ChildReportObjectID&#xA;&#x9;and h.ParentReportObjectID is not null&#xA;&#x9;) &gt; 0&#xA;&#xA;-- and none of the parents are visible&#xA;and not exists (&#xA;&#xA;&#x9;select * from ReportObjectHierarchy hcheck&#xA;&#x9;&#x9;inner join ReportObject rpcheck on hcheck.ParentReportObjectID = rpcheck.ReportObjectID&#xA;&#x9;where rpcheck.DefaultVisibilityYN = ''Y''&#xA;&#x9;  and  hcheck.ChildReportObjectID = r.ReportObjectID&#xA;&#x9;)&#xA;&#x9;';&#xA;exec (@SQL)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Groups"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{40CE37EC-A2F1-4C21-BB5F-943307552892}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Groups"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;DECLARE @ORG_AD_NAME VARCHAR(100);&#xA;SELECT @DG_DB =?;&#xA;SELECT @DG_STAGE_DB =?;&#xA;SELECT @ORG_AD_NAME =?;&#xA;&#xA;-- groups&#xA;select @sql = '&#xA;&#x9;MERGE ' + @DG_DB + '.dbo.UserGroups g USING (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;select &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;distinct &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;g.AccountName&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.groupname&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.groupemail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.grouptype&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.groupsource&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.EpicId&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from ' + @DG_STAGE_DB + '.stage.ReportObjectUserGroups g&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) s&#xA;&#x9;ON  (isnull(g.GroupName, ''asdf'') = isnull(s.groupname,''asdf'')&#xA;&#x9;and isnull(g.GroupEmail,''asdf'') = isnull(s.GroupEmail,''asdf'')&#xA;    and isnull(g.AccountName,''asdf'') = isnull(s.AccountName,''asdf'')&#xA;&#x9;and isnull(g.GroupType,''asdf'') = isnull(s.GroupType,''asdf'')&#xA;&#x9;and isnull(g.EpicId, ''asdf'') = isnull(s.EpicId, ''asdf''))&#xA;WHEN NOT MATCHED by Target&#xA;    THEN insert (AccountName,GroupName,GroupEmail,GroupType,GroupSource,LastLoadDate,EpicId)&#xA;         values (s.AccountName,s.GroupName,s.GroupEmail,s.GroupType,s.groupsource,GetDate(),s.EpicId)&#xA;;';&#xA;&#xA;exec sp_executesql @SQL;&#xA;-- group memberships&#xA;select @sql = '&#xA;merge ' + @DG_DB + '.dbo.UserGroupsMembership m using (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;select distinct u.UserID, g.GroupId from &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;( select &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;g.AccountName&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.groupname&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.groupemail&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.grouptype&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.groupsource&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, g.EpicId&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;, replace(case when g.username not like ''%\%'' and g.username not like ''%,%'' and g.username not like ''% %'' and g.username not like ''' + @ORG_AD_NAME + '\%'' then concat(''' + @ORG_AD_NAME + '\'', g.username) &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;else g.username end,''\\'',''\'') as username&#xA;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;from ' + @DG_STAGE_DB + '.stage.ReportObjectUserGroups g&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) as m&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;inner join ' + @DG_DB + '.dbo.[User] u on m.username = u.username&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;inner join ' + @DG_DB + '.dbo.UserGroups g on m.GroupName = g.GroupName&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) g&#xA;&#x9; on m.Userid = g.UserId&#xA;&#x9; and m.GroupId = g.GroupId&#xA;when not matched by target&#xA;&#x9;then insert (UserId, GroupId, LastLoadDate)&#xA;&#x9;&#x9; values (g.UserId, g.GroupId, GetDate())&#xA;when not matched by source and (select s.groupsource from  ' + @DG_DB + '.dbo.UserGroups s where s.groupid=m.groupid)=''LDAP''&#xA;&#x9;then delete;&#xA;&#x9;';&#xA;&#xA;&#x9;exec sp_executesql @SQL;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::Org_AD_Name"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Hierarchies"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{af447675-aa3d-4c8e-b9da-613d0f32e8be}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Hierarchies"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;&#xA;exec('&#xA;Merge ' + @DG_DB + '.dbo.ReportObjectHierarchy t&#xA;using (&#xA;&#x9;&#x9;SELECT&#x9;parent.ReportObjectID&#x9;as ParentReportObjectID&#xA;&#x9;&#x9;,&#x9;&#x9;child.ReportObjectID&#x9;as ChildReportObjectID&#xA;&#x9;&#x9;,       map.Line&#x9;&#x9;&#x9;&#x9;&#xA;&#xA;&#x9;&#x9;FROM &#xA;&#x9;&#x9;' + @DG_STAGE_DB + '.stage.ReportObjectHierarchyStaging map&#xA;&#x9;&#x9;inner join ' + @DG_DB + '.dbo.ReportObject parent on parent.ReportObjectBizKey = map.ParentReportObjectBizKey&#xA;&#x9;&#x9;inner join ' + @DG_DB + '.dbo.ReportObject child  on child.ReportObjectBizKey  = map.ChildReportObjectBizKey) as s&#xA;&#xA;on (&#xA;     s.parentreportobjectid = t.parentreportobjectid&#xA;   and s.childreportobjectid = t.childreportobjectid&#xA;  &#xA;   )&#xA;   when matched and (t.line != s.line)&#xA;   then update set&#xA;&#x9;t.line = s.line,&#xA;&#x9;t.LastLoadDate = GetDate()&#xA;   &#xA;when not matched by target&#xA;&#x9;then insert (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;ParentReportObjectID&#xA;&#x9;&#x9;&#x9;&#x9;,&#x9;ChildReportObjectID&#xA;&#x9;&#x9;&#x9;&#x9;,   Line&#xA;&#x9;&#x9;&#x9;&#x9;, LastLoadDate&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;values (s.parentreportobjectid, s.childreportobjectid, s.line, GetDate())&#xA;when not matched by source&#xA;&#x9;then delete;&#xA;&#x9;')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Queries"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2EF45779-67EC-4D2F-90DE-0EF0D6B73868}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Queries"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;select @sql = 'DELETE DUP&#xA;FROM&#xA;(&#xA; SELECT ROW_NUMBER() OVER (PARTITION BY bizkey,query ORDER BY bizkey,query ) AS Val&#xA; FROM ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging&#xA;) DUP&#xA;WHERE DUP.Val &gt; 1;'&#xA;EXEC sp_executesql @SQL&#xA;&#xA;SELECT @SQL = 'merge into ReportObjectQuery as target&#xA;using (&#xA;    select     &#xA;     ro.reportobjectid&#xA;    ,r.Query&#xA;    ,r.LastLoadDate&#xA;&#x9;,ro.sourceserver&#xA;    from            ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging r&#xA;    left outer join ' + @DG_DB + '.dbo.ReportObject ro on ro.reportobjectbizkey = r.BizKey&#xA;) as source&#xA;on source.ReportObjectID = target.ReportObjectID and source.query=target.query&#xA;&#xA;when matched and (target.LastLoadDate != source.LastLoadDate&#xA;                  or target.sourceserver != source.sourceserver)&#xA;&#x9;then update set target.sourceserver = source.sourceserver&#xA;&#x9;&#x9;&#x9;&#x9;  ,target.LastLoadDate = GetDate()&#xA;when not matched by target then&#xA;    insert (&#xA;        [ReportObjectId]&#xA;&#x9;,   [Query]&#xA;&#x9;,   [LastLoadDate]&#xA;    ,   [SourceServer]&#xA;    )&#xA;    values (&#xA;               source.ReportObjectId, source.Query, GetDate(), source.SourceServer&#xA;           )&#xA;&#xA;when not matched by source then delete;'&#xA;&#xA;EXEC sp_executesql @SQL&#xA;&#xA;select @sql = 'DELETE DUP&#xA;FROM&#xA;(&#xA; SELECT ROW_NUMBER() OVER (PARTITION BY reportobjectid,query ORDER BY reportobjectid,query ) AS Val&#xA; FROM ' + @DG_DB + '.dbo.reportobjectquery&#xA;) DUP&#xA;WHERE DUP.Val &gt; 1;'&#xA;&#xA;EXEC sp_executesql @SQL&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Report Groups"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{f3ac92af-32c1-4f41-8670-c5541ebc7136}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Report Groups"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;DECLARE @ORG_AD_NAME VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB =?;&#xA;SELECT @ORG_AD_NAME =?;&#xA;&#xA;&#xA;exec ('&#xA;merge  ' + @DG_DB + '.[dbo].ReportGroupsMemberships m&#xA;using &#xA;&#x9;(&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;-- dashboard roles&#xA;&#x9;&#x9;select distinct ReportObjectID, dug.GroupId from ' + @DG_STAGE_DB + '.[stage].[ReportObjectGroupsMemberships] d&#xA;&#x9;&#x9;join ' + @DG_DB + '.dbo.ReportObject r on d.ReportId = r.EpicRecordID and r.EpicMasterFile  = ''IDM''&#xA;&#x9;&#x9;join ' + @DG_DB + '.dbo.UserGroups dug on  dug.GroupName = d.GroupName and dug.GroupSource = ''Clarity'' and dug.GroupType = ''Epic User Role''&#xA;&#xA;&#x9;&#x9;union all&#xA;&#xA;&#x9;&#x9;-- component groups&#xA;&#x9;&#x9;select distinct ReportObjectID, dug.GroupId from ' + @DG_STAGE_DB + '.[stage].[ReportObjectGroupsMemberships] d&#xA;&#x9;&#x9;join ' + @DG_DB + '.dbo.ReportObject r on d.ReportId = r.EpicRecordID and r.EpicMasterFile  = ''IDB''&#xA;&#x9;&#x9;join ' + @DG_DB + '.dbo.UserGroups dug on  dug.GroupName = d.GroupName and dug.GroupSource = ''Clarity'' and dug.GroupType = ''Epic Reporting Workbench Access''&#xA;&#xA;&#x9;&#x9;union all&#xA;&#xA;&#x9;&#x9;-- dashboard types&#xA;&#x9;&#x9;select distinct ReportObjectID, dug.GroupId from ' + @DG_STAGE_DB + '.[stage].[ReportObjectGroupsMemberships] d&#xA;&#x9;&#x9;join ' + @DG_DB + '.dbo.ReportObject r on d.ReportId = r.EpicRecordID and r.EpicMasterFile  = ''IDM''&#xA;&#x9;&#x9;join ' + @DG_DB + '.dbo.UserGroups dug on  dug.GroupName = d.GroupName and dug.GroupSource = ''Clarity'' and dug.GroupType = ''Epic User Type''&#xA;&#xA;&#x9;) g&#xA;on (m.GroupId = g.GroupId and m.ReportId =g.ReportObjectId)&#xA;when not matched by target&#xA;&#x9;then insert(GroupId,ReportId, LastLoadDate) values (g.GroupId, g.ReportObjectId, GetDate()) &#xA;when not matched by source&#xA;&#x9;then delete;&#xA;')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::Org_AD_Name"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Report Types"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{245da10a-01fc-4108-aba5-e7e1bf860b08}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Report Types"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;&#xA;SELECT @SQL = &#xA;'merge into ' + @DG_DB + '.dbo.ReportObjectType as target&#xA;using (&#xA;    select distinct&#xA;           r.ReportObjectType as [Name]&#xA;    ,      r.EpicMasterFile   as DefaultEpicMasterFile&#xA;    from ' + @DG_STAGE_DB + '.stage.ReportObjectStaging r&#xA;) as source&#xA;on source.[Name] = target.[Name]&#xA;-- when matched and master file is not the same, update master file, &#xA;-- when not present on target then insert,&#xA;-- when not present on source then do nothing (don''t delete)&#xA;when matched and target.DefaultEpicMasterFile != source.DefaultEpicMasterFile then&#xA;    update set &#xA;&#x9;&#x9;target.DefaultEpicMasterFile = source.DefaultEpicMasterFile,&#xA;&#x9;&#x9;target.LastLoadDate = GetDate()&#xA;when not matched by target then insert ([Name], DefaultEpicMasterFile, LastLoadDate)&#xA;                                values (source.[Name], source.DefaultEpicMasterFile, GetDate());'&#xA;&#xA;exec sp_executesql @SQL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Reports"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{d03cc307-3353-4620-9788-4a63a1cb660f}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Reports"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;&#xA;SELECT @SQL =  'merge into ReportObject as target&#xA;using (&#xA;    select          ReportObjectBizKey = concat(&#xA;r.SourceServer&#xA;,   ''||''&#xA;,   r.SourceDB&#xA;,   ''||''&#xA;,   r.ReportObjectType&#xA;,   ''||''&#xA;,   r.ReportServerCatalogID&#xA;,   ''||''&#xA;,   r.EpicMasterFile&#xA;,   ''||''&#xA;,   r.EpicRecordID&#xA;)&#xA;,               r.SourceServer&#xA;,               r.SourceDB&#xA;,               r.SourceTable&#xA;,               r.Name&#xA;,               r.DisplayTitle&#xA;,               r.Description&#xA;,               r.DetailedDescription&#xA;,               rt.ReportObjectTypeID&#xA;,               (select min(UserId) from ' + @DG_DB + '.dbo.[User] author where author.Username = r.Author)  as AuthorUserID&#xA;,               (select min(UserId) from ' + @DG_DB + '.dbo.[User] lastMod where lastMod.Username = r.LastModifiedBy) as LastModifiedByUserID&#xA;,               r.LastModifiedDate&#xA;,               r.ReportObjectURL&#xA;,               r.EpicMasterFile&#xA;,               r.EpicRecordID&#xA;,&#x9;&#x9;&#x9;&#x9;r.ReportServerCatalogID&#xA;,&#x9;&#x9;&#x9;&#x9;r.DefaultVisibilityYN&#xA;,&#x9;&#x9;&#x9;&#x9;r.EpicReportTemplateId&#xA;,&#x9;&#x9;&#x9;&#x9;r.ReportServerPath&#xA;,&#x9;&#x9;&#x9;&#x9;isnull(r.Availability, ''Public'') as Availability&#xA;    from            ' + @DG_STAGE_DB + '.stage.ReportObjectStaging r&#xA;    left outer join ' + @DG_DB + '.dbo.ReportObjectType rt on rt.Name = r.ReportObjectType&#xA;) as source&#xA;on source.ReportObjectBizKey = target.ReportObjectBizKey&#xA;-- when matched update&#xA;-- when not matched insert&#xA;-- when not matched by source update set orphan flag&#xA;when matched and (target.Name != source.Name&#xA;&#x9;&#x9;&#x9;&#x9;  or          isnull(target.DisplayTitle,''asdf'') != isnull(source.DisplayTitle,''asdf'')&#xA;                  or         isnull(target.Description,''asdf'') != isnull(source.Description,''asdf'')&#xA;                  or         isnull(target.DetailedDescription,''asdf'') != isnull(source.DetailedDescription,''asdf'')&#xA;                  or         isnull(target.AuthorUserID,-1) != isnull(source.AuthorUserID,-1)&#xA;                  or         isnull(target.LastModifiedByUserID,-1) != isnull(source.LastModifiedByUserID,-1)&#xA;                  or         target.LastModifiedDate != source.LastModifiedDate&#xA;&#x9;&#x9;&#x9;&#x9;  or&#x9;&#x9; isnull(target.ReportObjectURL,''asdf'') != isnull(source.ReportObjectURL,''asdf'')&#xA;&#x9;&#x9;&#x9;&#x9;  or&#x9;&#x9; isnull(target.Availability,''asdf'') != source.Availability&#xA;&#x9;&#x9;&#x9;&#x9;  or&#x9;&#x9; isnull(target.DefaultVisibilityYN,''N'') != isnull(source.DefaultVisibilityYN,''N'')&#xA;&#x9;&#x9;&#x9;&#x9;  or&#x9;     isnull(target.OrphanedReportObjectYN,''N'') != isnull(''N'',''N'')&#xA;&#x9;&#x9;&#x9;&#x9;  or&#x9;&#x9; isnull(target.EpicReportTemplateId,-1) != isnull(source.EpicReportTemplateId,-1)&#xA;&#x9;&#x9;&#x9;&#x9;  or&#x9;&#x9; isnull(target.ReportServerPath,''asdf'') != isnull(source.ReportServerPath,''asdf''))&#xA;&#x9;then update set target.Name = source.Name&#xA;&#x9;&#x9;&#x9;&#x9;  ,          target.DisplayTitle = source.DisplayTitle&#xA;                  ,          target.Description = source.Description&#xA;                  ,          target.DetailedDescription = source.DetailedDescription&#xA;                  ,          target.AuthorUserID = source.AuthorUserID&#xA;                  ,          target.LastModifiedByUserID = source.LastModifiedByUserID&#xA;                  ,          target.LastModifiedDate = source.LastModifiedDate&#xA;&#x9;&#x9;&#x9;&#x9;  ,&#x9;&#x9;&#x9; target.ReportObjectURL = source.ReportObjectURL&#xA;&#x9;&#x9;&#x9;&#x9;  ,&#x9;&#x9;&#x9; target.DefaultVisibilityYN = source.DefaultVisibilityYN&#xA;&#x9;&#x9;&#x9;&#x9;  ,&#x9;&#x9;&#x9; target.Availability = source.Availability&#xA;&#x9;&#x9;&#x9;&#x9;  ,&#x9;&#x9;     target.OrphanedReportObjectYN = ''N''&#xA;&#x9;&#x9;&#x9;&#x9;  ,&#x9;&#x9;&#x9; target.EpicReportTemplateId = source.EpicReportTemplateId&#xA;&#x9;&#x9;&#x9;&#x9;  ,&#x9;&#x9;&#x9; target.ReportServerPath = source.ReportServerPath&#xA;&#x9;&#x9;&#x9;&#x9;  ,          target.LastLoadDate = GetDate()&#xA;when not matched by target then&#xA;    insert (&#xA;        [ReportObjectBizKey]&#xA;    ,   [SourceServer]&#xA;    ,   [SourceDB]&#xA;    ,   [SourceTable]&#xA;    ,   [Name]&#xA;&#x9;,   [DisplayTitle]&#xA;    ,   [Description]&#xA;    ,   [DetailedDescription]&#xA;    ,   [ReportObjectTypeID]&#xA;    ,   [AuthorUserID]&#xA;    ,   [LastModifiedByUserID]&#xA;    ,   [LastModifiedDate]&#xA;    ,   [ReportObjectURL]&#xA;    ,   [EpicMasterFile]&#xA;    ,   [EpicRecordID]&#xA;&#x9;,&#x9;[ReportServerCatalogID]&#xA;&#x9;,&#x9;[DefaultVisibilityYN]&#xA;&#x9;,   [EpicReportTemplateId]&#xA;&#x9;,&#x9;[ReportServerPath]&#xA;&#x9;,   [LastLoadDate]&#xA;&#x9;,   [Availability]&#xA;    )&#xA;    values (&#xA;               source.ReportObjectBizKey, source.SourceServer, source.SourceDB, source.SourceTable, source.Name, source.DisplayTitle&#xA;           ,   source.Description, source.DetailedDescription, source.ReportObjectTypeID, source.AuthorUserID&#xA;           ,   source.LastModifiedByUserID, source.LastModifiedDate, source.ReportObjectURL, source.EpicMasterFile&#xA;           ,   source.EpicRecordID, source.ReportServerCatalogID, source.DefaultVisibilityYN, source.EpicReportTemplateId&#xA;&#x9;&#x9;   ,   source.ReportServerPath, GetDate(),source.Availability&#xA;           )&#xA;when not matched by source then update &#xA;&#x9;set &#xA;&#x9;&#x9;target.OrphanedReportObjectYN = ''Y'',&#xA;&#x9;&#x9;target.LastLoadDate = GetDate();'&#xA;exec sp_executesql @SQL&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Subscriptions"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{dc084651-dbcd-430f-95d0-05d5e18a6df6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Subscriptions"
+      DTS:ThreadHint="3">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;DECLARE @ORG_AD_NAME VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;SELECT @ORG_AD_NAME = ?;&#xA;&#xA;&#xA;exec ('&#xA;MERGE ' + @DG_DB + '.dbo.ReportObjectSubscriptions t&#xA;using (&#xA;&#x9;SELECT r.ReportObjectID,&#xA;&#x9;u.UserId,&#xA;&#x9;ros.SubscriptionId,&#xA;&#x9;ros.InactiveFlags,&#xA;&#x9;ros.EmailList,&#xA;&#x9;ros.Description,&#xA;&#x9;ros.LastStatus,&#xA;&#x9;ros.LastRunTime,&#xA;&#x9;ros.SubscriptionTo&#xA;&#xA;&#x9;FROM ' + @DG_STAGE_DB + '.[stage].[ReportObjectSubscriptions] ros&#xA;&#x9;left join ' + @DG_DB + '.[dbo].ReportObject r on ros.ReportObjectId = r.ReportServerCatalogId&#xA;&#x9;left outer join ' + @DG_DB + '.dbo.[User] u on REPLACE(ros.SubscriptionTo,''' + @ORG_AD_NAME + ''',''rhc'') = u.Email&#xA;) as s&#xA;on (t.ReportObjectId = s.reportobjectId&#xA;&#x9;and isnull(t.userId,999999) = isnull(s.userid,999999)&#xA;&#x9;and s.subscriptionid = t.subscriptionid&#xA;&#x9;and s.inactiveflags = t.inactiveflags&#xA;&#x9;and s.emaillist = t.emaillist&#xA;&#x9;and s.description = t.description&#xA;&#x9;and s.subscriptionto = t.subscriptionto)&#xA;when matched and (s.laststatus != t.laststatus or s.lastruntime != t.lastruntime)&#xA;&#x9;then update&#xA;&#x9;&#x9;set t.laststatus = s.laststatus, &#xA;&#x9;&#x9;    t.lastruntime = s.lastruntime,&#xA;&#x9;&#x9;&#x9;t.lastloaddate = GetDate()&#xA;When not matched by target&#xA;&#x9;then insert (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;[ReportObjectID]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[UserId]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[SubscriptionId]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[InactiveFlags]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[EmailList]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[Description]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[LastStatus]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[LastRunTime]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[SubscriptionTo]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;,[LastLoadDate]&#xA;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9; values (s.reportobjectid&#xA;&#x9;&#x9;&#x9;&#x9;,s.userId&#xA;&#x9;&#x9;&#x9;&#x9;,s.subscriptionid&#xA;&#x9;&#x9;&#x9;&#x9;,s.inactiveflags&#xA;&#x9;&#x9;&#x9;&#x9;,s.emaillist&#xA;&#x9;&#x9;&#x9;&#x9;,s.description&#xA;&#x9;&#x9;&#x9;&#x9;,s.laststatus&#xA;&#x9;&#x9;&#x9;&#x9;,s.lastruntime&#xA;&#x9;&#x9;&#x9;&#x9;,s.subscriptionto&#xA;&#x9;&#x9;&#x9;&#x9;,GetDate())&#xA;when not matched by source&#xA;&#x9;then delete;&#xA;')&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::Org_AD_Name"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Users"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{ED62691A-DA57-4CEE-95F9-E42ADD449A64}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Users"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:SqlStatementSource="&#xA;DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;DECLARE @ORG_AD_NAME VARCHAR(100);&#xA;SELECT @DG_DB =?;&#xA;SELECT @DG_STAGE_DB =?;&#xA;SELECT @ORG_AD_NAME =?;&#xA;&#xA;-- load users&#xA;&#xA;select @sql = '&#xA;MERGE ' + @DG_DB + '.dbo.[User] dgu USING (select &#xA;                                    replace(case when username not like ''%\%'' and username not like ''%,%'' and username not like ''% %'' and username not like ''' + @ORG_AD_NAME + '\%'' then concat(''' + @ORG_AD_NAME + '\'', l.username) &#xA;                                    else username end,''\\'',''\'') as Username&#xA;                                    , max(case when employeeid = '''' then null else employeeid end) as employeeid&#xA;                                    , max(case when displayname = '''' then null else case when username not like ''%,%'' and username not like ''% %'' then replace(replace(l.username,''\\'',''\''),''' + @ORG_AD_NAME + '\'','''' ) else username end end) as displayname&#xA;                                    , max(case when fullname = '''' then null else fullname end) as fullname&#xA;                                    , max(case when firstname = '''' then null else firstname end) as firstname&#xA;                                    , max(case when lastname = '''' then null else lastname end) as lastname&#xA;                                    , max(case when title = '''' then null else title end) as title&#xA;&#x9;&#x9;    , max(case when department = '''' then null else department end) as department&#xA;&#x9;&#x9;    , max(case when accountName = '''' then null else accountName end) as accountName&#xA;                                    , max(case when phone = '''' then null else phone end) as phone&#xA;                                    , max(case when email = '''' then null else email end) as email&#xA;                                    , max(case when Base = '''' then null else Base end) as Base&#xA;                                    , max(case when EpicId = '''' then null else EpicId end) as EpicId&#xA;                                    from  ' + @DG_STAGE_DB + '.[stage].[ReportObjectUser] l&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where replace(case when username not like ''%\%'' and  username not like ''%,%'' and username not like ''% %'' and username not like ''' + @ORG_AD_NAME + '\%'' then concat(''' + @ORG_AD_NAME + '\'', l.username) &#xA;                                    else username end,''\\'',''\'') is not null&#xA;                                    group by replace(case when username not like ''%\%'' and  username not like ''%,%'' and username not like ''% %'' and username not like ''' + @ORG_AD_NAME + '\%'' then concat(''' + @ORG_AD_NAME + '\'', l.username) &#xA;                                    else username end,''\\'',''\'')&#xA;                                     ) stgu&#xA;ON lower(dgu.Username) = lower(stgu.Username)&#xA;WHEN MATCHED and (isnull(dgu.EmployeeID,''asdf'') &lt;&gt; isnull(stgu.EmployeeID,''asdf'')&#xA;        or isnull(dgu.AccountName,''asdf'') &lt;&gt; isnull(stgu.AccountName,''asdf'')&#xA;        or isnull(dgu.DisplayName,''asdf'') &lt;&gt; isnull(stgu.DisplayName,''asdf'')&#xA;        or isnull(dgu.FullName,''asdf'') &lt;&gt; isnull(stgu.FullName,''asdf'')&#xA;        or isnull(dgu.FirstName,''asdf'') &lt;&gt; isnull(stgu.FirstName,''asdf'')&#xA;        or isnull(dgu.LastName,''asdf'') &lt;&gt; isnull(stgu.LastName,''asdf'')&#xA;        or isnull(dgu.Department,''asdf'') != isnull(stgu.Department,''asdf'')&#xA;        or isnull(dgu.Title,''asdf'') != isnull(stgu.Title,''asdf'')&#xA;        or isnull(dgu.Phone,''asdf'') != isnull(stgu.Phone,''asdf'')&#xA;        or isnull(dgu.Email,''asdf'') != isnull(stgu.Email,''asdf'')&#xA;        or isnull(dgu.Base,''asdf'') != isnull(stgu.Base,''asdf''))&#xA;    THEN update set&#xA;                dgu.EmployeeID = stgu.EmployeeID,&#xA;                dgu.AccountName = stgu.AccountName,&#xA;                dgu.DisplayName = stgu.DisplayName,&#xA;                dgu.FullName = stgu.FullName,&#xA;                dgu.FirstName = stgu.FirstName,&#xA;                dgu.LastName = stgu.LastName,&#xA;                dgu.Department = stgu.Department,&#xA;                dgu.Title = stgu.Title,&#xA;                dgu.Phone = stgu.Phone,&#xA;                dgu.Email = stgu.Email,&#xA;                dgu.Base = stgu.Base,&#xA;                dgu.LastLoadDate = GetDate()&#xA;WHEN NOT MATCHED by Target&#xA;    THEN insert (Username,EmployeeID,AccountName,DisplayName,FullName,FirstName,LastName,Department,Title,Phone,Email,Base,LastLoadDate)&#xA;         values (stgu.username,stgu.EmployeeID,stgu.AccountName,stgu.DisplayName,stgu.FullName,stgu.FirstName,stgu.LastName,stgu.Department,stgu.Title,stgu.Phone,stgu.Email,stgu.Base,GetDate())&#xA;;'&#xA;&#xA;exec sp_executesql @SQL;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::Org_AD_Name"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Certification Tag"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3762353c-3a8a-41f7-a75d-ef093dfe83bb}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Certification Tag"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:SqlStatementSource="update ro&#xA;set ro.CertificationTag=t.certtag&#xA;from dbo.reportobject ro&#xA;join&#xA;(select distinct r.reportobjectid,&#xA;CASE&#xA;    WHEN EXISTS(select * from app.ReportObjectDocMaintenanceLogs l inner join app.[MaintenanceLog] m on m.MaintenanceLogID=l.MaintenanceLogID where l.ReportObjectID=r.ReportObjectID AND m.MaintenanceLogStatusID IN (1,2)) AND&#xA;&#x9;d.MaintenanceScheduleID in (1,2,3) AND&#xA;&#x9;ISNULL((SELECT &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 1 THEN DATEADD(MONTH, 3, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 2 THEN DATEADD(MONTH, 6, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 3 THEN DATEADD(YEAR, 1, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 4 THEN DATEADD(YEAR, 2, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE COALESCE([t4].[value],GETDATE())&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; END)) &gt; GETDATE() THEN 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; ELSE 0&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; END) AS [no_maintenance_needed]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT [t0].[MaintenanceScheduleID], (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT [t3].[MaintenanceDate]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT TOP (1) [t1].[MaintenanceDate]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[MaintenanceLog] AS [t1]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE [t1].[MaintenanceLogID] = ((&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT MAX([t2].[MaintenanceLogID])&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[ReportObjectDocMaintenanceLogs] AS [t2]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE [t2].[ReportObjectID] = [t0].[ReportObjectID]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [t3]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [value], [t0].[ReportObjectID]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[ReportObject_doc] AS [t0]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where  [t0].ReportObjectID = r.ReportObjectID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [t4]),0) = 1 THEN 'Analytics Certified'&#xA;&#x9;WHEN r.EpicReleased='Y' THEN 'Epic Released'&#xA;&#x9;WHEN EXISTS(select * from app.ReportObjectImages_doc i where i.ReportObjectID=r.ReportObjectID) AND (d.KeyAssumptions is not null OR d.DeveloperDescription is not null) THEN 'Analytics Reviewed'&#xA;    WHEN ISNULL((select sum(t.Runs) from app.ReportObjectReportRunTime t where t.ReportObjectId=r.ReportObjectID),0)&gt;24 THEN 'Legacy'&#xA;    ELSE 'High Risk'&#xA;END as CertTag&#xA;from dbo.ReportObject r&#xA;left outer join app.ReportObject_doc d on d.reportobjectid=r.reportobjectid) as t&#xA;on t.reportobjectid=ro.reportobjectid" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update Repo Description"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{1C32828C-E992-400E-89FC-45BE7B986E3A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update Repo Description"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:SqlStatementSource="update r&#xA;&#xA;set RepositoryDescription = p.EpicDocumentation&#xA;&#xA;from dbo.ReportObject r&#xA;,&#xA;epicreportlibrary.dbo.report_Processed p&#xA;&#xA;inner join epicreportlibrary.dbo.report_epicrecordlist l on isnumeric(p.uniqueID)=1 and l.uniqueid=p.uniqueid&#xA;&#xA;inner join epicreportlibrary.dbo.report_epicdatahandbook d on d.reportid=l.reportid&#xA;&#xA;where p.Abbreviation=r.EpicMasterFile and((isnumeric(p.uniqueID)=1&#xA;&#xA;and cast(p.uniqueid as numeric)=r.epicrecordid&#xA;&#xA;and ((r.EpicMasterFile='HGR' and EpicRecordID&lt;100000)&#xA;&#xA;or (r.EpicMasterFile='IDM' and EpicRecordID&lt;100000)&#xA;&#xA;or (r.EpicMasterFile='IDB' and EpicRecordID&lt;100000)&#xA;&#xA;or (r.EpicMasterFile='IDK' and EpicRecordID&lt;1000000)&#xA;&#xA;or (r.EpicMasterFile='IDN' and EpicRecordID&lt;1000000))&#xA;)&#xA;&#xA;or (r.name=d.title))&#xA;;&#xA;&#xA;update r &#xA;set RepositoryDescription = p.EpicDocumentation&#xA;from dbo.ReportObject r&#xA;,epicreportlibrary.dbo.metric_Processed p&#xA;&#xA;inner join epicreportlibrary.dbo.Metric_EpicDataHandbook d on isnumeric(p.uniqueID)=1 and d.IDNRecordID=p.uniqueid&#xA;&#xA;where p.Abbreviation=r.EpicMasterFile and((isnumeric(p.uniqueID)=1&#xA;and cast(p.uniqueid as numeric)=r.epicrecordid&#xA;and ((r.EpicMasterFile='HGR' and EpicRecordID&lt;100000)&#xA;or (r.EpicMasterFile='IDM' and EpicRecordID&lt;100000)&#xA;or (r.EpicMasterFile='IDB' and EpicRecordID&lt;100000)&#xA;or (r.EpicMasterFile='IDK' and EpicRecordID&lt;1000000)&#xA;or (r.EpicMasterFile='IDN' and EpicRecordID&lt;1000000))&#xA;)&#xA;or (r.name=d.title))&#xA;;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 10]"
+      DTS:CreationName=""
+      DTS:DTSID="{9DB81CA2-5A08-4A57-801D-8AF27A9255E6}"
+      DTS:From="Package\Merge Reports"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 10"
+      DTS:To="Package\Merge Report Groups" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 22]"
+      DTS:CreationName=""
+      DTS:DTSID="{F4C115F0-E229-4666-850F-3D877891F83A}"
+      DTS:From="Package\Update Repo Description"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 22"
+      DTS:To="Package\EpicReleased" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 29]"
+      DTS:CreationName=""
+      DTS:DTSID="{60A1A6EE-1393-4752-A1F8-C9F0B507AD39}"
+      DTS:From="Package\Merge Reports"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 29"
+      DTS:To="Package\Merge Queries" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{47BC2790-E9F7-4D12-B84F-C129F01332CB}"
+      DTS:From="Package\Merge Report Types"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Merge Reports" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 35]"
+      DTS:CreationName=""
+      DTS:DTSID="{0C84D2BC-C314-4DB1-BCEB-466397F2DE40}"
+      DTS:From="Package\Merge Users"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 35"
+      DTS:To="Package\Merge Groups" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 39]"
+      DTS:CreationName=""
+      DTS:DTSID="{0D3B9054-16D3-4DB8-B03B-5AD6B50BE710}"
+      DTS:From="Package\Merge Groups"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 39"
+      DTS:To="Package\Merge Report Types" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 41]"
+      DTS:CreationName=""
+      DTS:DTSID="{D59171F6-187F-4300-97A3-E843EB253CD0}"
+      DTS:From="Package\EpicReleased"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 41"
+      DTS:To="Package\Update Certification Tag" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 42]"
+      DTS:CreationName=""
+      DTS:DTSID="{646B3420-2E55-4B0F-BDD8-993CBE6E6374}"
+      DTS:From="Package\Update Certification Tag"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 42"
+      DTS:To="Package\Hide Reports" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{6BEFDCBD-1928-48DD-A5A0-BD98CDF77F37}"
+      DTS:From="Package\Merge Reports"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 5"
+      DTS:To="Package\Merge Hierarchies" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{64E8DDB9-6DAF-45FB-A1EF-53D1DAAF6A7D}"
+      DTS:From="Package\Merge Reports"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 7"
+      DTS:To="Package\Merge Subscriptions" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{D8D2B32B-041C-4155-B1CF-1EC227B26190}"
+      DTS:From="Package\Merge Hierarchies"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 9"
+      DTS:To="Package\Update Repo Description" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+        <NodeLayout
+          Size="156,42"
+          Id="Package\EpicReleased"
+          TopLeft="633.66666451428,602.63334200488" />
+        <NodeLayout
+          Size="143,42"
+          Id="Package\Hide Reports"
+          TopLeft="642.333331214057,793.26667078548" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\Merge Report Groups"
+          TopLeft="97.708364592659,386.13333776898" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Merge Reports"
+          TopLeft="613.874994834265,289.63333735572" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Merge Hierarchies"
+          TopLeft="627.374996026358,414.83333760368" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\Merge Queries"
+          TopLeft="927.499965429308,289.57229916271" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Merge Subscriptions"
+          TopLeft="105.833365784752,212.53333743837" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Merge Report Types"
+          TopLeft="622.541659944588,156.30000357469" />
+        <NodeLayout
+          Size="149,42"
+          Id="Package\Merge Groups"
+          TopLeft="635,83" />
+        <NodeLayout
+          Size="142,42"
+          Id="Package\Merge Users"
+          TopLeft="634,14" />
+        <NodeLayout
+          Size="198,42"
+          Id="Package\Update Certification Tag"
+          TopLeft="616,693" />
+        <NodeLayout
+          Size="202,42"
+          Id="Package\Update Repo Description"
+          TopLeft="604.5,516.5" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 10]"
+          TopLeft="665.874994834265,331.63333735572">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-475.666630241606,54.5000004132601"
+              Start="0,0"
+              End="-475.666630241606,47.0000004132601">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.1406251678869" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18.1406251678869"
+                    Point2="0,22.1406251678869"
+                    Point3="-4,22.1406251678869" />
+                  <mssgle:LineSegment
+                    End="-471.666630241606,22.1406251678869" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-471.666630241606,22.1406251678869"
+                    Point2="-475.666630241606,22.1406251678869"
+                    Point3="-475.666630241606,26.1406251678869" />
+                  <mssgle:LineSegment
+                    End="-475.666630241606,47.0000004132601" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 22]"
+          TopLeft="708.58333225714,558.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,44.13334200488"
+              Start="0,0"
+              End="0,36.63334200488">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.63334200488" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 29]"
+          TopLeft="765.874994834265,310.602818259215">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="161.624970595043,0"
+              Start="0,0"
+              End="154.124970595043,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="154.124970595043,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="712.958327389426,198.30000357469">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,91.33333378103"
+              Start="0,0"
+              End="0,83.83333378103">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,83.83333378103" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 35]"
+          TopLeft="707.25,56">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,27"
+              Start="0,0"
+              End="0,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 39]"
+          TopLeft="710.770829972294,125">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,31.30000357469"
+              Start="0,0"
+              End="0,23.80000357469">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,23.80000357469" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 41]"
+          TopLeft="713.33333225714,644.63334200488">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,48.36665799512"
+              Start="0,0"
+              End="0,40.86665799512">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.86665799512" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 42]"
+          TopLeft="714.416665607029,735">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,58.2666707854801"
+              Start="0,0"
+              End="0,50.7666707854801">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.7666707854801" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="712.874995430311,331.63333735572">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,83.2000002479601"
+              Start="0,0"
+              End="0,75.7000002479601">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,75.7000002479601" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="665.874994834265,289.63333735572">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-470.541629049513,-35.09999991735"
+              Start="0,0"
+              End="-470.541629049513,-27.59999991735">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-10.2593749664235" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-10.2593749664235"
+                    Point2="0,-14.2593749664235"
+                    Point3="-4,-14.2593749664235" />
+                  <mssgle:LineSegment
+                    End="-466.541629049513,-14.2593749664235" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-466.541629049513,-14.2593749664235"
+                    Point2="-470.541629049513,-14.2593749664235"
+                    Point3="-470.541629049513,-18.2593749664235" />
+                  <mssgle:LineSegment
+                    End="-470.541629049513,-27.59999991735" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="708.687498013179,456.83333760368">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,59.6666623963199"
+              Start="0,0"
+              End="0,52.1666623963199">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.1666623963199" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="^!Execute SQL tasks use package parameters for atlas database and atlas_staging database (Connection intitial catalog and SQL are affected)!"
+          ParentId="Package"
+          Size="1053,41"
+          Id="034aa3be-57d9-4336-b5d2-ee936d124d58"
+          TopLeft="1202.99999711911,27">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="14.25"
+              Color="#FFFFFFFF"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+        <AnnotationLayout
+          Text="  Atlas of Information Management business intelligence library and documentation database.&#xA;  Copyright (C) 2020  Riverside Healthcare, Kankakee, IL&#xA;&#xA;  This program is free software: you can redistribute it and/or modify&#xA;  it under the terms of the GNU General Public License as published by&#xA;  the Free Software Foundation, either version 3 of the License, or&#xA;  (at your option) any later version.&#xA;&#xA;  This program is distributed in the hope that it will be useful,&#xA;  but WITHOUT ANY WARRANTY; without even the implied warranty of&#xA;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&#xA;  GNU General Public License for more details.&#xA;&#xA;  You should have received a copy of the GNU General Public License&#xA;  along with this program.  If not, see &lt;https://www.gnu.org/licenses/&gt;."
+          ParentId="Package"
+          Size="702,282"
+          Id="3620a276-7915-42d4-9893-8c3f6af30781"
+          TopLeft="1393.33333041933,184.733332210647">
+          <AnnotationLayout.FontInfo>
+            <mssge:FontInfo
+              Family="Tahoma"
+              Size="14.25"
+              Color="#FFFFFFFF"
+              Weight="Bold">
+              <mssge:FontInfo.TextDecorations>
+                <av:TextDecorationCollection />
+              </mssge:FontInfo.TextDecorations>
+            </mssge:FontInfo>
+          </AnnotationLayout.FontInfo>
+        </AnnotationLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

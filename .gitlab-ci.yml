@@ -1,21 +1,6 @@
 stages:
  - publish
 
-pages:
-  image: python:3.8
-  stage: publish
-  before_script:
-    - python -m pip install tox poetry Sphinx Pygments furo sphinx-copybutton sphinx-inline-tabs myst-parser colorama sphinx-panels
-  script:
-    - tox -e docs
-    - mv docs/_build/ public/
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
-
-
 public:
   stage: publish
   image: python:3.9

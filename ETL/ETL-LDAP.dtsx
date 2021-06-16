@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/9/2021 11:38:46 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ANALYTICSVM1"
+  DTS:CreatorName="YOURORGNAME\Sean-Pickering"
+  DTS:DTSID="{36777970-2F57-48CE-B5AD-0C4C8B10C2D2}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ETL-LDAP"
+  DTS:PackageType="5"
+  DTS:VersionBuild="14"
+  DTS:VersionGUID="{0DB758A4-9680-4493-8252-6D1B952F1AFC}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
+      DTS:ObjectName="atlas_database.atlas_staging">
+      <DTS:PropertyExpression
+        DTS:Name="InitialCatalog">@[$Package::DG_Staging_InitialCatalog]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ssrs_database;Initial Catalog=atlas_staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:Description="Set the DG database (prd, _Dev, or _Dev_Test)"
+      DTS:DTSID="{078BF9D3-1125-4184-902E-D11C67E7C63B}"
+      DTS:ObjectName="Data_Governance_InitialCatalog">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">atlas</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:Description="Set the DG Stage database (prd, or _Test)"
+      DTS:DTSID="{93C2C3F1-C8B7-4A64-809E-0B34B3D8AAE3}"
+      DTS:ObjectName="DG_Staging_InitialCatalog">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">atlas_staging</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{00D8AB41-EC67-454F-8D17-B899472F9B2E}"
+      DTS:ObjectName="Org_AD_Name">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">YOURORGNAME</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\LDAP Users and Groups"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9f8da37f-ce5a-449d-b624-2a1bb230838e}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="LDAP Users and Groups"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
+          SQLTask:SqlStatementSource="&#xA;insert  into [stage].[ReportObjectUser]&#xA;&#xA; (Username,EmployeeID,AccountName,DisplayName,FullName,FirstName,LastName,Department,Title,Phone,Email,Base)&#xA;   &#xA; (select AccountName,EmployeeID,AccountName,DisplayName,FullName,FirstName,LastName,Department,Title,Phone,Email,Base  from LDAP.dbo.Users  where AccountName is not null and AccountName != '') &#xA;&#xA;;&#xA;&#xA;insert into [stage].[ReportObjectUserGroups]&#xA; (GroupName,GroupEmail,AccountName,GroupType,GroupSource,username)&#xA;&#xA; select&#xA;  concat(isNull(nullif(lg.GroupName,''),lg.AccountName), ' (group)') groupname&#xA;  , lg.groupemail&#xA;  , lg.accountname&#xA;  , lg.grouptype&#xA;  , 'LDAP' as groupsource&#xA;  , u.AccountName&#xA;  from LDAP.dbo.Groups lg&#xA;  inner join  LDAP.dbo.Memberships m  on m.GroupName = lg.GroupName&#xA;  inner join LDAP.dbo.Users u on m.AccountName = u.AccountName&#xA;  &#xA;  " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="$Package::Org_AD_Name"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="200,42"
+          Id="Package\LDAP Users and Groups"
+          TopLeft="60,60" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
