@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-Tableau"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{3AC8165F-07BB-4685-B3F4-EB5FA2F3C85D}">
+  DTS:VersionBuild="15"
+  DTS:VersionGUID="{4CB7D607-2528-4C77-9194-55E1E543FBC3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1208,6 +1208,13 @@ inner join [raw].[tableau-reports] r on (CONCAT('Workbook',r.id)=h.ParentID and 
                       cachedName="LastLoadDate"
                       externalMetadataColumnId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
                       lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[LastLoadDate]" />
+                    <inputColumn
+                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Language"
+                      externalMetadataColumnId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Language]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1223,6 +1230,10 @@ inner join [raw].[tableau-reports] r on (CONCAT('Workbook',r.id)=h.ParentID and 
                       refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
                       dataType="dbTimeStamp"
                       name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1289,6 +1300,7 @@ N'eptblp01','||'
 ) as BizKey
 ,q.query as Query
 ,getdate() as LastLoadDate
+, N'SQL' as Language
 from [raw].[tableau-queries] q
 inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
                 <property
@@ -1354,6 +1366,16 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
                       lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
                       name="LastLoadDate"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Language]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      length="3"
+                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Language]"
+                      name="Language"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1370,6 +1392,11 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
                       refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
                       dataType="dbTimeStamp"
                       name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      name="Language" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -1393,6 +1420,12 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
                       dataType="dbTimeStamp"
                       lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
                       name="LastLoadDate" />
+                    <outputColumn
+                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      name="Language" />
                     <outputColumn
                       refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
@@ -1495,28 +1528,6 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
           Id="Package\Tableau Users and Groups"
           TopLeft="76,252.985430709582" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 28]"
-          TopLeft="178.158499424865,219">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,33.9854307095818"
-              Start="0,0"
-              End="0,26.4854307095818">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.4854307095818" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="176.908499424865,105">
           <EdgeLayout.Curve>
@@ -1538,6 +1549,28 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 28]"
+          TopLeft="178.158499424865,219">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,33.9854307095818"
+              Start="0,0"
+              End="0,26.4854307095818">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.4854307095818" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -1545,7 +1578,7 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
     design-time-name="Package\Stage Tableau">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="169,42"
           Id="Package\Stage Tableau\Tableau Hierarchy"
@@ -1581,7 +1614,9 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1603,7 +1638,9 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1615,13 +1652,13 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="203,42"
-          Id="Package\Stage Tableau Queries\ReportObjectQueryStaging"
-          TopLeft="254.333331214057,137.399999979337" />
-        <NodeLayout
           Size="119,42"
           Id="Package\Stage Tableau Queries\Tableau"
           TopLeft="284.499999503295,29.8666666735543" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Stage Tableau Queries\ReportObjectQueryStaging"
+          TopLeft="254.333331214057,137.399999979337" />
         <EdgeLayout
           Id="Package\Stage Tableau Queries.Paths[OLE DB Source Output]"
           TopLeft="344.099999503295,71.4666666735543">
@@ -1659,5 +1696,26 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage Tableau Queries\ReportObjectQueryStaging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage Tableau Queries\Tableau">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

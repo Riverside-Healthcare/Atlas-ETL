@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS2"
   DTS:PackageType="5"
-  DTS:VersionBuild="16"
-  DTS:VersionGUID="{23D05101-6867-4E5B-8A4C-5FC24BBD416C}">
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{FE7CF8BF-D290-48EC-8064-F2DEEDC2E176}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2546,6 +2546,8 @@
             THEN N'https://clarity_server.example.com/ReportServer/Pages/ReportViewer.aspx?' + REPLACE(REPLACE(c.[Path], '/', '%2f'), ' ', '+') + N'&amp;rs:Command=Render'
           WHEN c.[Type]=1 --folder
             THEN N'https://clarity_server.example.com/Reports/browse' + c.[Path]
+WHEN c.[Type]=3
+			THEN N'https://clarity_server.example.com/ReportServer/Pages/ReportViewer.aspx?' + REPLACE(c.[Path], '/', '%2f')
         ELSE concat(N'https://clarity_server.example.com/Reports/manage/catalogitem/properties', c.Path)
         END                                                    as ReportObjectURL
 ,               null                                                                                                     as EpicMasterFile
@@ -3480,6 +3482,13 @@ left outer join
                       cachedName="LastLoadDate"
                       externalMetadataColumnId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
                       lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[LastLoadDate]" />
+                    <inputColumn
+                      refId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Language"
+                      externalMetadataColumnId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Language]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3495,6 +3504,10 @@ left outer join
                       refId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
                       dataType="dbTimeStamp"
                       name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -3595,6 +3608,7 @@ concat(
     ) as BizKey 
 ,t.query as Query 
 ,getdate() as LastLoadDate 
+,N'SQL' as Language
 From ( 
 select * from ( 
 SELECT 
@@ -3671,6 +3685,16 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
                       lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
                       name="LastLoadDate"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Language]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      length="3"
+                      lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Language]"
+                      name="Language"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3687,6 +3711,11 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
                       refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
                       dataType="dbTimeStamp"
                       name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      name="Language" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -3710,6 +3739,12 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
                       dataType="dbTimeStamp"
                       lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
                       name="LastLoadDate" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      name="Language" />
                     <outputColumn
                       refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
@@ -3803,6 +3838,10 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           TopLeft="102,165" />
         <NodeLayout
           Size="150,42"
+          Id="Package\SSRS 2 Users"
+          TopLeft="98,567" />
+        <NodeLayout
+          Size="150,42"
           Id="Package\Stage SSRS 2"
           TopLeft="92,267" />
         <NodeLayout
@@ -3813,10 +3852,6 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           Size="218,42"
           Id="Package\Stage SSRS Server 2 Queries"
           TopLeft="60,468" />
-        <NodeLayout
-          Size="150,42"
-          Id="Package\SSRS 2 Users"
-          TopLeft="98,567" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="159.5,102">
@@ -4118,7 +4153,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
     design-time-name="Package\Stage SSRS 2">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="171,42"
           Id="Package\Stage SSRS 2\Report Server Two"
@@ -4146,27 +4181,33 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS 2\Report Server Two">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Stage SSRS Server 2 Queries">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="203,42"
-          Id="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging"
-          TopLeft="183.5,277.5" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="188,42"
           Id="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries"
           TopLeft="211.5,118.5" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging"
+          TopLeft="183.5,277.5" />
         <EdgeLayout
           Id="Package\Stage SSRS Server 2 Queries.Paths[OLE DB Source Output]"
           TopLeft="305.5,160.1">
@@ -4198,13 +4239,32 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

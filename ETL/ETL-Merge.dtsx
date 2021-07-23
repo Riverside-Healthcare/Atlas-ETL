@@ -12,8 +12,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-Merge"
   DTS:PackageType="5"
-  DTS:VersionBuild="438"
-  DTS:VersionGUID="{1359E41B-9B39-46CF-BE13-15511187EC8D}">
+  DTS:VersionBuild="453"
+  DTS:VersionGUID="{AFD96F69-8297-47CD-8B33-24C164942409}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -125,7 +125,7 @@
         <SQLTask:SqlTaskData
           SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
           SQLTask:BypassPrepare="False"
-          SQLTask:SqlStatementSource="&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @SQL nvarchar(max);&#xA;SELECT @DG_DB =?;&#xA;Set @SQL = 'use ' + @DG_DB;&#xA;exec Sp_executesql @SQL&#xA;&#xA;Declare @Months varchar(100) = (select top(1) cast([Value] as int) from app.globalsitesettings where [Name] = 'Default Visibiliy Time' and isNumeric([Value]) = 1);&#xA;&#xA;if @Months &gt; 0&#xA;&#xA;&#x9;Set @SQL = 'use ' + @DG_DB + ';&#xA;&#x9;select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunData'&#xA;&#xA;&#x9;exec Sp_executesql @SQL&#xA;&#xA;&#x9;-- only hide reports if there is run data present.&#xA;&#x9;-- @@rowcount can only be accesed 1 time and is cleared&#xA;&#x9;if @@ROWCOUNT &gt; 0&#xA;&#x9;&#x9;Set @SQL = '&#xA;&#x9;&#x9;update  ' + @DG_DB + '.dbo.ReportObject&#xA;&#x9;&#x9;set DefaultVisibilityYN = ''N'', LastLoadDate = GetDate()&#xA;&#x9;&#x9;from dbo.ReportObject r&#xA;&#xA;&#x9;&#x9;  where DefaultVisibilityYN = ''Y''&#xA;&#x9;&#x9;  and OrphanedReportObjectYN = ''N''&#xA;&#x9;&#x9;  and (select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunData&#xA;&#x9;&#x9;  where ReportObjectID = r.reportobjectid&#xA;&#x9;&#x9;  and RunStartTime &gt; Dateadd(month,-' + @Months + ',getdate()))  = 0&#xA;&#x9;&#x9;  and not  exists (select * from ' + @DG_DB + '.app.ReportObject_doc d where d.ReportObjectID = r.ReportObjectID and DoNotPurge = ''Y'')&#xA;&#x9;&#x9;  and r.ReportObjectTypeID in (28,20,21,3,17)&#xA;&#xA;&#x9;&#x9;&#x9;and ((r.ReportObjectTypeID &lt;&gt; 21 and coalesce(r.lastmodifieddate, &#xA;&#x9;&#x9;&#x9;&#x9;(select coalesce(CreatedDateTime, d.lastupdatedatetime) from app.ReportObject_doc d where r.reportObjectid = d.reportObjectid ),&#xA;&#x9;&#x9;&#x9;&#x9;Dateadd(month,-2,getdate())) &lt; Dateadd(month,-1,getdate())) or r.ReportObjectTypeID = 21)&#xA;&#x9;&#x9;  '&#xA;&#x9;&#x9;  &#xA;&#x9;&#x9;exec (@SQL)&#xA;&#xA;-- for children with parents that are not visible&#xA;&#xA;set @sql = ' use ' + @DG_DB + ';&#xA;update ReportObject&#xA;set ReportObject.DefaultVisibilityYN = ''N''&#xA;from ReportObject r &#xA;-- visible reports&#xA;where r.DefaultVisibilityYN = ''Y''&#xA;-- that have parents&#xA;and (&#xA;&#x9;select count(1) from ReportObjectHierarchy h &#xA;&#x9;where  r.ReportObjectID = h.ChildReportObjectID&#xA;&#x9;and h.ParentReportObjectID is not null&#xA;&#x9;) &gt; 0&#xA;&#xA;-- and none of the parents are visible&#xA;and not exists (&#xA;&#xA;&#x9;select * from ReportObjectHierarchy hcheck&#xA;&#x9;&#x9;inner join ReportObject rpcheck on hcheck.ParentReportObjectID = rpcheck.ReportObjectID&#xA;&#x9;where rpcheck.DefaultVisibilityYN = ''Y''&#xA;&#x9;  and  hcheck.ChildReportObjectID = r.ReportObjectID&#xA;&#x9;)&#xA;&#x9;';&#xA;exec (@SQL)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          SQLTask:SqlStatementSource="&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @SQL nvarchar(max);&#xA;SELECT @DG_DB =?;&#xA;Set @SQL = 'use ' + @DG_DB;&#xA;exec Sp_executesql @SQL&#xA;&#xA;Declare @Months varchar(100) = (select top(1) cast([Value] as int) from app.globalsitesettings where [Name] = 'Default Visibiliy Time' and isNumeric([Value]) = 1);&#xA;&#xA;if @Months &gt; 0&#xA;&#xA;&#x9;Set @SQL = 'use ' + @DG_DB + ';&#xA;&#x9;select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunData'&#xA;&#xA;&#x9;exec Sp_executesql @SQL&#xA;&#xA;&#x9;-- only hide reports if there is run data present.&#xA;&#x9;-- @@rowcount can only be accesed 1 time and is cleared&#xA;&#x9;if @@ROWCOUNT &gt; 0&#xA;&#x9;&#x9;Set @SQL = '&#xA;&#x9;&#x9;update  ' + @DG_DB + '.dbo.ReportObject&#xA;&#x9;&#x9;set DefaultVisibilityYN = ''N'', LastLoadDate = GetDate()&#xA;&#x9;&#x9;from dbo.ReportObject r&#xA;&#xA;&#x9;&#x9;  where DefaultVisibilityYN = ''Y''&#xA;&#x9;&#x9;  and OrphanedReportObjectYN = ''N''&#xA;&#x9;&#x9;and reportobjecttypeid &lt;&gt; 23&#xA;&#x9;&#x9;  and (select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunData&#xA;&#x9;&#x9;  where ReportObjectID = r.reportobjectid&#xA;&#x9;&#x9;  and RunStartTime &gt; Dateadd(month,-' + @Months + ',getdate()))  = 0&#xA;&#x9;&#x9;  and not  exists (select * from ' + @DG_DB + '.app.ReportObject_doc d where d.ReportObjectID = r.ReportObjectID and DoNotPurge = ''Y'')&#xA;&#x9;&#x9;  and r.ReportObjectTypeID in (28,20,21,3,17)&#xA;&#xA;&#x9;&#x9;&#x9;and ((r.ReportObjectTypeID &lt;&gt; 21 and coalesce(r.lastmodifieddate, &#xA;&#x9;&#x9;&#x9;&#x9;(select coalesce(CreatedDateTime, d.lastupdatedatetime) from app.ReportObject_doc d where r.reportObjectid = d.reportObjectid ),&#xA;&#x9;&#x9;&#x9;&#x9;Dateadd(month,-2,getdate())) &lt; Dateadd(month,-1,getdate())) or r.ReportObjectTypeID = 21)&#xA;&#x9;&#x9;  '&#xA;&#x9;&#x9;  &#xA;&#x9;&#x9;exec (@SQL)&#xA;&#xA;-- for children with parents that are not visible&#xA;&#xA;set @sql = ' use ' + @DG_DB + ';&#xA;update ReportObject&#xA;set ReportObject.DefaultVisibilityYN = ''N''&#xA;from ReportObject r &#xA;-- visible reports&#xA;where r.DefaultVisibilityYN = ''Y''&#xA;-- that have parents&#xA;and (&#xA;&#x9;select count(1) from ReportObjectHierarchy h &#xA;&#x9;where  r.ReportObjectID = h.ChildReportObjectID&#xA;&#x9;and h.ParentReportObjectID is not null&#xA;&#x9;) &gt; 0&#xA;&#xA;-- and none of the parents are visible&#xA;and not exists (&#xA;&#xA;&#x9;select * from ReportObjectHierarchy hcheck&#xA;&#x9;&#x9;inner join ReportObject rpcheck on hcheck.ParentReportObjectID = rpcheck.ReportObjectID&#xA;&#x9;where rpcheck.DefaultVisibilityYN = ''Y''&#xA;&#x9;  and  hcheck.ChildReportObjectID = r.ReportObjectID&#xA;&#x9;)&#xA;&#x9;';&#xA;exec (@SQL)&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
             SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
@@ -211,12 +211,12 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Merge Queries"
-      DTS:ThreadHint="2">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
-          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;select @sql = 'DELETE DUP&#xA;FROM&#xA;(&#xA; SELECT ROW_NUMBER() OVER (PARTITION BY bizkey,query ORDER BY bizkey,query ) AS Val&#xA; FROM ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging&#xA;) DUP&#xA;WHERE DUP.Val &gt; 1;'&#xA;EXEC sp_executesql @SQL&#xA;&#xA;SELECT @SQL = 'merge into ReportObjectQuery as target&#xA;using (&#xA;    select     &#xA;     ro.reportobjectid&#xA;    ,r.Query&#xA;    ,r.LastLoadDate&#xA;&#x9;,ro.sourceserver&#xA;    from            ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging r&#xA;    left outer join ' + @DG_DB + '.dbo.ReportObject ro on ro.reportobjectbizkey = r.BizKey&#xA;) as source&#xA;on source.ReportObjectID = target.ReportObjectID and source.query=target.query&#xA;&#xA;when matched and (target.LastLoadDate != source.LastLoadDate&#xA;                  or target.sourceserver != source.sourceserver)&#xA;&#x9;then update set target.sourceserver = source.sourceserver&#xA;&#x9;&#x9;&#x9;&#x9;  ,target.LastLoadDate = GetDate()&#xA;when not matched by target then&#xA;    insert (&#xA;        [ReportObjectId]&#xA;&#x9;,   [Query]&#xA;&#x9;,   [LastLoadDate]&#xA;    ,   [SourceServer]&#xA;    )&#xA;    values (&#xA;               source.ReportObjectId, source.Query, GetDate(), source.SourceServer&#xA;           )&#xA;&#xA;when not matched by source then delete;'&#xA;&#xA;EXEC sp_executesql @SQL&#xA;&#xA;select @sql = 'DELETE DUP&#xA;FROM&#xA;(&#xA; SELECT ROW_NUMBER() OVER (PARTITION BY reportobjectid,query ORDER BY reportobjectid,query ) AS Val&#xA; FROM ' + @DG_DB + '.dbo.reportobjectquery&#xA;) DUP&#xA;WHERE DUP.Val &gt; 1;'&#xA;&#xA;EXEC sp_executesql @SQL&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;select @sql = 'DELETE DUP&#xA;FROM&#xA;(&#xA; SELECT ROW_NUMBER() OVER (PARTITION BY bizkey,query ORDER BY bizkey,query ) AS Val&#xA; FROM ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging&#xA;) DUP&#xA;WHERE DUP.Val &gt; 1;'&#xA;EXEC sp_executesql @SQL&#xA;&#xA;SELECT @SQL = 'merge into ReportObjectQuery as target&#xA;using (&#xA;    select     &#xA;     ro.reportobjectid&#xA;    ,r.Query&#xA;    ,r.LastLoadDate&#xA;&#x9;,ro.sourceserver&#xA;&#x9;,r.Language&#xA;    from            ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging r&#xA;    left outer join ' + @DG_DB + '.dbo.ReportObject ro on ro.reportobjectbizkey = r.BizKey&#xA;) as source&#xA;on source.ReportObjectID = target.ReportObjectID and source.query=target.query&#xA;&#xA;when matched and (target.LastLoadDate != source.LastLoadDate&#xA;                  or target.sourceserver != source.sourceserver&#xA;&#x9;or target.Language != source.Language)&#xA;&#x9;then update set target.sourceserver = source.sourceserver&#xA;&#x9;&#x9;&#x9;&#x9;  ,target.LastLoadDate = GetDate()&#xA;&#x9;&#x9;&#x9;&#x9;,target.Language=source.Language&#xA;when not matched by target then&#xA;    insert (&#xA;        [ReportObjectId]&#xA;&#x9;,   [Query]&#xA;&#x9;,   [LastLoadDate]&#xA;    ,   [SourceServer]&#xA;&#x9;,[Language]&#xA;    )&#xA;    values (&#xA;               source.ReportObjectId, source.Query, GetDate(), source.SourceServer, source.Language&#xA;           )&#xA;&#xA;when not matched by source then delete;'&#xA;&#xA;EXEC sp_executesql @SQL&#xA;&#xA;select @sql = 'DELETE DUP&#xA;FROM&#xA;(&#xA; SELECT ROW_NUMBER() OVER (PARTITION BY reportobjectid,query ORDER BY reportobjectid,query ) AS Val&#xA; FROM ' + @DG_DB + '.dbo.reportobjectquery&#xA;) DUP&#xA;WHERE DUP.Val &gt; 1;'&#xA;&#xA;EXEC sp_executesql @SQL&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="0"
             SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
@@ -241,7 +241,7 @@
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Merge Report Groups"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="2">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -263,6 +263,68 @@
           <SQLTask:ParameterBinding
             SQLTask:ParameterName="2"
             SQLTask:DtsVariableName="$Package::Org_AD_Name"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Report Tag Memberships"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{d5ef615f-96b5-4294-81d4-6e182b0d8a4a}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Report Tag Memberships"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;&#xA;SELECT @SQL =  'merge into ReportObjectTagMemberships as target&#xA;using (&#xA;    select &#xA;rt.ReportObjectID&#xA;,t.TagID&#xA;,r.Line&#xA;    from            ' + @DG_STAGE_DB + '.stage.ReportObjectTagMemberships r&#xA;&#x9;inner join ' + @DG_DB + '.dbo.ReportObjectTags t on t.EpicTagID=r.Tag_ID&#xA;&#x9; inner join ' + @DG_DB + '.dbo.ReportObject rt on rt.ReportObjectBizKey = r.ReportObjectBizKey&#xA;) as source&#xA;on source.ReportObjectID = target.ReportObjectID and source.TagID=target.TagID&#xA;&#xA;when not matched by target then&#xA;    insert (&#xA;        [ReportObjectID]&#xA;    ,   [TagID]&#xA;    ,   [Line]&#xA;    )&#xA;    values (&#xA;               source.ReportObjectID, source.TagID, source.Line&#xA;           )&#xA;when not matched by source then delete&#xA;;'&#xA;exec sp_executesql @SQL&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge Report Tags"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:DelayValidation="True"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9b10b9d1-6730-4ec6-82ec-706a9e928598}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge Report Tags"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;DECLARE @DG_STAGE_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;SELECT @DG_STAGE_DB = ?;&#xA;&#xA;&#xA;SELECT @SQL = &#xA;'merge into ' + @DG_DB + '.dbo.ReportObjectTags as target&#xA;using (&#xA;    select distinct&#xA;           r.tag_id as TagID&#xA;    ,      r.tag_name   as TagName&#xA;    from ' + @DG_STAGE_DB + '.stage.ReportObjectTagsStaging r&#xA;) as source&#xA;on (source.[TagName] = target.[TagName] and source.[TagID] = target.[EpicTagID])&#xA;-- when matched and master file is not the same, update master file, &#xA;-- when not present on target then insert,&#xA;-- when not present on source then do nothing (don''t delete)&#xA;when matched and target.EpicTagID != source.TagID then&#xA;    update set &#xA;&#x9;&#x9;target.EpicTagID = source.TagID&#xA;when not matched by target then insert (EpicTagID, TagName)&#xA;                                values (source.TagID, source.TagName);'&#xA;&#xA;exec sp_executesql @SQL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
             SQLTask:ParameterDirection="Input"
             SQLTask:DataType="130"
             SQLTask:ParameterSize="-1" />
@@ -417,7 +479,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
-          SQLTask:SqlStatementSource="update ro&#xA;set ro.CertificationTag=t.certtag&#xA;from dbo.reportobject ro&#xA;join&#xA;(select distinct r.reportobjectid,&#xA;CASE&#xA;    WHEN EXISTS(select * from app.ReportObjectDocMaintenanceLogs l inner join app.[MaintenanceLog] m on m.MaintenanceLogID=l.MaintenanceLogID where l.ReportObjectID=r.ReportObjectID AND m.MaintenanceLogStatusID IN (1,2)) AND&#xA;&#x9;d.MaintenanceScheduleID in (1,2,3) AND&#xA;&#x9;ISNULL((SELECT &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 1 THEN DATEADD(MONTH, 3, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 2 THEN DATEADD(MONTH, 6, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 3 THEN DATEADD(YEAR, 1, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 4 THEN DATEADD(YEAR, 2, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE COALESCE([t4].[value],GETDATE())&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; END)) &gt; GETDATE() THEN 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; ELSE 0&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; END) AS [no_maintenance_needed]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT [t0].[MaintenanceScheduleID], (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT [t3].[MaintenanceDate]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT TOP (1) [t1].[MaintenanceDate]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[MaintenanceLog] AS [t1]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE [t1].[MaintenanceLogID] = ((&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT MAX([t2].[MaintenanceLogID])&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[ReportObjectDocMaintenanceLogs] AS [t2]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE [t2].[ReportObjectID] = [t0].[ReportObjectID]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [t3]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [value], [t0].[ReportObjectID]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[ReportObject_doc] AS [t0]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where  [t0].ReportObjectID = r.ReportObjectID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [t4]),0) = 1 THEN 'Analytics Certified'&#xA;&#x9;WHEN r.EpicReleased='Y' THEN 'Epic Released'&#xA;&#x9;WHEN EXISTS(select * from app.ReportObjectImages_doc i where i.ReportObjectID=r.ReportObjectID) AND (d.KeyAssumptions is not null OR d.DeveloperDescription is not null) THEN 'Analytics Reviewed'&#xA;    WHEN ISNULL((select sum(t.Runs) from app.ReportObjectReportRunTime t where t.ReportObjectId=r.ReportObjectID),0)&gt;24 THEN 'Legacy'&#xA;    ELSE 'High Risk'&#xA;END as CertTag&#xA;from dbo.ReportObject r&#xA;left outer join app.ReportObject_doc d on d.reportobjectid=r.reportobjectid) as t&#xA;on t.reportobjectid=ro.reportobjectid" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="update ro&#xA;set ro.CertificationTag=t.certtag&#xA;from dbo.reportobject ro&#xA;join&#xA;(select distinct r.reportobjectid,&#xA;CASE&#xA;    WHEN EXISTS(select * from app.ReportObjectDocMaintenanceLogs l inner join app.[MaintenanceLog] m on m.MaintenanceLogID=l.MaintenanceLogID where l.ReportObjectID=r.ReportObjectID AND m.MaintenanceLogStatusID IN (1,2)) AND&#xA;&#x9;d.MaintenanceScheduleID in (1,2,3) AND&#xA;&#x9;ISNULL((SELECT &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;(CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 1 THEN DATEADD(MONTH, 3, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 2 THEN DATEADD(MONTH, 6, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 3 THEN DATEADD(YEAR, 1, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN [t4].[MaintenanceScheduleID] = 4 THEN DATEADD(YEAR, 2, COALESCE([t4].[value],GETDATE()))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE COALESCE([t4].[value],GETDATE())&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; END)) &gt; GETDATE() THEN 1&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; ELSE 0&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9; END) AS [no_maintenance_needed]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT [t0].[MaintenanceScheduleID], (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT [t3].[MaintenanceDate]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM (&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT TOP (1) [t1].[MaintenanceDate]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[MaintenanceLog] AS [t1]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE [t1].[MaintenanceLogID] = ((&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT MAX([t2].[MaintenanceLogID])&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[ReportObjectDocMaintenanceLogs] AS [t2]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE [t2].[ReportObjectID] = [t0].[ReportObjectID]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;))&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [t3]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [value], [t0].[ReportObjectID]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM [app].[ReportObject_doc] AS [t0]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;where  [t0].ReportObjectID = r.ReportObjectID&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;) AS [t4]),0) = 1 THEN 'Analytics Certified'&#xA;&#x9;WHEN r.EpicReleased='Y' THEN 'Epic Released'&#xA;&#x9;WHEN EXISTS(select * from app.ReportObjectImages_doc i where i.ReportObjectID=r.ReportObjectID) AND (d.KeyAssumptions is not null OR d.DeveloperDescription is not null) THEN 'Analytics Reviewed'&#xA;    WHEN ISNULL((select sum(t.Runs) from app.ReportObjectReportRunTime t where t.ReportObjectId=r.ReportObjectID),0)&gt;24 THEN 'Legacy'&#xA;    ELSE 'High Risk'&#xA;END as CertTag&#xA;from dbo.ReportObject r&#xA;left outer join app.ReportObject_doc d on d.reportobjectid=r.reportobjectid) as t&#xA;on t.reportobjectid=ro.reportobjectid&#xA;&#xA;;&#xA;&#xA;&#xA;update r&#xA;set r.CertificationTag='Self-Service'&#xA;from dbo.ReportObject r&#xA;where r.ReportObjectTypeID in (23,19,37,41)&#xA;and r.CertificationTag like '%Analytics%'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -439,6 +501,22 @@
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{C43A112F-A108-4013-94FE-558EA8119411}"
+      DTS:From="Package\Merge Report Types"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Merge Report Tags" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{CD02CC28-BC06-435A-AB32-D0807F87524C}"
+      DTS:From="Package\Merge Report Tags"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Merge Reports" />
+    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 10]"
       DTS:CreationName=""
       DTS:DTSID="{9DB81CA2-5A08-4A57-801D-8AF27A9255E6}"
@@ -446,6 +524,14 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 10"
       DTS:To="Package\Merge Report Groups" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{C7A99B12-D5B6-48BA-9BB7-7A6F97483C5D}"
+      DTS:From="Package\Merge Reports"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Merge Report Tag Memberships" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 22]"
       DTS:CreationName=""
@@ -465,11 +551,11 @@
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
       DTS:CreationName=""
-      DTS:DTSID="{47BC2790-E9F7-4D12-B84F-C129F01332CB}"
-      DTS:From="Package\Merge Report Types"
+      DTS:DTSID="{1B87076F-D78D-45B3-A157-E03F71A5464F}"
+      DTS:From="Package\Merge Report Tag Memberships"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Constraint 3"
-      DTS:To="Package\Merge Reports" />
+      DTS:To="Package\Merge Hierarchies" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 35]"
       DTS:CreationName=""
@@ -503,14 +589,6 @@
       DTS:ObjectName="Constraint 42"
       DTS:To="Package\Hide Reports" />
     <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 5]"
-      DTS:CreationName=""
-      DTS:DTSID="{6BEFDCBD-1928-48DD-A5A0-BD98CDF77F37}"
-      DTS:From="Package\Merge Reports"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 5"
-      DTS:To="Package\Merge Hierarchies" />
-    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Constraint 7]"
       DTS:CreationName=""
       DTS:DTSID="{64E8DDB9-6DAF-45FB-A1EF-53D1DAAF6A7D}"
@@ -542,39 +620,39 @@
         <NodeLayout
           Size="156,42"
           Id="Package\EpicReleased"
-          TopLeft="633.66666451428,602.63334200488" />
+          TopLeft="617.66666451428,758.63334200488" />
         <NodeLayout
           Size="143,42"
           Id="Package\Hide Reports"
-          TopLeft="642.333331214057,793.26667078548" />
+          TopLeft="626.333331214057,949.26667078548" />
         <NodeLayout
-          Size="185,42"
-          Id="Package\Merge Report Groups"
-          TopLeft="97.708364592659,386.13333776898" />
-        <NodeLayout
-          Size="152,42"
-          Id="Package\Merge Reports"
-          TopLeft="613.874994834265,289.63333735572" />
+          Size="149,42"
+          Id="Package\Merge Groups"
+          TopLeft="635,83" />
         <NodeLayout
           Size="169,42"
           Id="Package\Merge Hierarchies"
-          TopLeft="627.374996026358,414.83333760368" />
+          TopLeft="611.374996026358,570.83333760368" />
         <NodeLayout
           Size="152,42"
           Id="Package\Merge Queries"
-          TopLeft="927.499965429308,289.57229916271" />
+          TopLeft="914.499965429308,369.57229916271" />
         <NodeLayout
-          Size="179,42"
-          Id="Package\Merge Subscriptions"
-          TopLeft="105.833365784752,212.53333743837" />
+          Size="185,42"
+          Id="Package\Merge Report Groups"
+          TopLeft="84.708364592659,466.13333776898" />
         <NodeLayout
           Size="179,42"
           Id="Package\Merge Report Types"
           TopLeft="622.541659944588,156.30000357469" />
         <NodeLayout
-          Size="149,42"
-          Id="Package\Merge Groups"
-          TopLeft="635,83" />
+          Size="152,42"
+          Id="Package\Merge Reports"
+          TopLeft="600.874994834265,369.63333735572" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Merge Subscriptions"
+          TopLeft="92.833365784752,292.53333743837" />
         <NodeLayout
           Size="142,42"
           Id="Package\Merge Users"
@@ -582,20 +660,20 @@
         <NodeLayout
           Size="198,42"
           Id="Package\Update Certification Tag"
-          TopLeft="616,693" />
+          TopLeft="600,849" />
         <NodeLayout
           Size="202,42"
           Id="Package\Update Repo Description"
-          TopLeft="604.5,516.5" />
+          TopLeft="588.5,672.5" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 10]"
-          TopLeft="665.874994834265,331.63333735572">
+          TopLeft="652.874994834265,411.63333735572">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
-              EndConnector="-475.666630241606,54.5000004132601"
+              EndConnector="-475.666630241606,54.50000041326"
               Start="0,0"
-              End="-475.666630241606,47.0000004132601">
+              End="-475.666630241606,47.00000041326">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -612,7 +690,7 @@
                     Point2="-475.666630241606,22.1406251678869"
                     Point3="-475.666630241606,26.1406251678869" />
                   <mssgle:LineSegment
-                    End="-475.666630241606,47.0000004132601" />
+                    End="-475.666630241606,47.00000041326" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -623,7 +701,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 22]"
-          TopLeft="708.58333225714,558.5">
+          TopLeft="692.58333225714,714.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
@@ -645,7 +723,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 29]"
-          TopLeft="765.874994834265,310.602818259215">
+          TopLeft="752.874994834265,390.602818259215">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
@@ -657,28 +735,6 @@
                   Capacity="5">
                   <mssgle:LineSegment
                     End="154.124970595043,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="712.958327389426,198.30000357469">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,91.33333378103"
-              Start="0,0"
-              End="0,83.83333378103">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,83.83333378103" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -733,7 +789,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 41]"
-          TopLeft="713.33333225714,644.63334200488">
+          TopLeft="697.33333225714,800.63334200488">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
@@ -755,7 +811,7 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 42]"
-          TopLeft="714.416665607029,735">
+          TopLeft="698.416665607029,891">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
@@ -776,30 +832,8 @@
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="712.874995430311,331.63333735572">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,83.2000002479601"
-              Start="0,0"
-              End="0,75.7000002479601">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,75.7000002479601" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="665.874994834265,289.63333735572">
+          TopLeft="652.874994834265,369.63333735572">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
@@ -810,17 +844,17 @@
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,-10.2593749664235" />
+                    End="0,-10.2593749664234" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,-10.2593749664235"
-                    Point2="0,-14.2593749664235"
-                    Point3="-4,-14.2593749664235" />
+                    Point1="0,-10.2593749664234"
+                    Point2="0,-14.2593749664234"
+                    Point3="-4,-14.2593749664234" />
                   <mssgle:LineSegment
-                    End="-466.541629049513,-14.2593749664235" />
+                    End="-466.541629049513,-14.2593749664234" />
                   <mssgle:CubicBezierSegment
-                    Point1="-466.541629049513,-14.2593749664235"
-                    Point2="-470.541629049513,-14.2593749664235"
-                    Point3="-470.541629049513,-18.2593749664235" />
+                    Point1="-466.541629049513,-14.2593749664234"
+                    Point2="-470.541629049513,-14.2593749664234"
+                    Point3="-470.541629049513,-18.2593749664234" />
                   <mssgle:LineSegment
                     End="-470.541629049513,-27.59999991735" />
                 </mssgle:SegmentCollection>
@@ -833,18 +867,18 @@
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 9]"
-          TopLeft="708.687498013179,456.83333760368">
+          TopLeft="692.687498013179,612.83333760368">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
-              EndConnector="0,59.6666623963199"
+              EndConnector="0,59.66666239632"
               Start="0,0"
-              End="0,52.1666623963199">
+              End="0,52.16666239632">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,52.1666623963199" />
+                    End="0,52.16666239632" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -889,6 +923,102 @@
             </mssge:FontInfo>
           </AnnotationLayout.FontInfo>
         </AnnotationLayout>
+        <NodeLayout
+          Size="173,42"
+          Id="Package\Merge Report Tags"
+          TopLeft="618.708364592659,248.26667078548" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="708.625012268624,198.30000357469">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,49.96666721079"
+              Start="0,0"
+              End="0,42.46666721079">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.46666721079" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="703.041679713462,290.26667078548">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,79.3666665702401"
+              Start="0,0"
+              End="0,71.8666665702401">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,71.8666665702401" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="237,42"
+          Id="Package\Merge Report Tag Memberships"
+          TopLeft="582,482" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="700.687497417132,411.63333735572">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,70.36666264428"
+              Start="0,0"
+              End="0,62.86666264428">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,62.86666264428" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="698.187498013179,524">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,46.83333760368"
+              Start="0,0"
+              End="0,39.33333760368">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.33333760368" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>

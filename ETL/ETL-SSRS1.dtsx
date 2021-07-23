@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS1"
   DTS:PackageType="5"
-  DTS:VersionBuild="15"
-  DTS:VersionGUID="{E691F9CF-4F9E-488B-A43C-BA9D6873C770}">
+  DTS:VersionBuild="17"
+  DTS:VersionGUID="{D0025436-4D44-42E1-A3C1-D60ACAA194CB}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2727,7 +2727,7 @@
                     <externalMetadataColumn
                       refId="Package\Stage SSRS\ReportObjectStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]"
                       dataType="wstr"
-                      length="255"
+                      length="50"
                       name="ReportServerCatalogID" />
                     <externalMetadataColumn
                       refId="Package\Stage SSRS\ReportObjectStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]"
@@ -2747,6 +2747,10 @@
                       refId="Package\Stage SSRS\ReportObjectStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[DisplayTitle]"
                       dataType="nText"
                       name="DisplayTitle" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS\ReportObjectStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[Availability]"
+                      dataType="nText"
+                      name="Availability" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -2828,6 +2832,8 @@
             THEN N'https://ssrs_database.example.com/ReportServer/Pages/ReportViewer.aspx?' + REPLACE(REPLACE(c.[Path], '/', '%2f'), ' ', '+') + N'&amp;rs:Command=Render'
           WHEN c.[Type]=1 --folder
             THEN N'https://ssrs_database.example.com/Reports/browse' + c.[Path]
+WHEN c.[Type]=3
+			THEN N'https://ssrs_database.example.com/ReportServer/Pages/ReportViewer.aspx?' + REPLACE(c.[Path], '/', '%2f')
         ELSE concat(N'https://ssrs_database.example.com/Reports/manage/catalogitem/properties', c.Path)
         END                                                    as ReportObjectURL
 ,               null                                                                                                     as EpicMasterFile
@@ -3463,6 +3469,13 @@ left outer join
                       cachedName="LastLoadDate"
                       externalMetadataColumnId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
                       lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[LastLoadDate]" />
+                    <inputColumn
+                      refId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Language"
+                      externalMetadataColumnId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Language]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3478,6 +3491,10 @@ left outer join
                       refId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
                       dataType="dbTimeStamp"
                       name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -3578,6 +3595,7 @@ concat(
     ) as BizKey 
 ,t.query as Query 
 ,getdate() as LastLoadDate 
+,N'SQL' as Language
 From ( 
 select * from ( 
 SELECT 
@@ -3654,6 +3672,16 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
                       name="LastLoadDate"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Language]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      length="3"
+                      lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Language]"
+                      name="Language"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3670,6 +3698,11 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
                       dataType="dbTimeStamp"
                       name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      name="Language" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -3693,6 +3726,12 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       dataType="dbTimeStamp"
                       lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
                       name="LastLoadDate" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      name="Language" />
                     <outputColumn
                       refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
@@ -3786,6 +3825,10 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="107,162" />
         <NodeLayout
           Size="141,42"
+          Id="Package\SSRS Users"
+          TopLeft="105,564" />
+        <NodeLayout
+          Size="141,42"
           Id="Package\Stage SSRS"
           TopLeft="95,265" />
         <NodeLayout
@@ -3796,10 +3839,6 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           Size="226,42"
           Id="Package\Stage SSRS Server 1 Queries"
           TopLeft="60,468" />
-        <NodeLayout
-          Size="141,42"
-          Id="Package\SSRS Users"
-          TopLeft="105,564" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="160.5,103">
@@ -3917,7 +3956,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
     design-time-name="Package\SSRS">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="272,42"
           Id="Package\SSRS\ssrs_database-reportserver-dbo-policyuserrole"
@@ -3969,9 +4008,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3993,9 +4030,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -4017,9 +4052,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -4041,9 +4074,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4053,15 +4084,15 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
     design-time-name="Package\Stage SSRS">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="185,42"
-          Id="Package\Stage SSRS\ReportObjectStaging 2"
-          TopLeft="60,163.747899184178" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="156,42"
           Id="Package\Stage SSRS\ssrs_database SSRS"
           TopLeft="73.683673455486,60" />
+        <NodeLayout
+          Size="185,42"
+          Id="Package\Stage SSRS\ReportObjectStaging 2"
+          TopLeft="60,163.747899184178" />
         <EdgeLayout
           Id="Package\Stage SSRS.Paths[OLE DB Source Output]"
           TopLeft="152.091836727743,102">
@@ -4081,27 +4112,33 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS\ssrs_database SSRS">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Stage SSRS Server 1 Queries">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
-        <NodeLayout
-          Size="203,42"
-          Id="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging"
-          TopLeft="262.5,323.5" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="180,42"
           Id="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query"
           TopLeft="275.5,182.5" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging"
+          TopLeft="262.5,323.5" />
         <EdgeLayout
           Id="Package\Stage SSRS Server 1 Queries.Paths[OLE DB Source Output]"
           TopLeft="364.8,224.1">
@@ -4121,13 +4158,32 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
