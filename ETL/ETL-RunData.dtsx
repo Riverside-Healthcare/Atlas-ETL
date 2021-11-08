@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="266" DTS:VersionGUID="{8503B4CC-EF5B-4D8D-848E-315C7E05B884}">
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="270" DTS:VersionGUID="{2582CF50-ACEE-4BF4-B3A3-FAA1593390CA}">
   <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[ssrs_database2.ReportServer]" DTS:CreationName="OLEDB" DTS:DTSID="{3F6936B0-14C6-4FD8-AB36-EC3E9E2A79FE}" DTS:ObjectName="ssrs_database2.ReportServer">
@@ -74,7 +74,7 @@
     <DTS:Executable DTS:refId="Package\Load Sub SSRS Report Run Data" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{d8403316-4138-47c1-8bc9-908cb4ba1fb2}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Load Sub SSRS Report Run Data" DTS:ThreadHint="1">
       <DTS:Variables/>
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE = ?;&#10;&#10;&#10;&#10;&#10;SELECT @SQL ='&#10;&#10;&#9;drop table if exists #SSRS_XML;&#10;&#9;select &#10;&#9;  ItemId&#10;&#9;, CONVERT(xml, &#10;&#9;&#9;&#9;&#9;CASE &#10;&#9;&#9;&#9;&#9;&#9;WHEN LEFT(Content,3) = 0xEFBBBF  THEN CONVERT(varbinary(max),SUBSTRING(Content,4,LEN(Content))) &#10;&#9;&#9;&#9;&#9;&#9;ELSE Content &#10;&#9;&#9;&#9;&#9;END,1) AS Content &#10;&#9;into #SSRS_XML&#10;&#9;from &#10;&#9;( &#10;&#9;&#9;SELECT &#10;&#9;&#9;&#9;ItemID&#10;&#9;&#9;&#9;,CONVERT(varbinary(max),Content) AS Content &#10;&#9;&#9;FROM '+@DG_STAGE+'.raw.[clarity_server-reportserver-dbo-catalog]&#10;&#9;&#9;WHERE Type IN (2,5,7,8) &#10;&#9;&#9;union all &#10;&#9;&#9;SELECT &#10;&#9;&#9;&#9;ItemID&#10;&#9;&#9;&#9;,CONVERT(varbinary(max),Content) AS Content &#10;&#9;&#9;FROM '+@DG_STAGE+'.raw.[ssrs_database-reportserver-dbo-catalog]&#10;&#9;&#9;WHERE Type IN (2,5,7,8) &#10;&#9;) as t&#10;&#9;&#10;&#9;drop table if exists #SSRS_SUB_REPORT;&#10;&#10;&#9;select * into #SSRS_SUB_REPORT From (&#10;&#9;select * from ( &#10;&#9;SELECT &#10;&#9;&#9;ItemID&#10;&#9;&#9;,T.SubReport.value(''(./*:ReportName/text())[1]'',''nvarchar(max)'') AS SubReport &#10;     &#10;&#9;FROM #SSRS_XML&#10;&#9; CROSS APPLY #SSRS_XML.Content.nodes(''//*:Subreport'') T(SubReport) &#10;&#10;&#9;)  as t&#10;&#9;where SubReport is not null) as t&#10;&#10;&#9;;&#10;&#10;&#9;INSERT INTO ' + @DG_DB + '.[dbo].[ReportObjectRunData]&#10;           ([ReportObjectID]&#10;           ,[RunID]&#10;           ,[RunUserID]&#10;           ,[RunStartTime]&#10;           ,[RunDurationSeconds]&#10;           ,[RunStatus])&#10;&#10;&#9;select subr.ReportObjectID,&#10;&#9;d.RunId,&#10;&#9;d.RunUserID,&#10;&#9;d.RunStartTime,&#10;&#9;d.RunDurationSeconds,&#10;&#9;d.RunStatus&#10;&#9;from #SSRS_SUB_REPORT sub&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject r on r.ReportServerCatalogID = sub.ItemID&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject subr on subr.ReportServerPath = sub.SubReport and r.SourceServer = subr.SourceServer&#10;&#10;&#9;-- runs&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObjectRunData d on r.ReportObjectId = d.ReportObjectId&#10;&#10;&#9;; &#10;&#9;drop table if exists #SSRS_SUB_REPORT;&#10;&#9;drop table if exists #SSRS_XML;&#10;&#9;'&#10;&#10;&#9;exec sp_executesql @SQL">
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE = ?;&#10;&#10;&#10;&#10;&#10;SELECT @SQL ='&#10;&#10;&#9;drop table if exists #SSRS_XML;&#10;&#9;select &#10;&#9;  ItemId&#10;&#9;, CONVERT(xml, &#10;&#9;&#9;&#9;&#9;CASE &#10;&#9;&#9;&#9;&#9;&#9;WHEN LEFT(Content,3) = 0xEFBBBF  THEN CONVERT(varbinary(max),SUBSTRING(Content,4,LEN(Content))) &#10;&#9;&#9;&#9;&#9;&#9;ELSE Content &#10;&#9;&#9;&#9;&#9;END,1) AS Content &#10;&#9;into #SSRS_XML&#10;&#9;from &#10;&#9;( &#10;&#9;&#9;SELECT &#10;&#9;&#9;&#9;ItemID&#10;&#9;&#9;&#9;,CONVERT(varbinary(max),Content) AS Content &#10;&#9;&#9;FROM '+@DG_STAGE+'.raw.[clarity_server-reportserver-dbo-catalog]&#10;&#9;&#9;WHERE Type IN (2,5,7,8) &#10;&#9;&#9;union all &#10;&#9;&#9;SELECT &#10;&#9;&#9;&#9;ItemID&#10;&#9;&#9;&#9;,CONVERT(varbinary(max),Content) AS Content &#10;&#9;&#9;FROM '+@DG_STAGE+'.raw.[ssrs_database-reportserver-dbo-catalog]&#10;&#9;&#9;WHERE Type IN (2,5,7,8) &#10;&#9;) as t&#10;&#9;&#10;&#9;drop table if exists #SSRS_SUB_REPORT;&#10;&#10;&#9;select * into #SSRS_SUB_REPORT From (&#10;&#9;select * from ( &#10;&#9;SELECT &#10;&#9;&#9;ItemID&#10;&#9;&#9;,T.SubReport.value(''(./*:ReportName/text())[1]'',''nvarchar(max)'') AS SubReport &#10;     &#10;&#9;FROM #SSRS_XML&#10;&#9; CROSS APPLY #SSRS_XML.Content.nodes(''//*:Subreport'') T(SubReport) &#10;&#10;&#9;)  as t&#10;&#9;where SubReport is not null) as t&#10;&#10;&#9;;&#10;&#10;&#9;INSERT INTO ' + @DG_DB + '.[dbo].[ReportObjectRunData]&#10;           ([ReportObjectID]&#10;           ,[RunID]&#10;           ,[RunUserID]&#10;           ,[RunStartTime]&#10;           ,[RunDurationSeconds]&#10;           ,[RunStatus])&#10;&#10;&#9;select subr.ReportObjectID,&#10;&#9;d.RunId,&#10;&#9;d.RunUserID,&#10;&#9;d.RunStartTime,&#10;&#9;d.RunDurationSeconds,&#10;&#9;d.RunStatus&#10;&#9;from #SSRS_SUB_REPORT sub&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject r on r.ReportServerCatalogID = cast(sub.ItemID as nvarchar(max))&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject subr on subr.ReportServerPath = sub.SubReport and r.SourceServer = subr.SourceServer&#10;&#10;&#9;-- runs&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObjectRunData d on r.ReportObjectId = d.ReportObjectId&#10;&#10;&#9;; &#10;&#9;drop table if exists #SSRS_SUB_REPORT;&#10;&#9;drop table if exists #SSRS_XML;&#10;&#9;'&#10;&#10;&#9;exec sp_executesql @SQL">
           <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
           <SQLTask:ParameterBinding SQLTask:ParameterName="1" SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
         </SQLTask:SqlTaskData>
@@ -984,7 +984,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;
         &lt;NodeLayout
           Size="179,42"
           Id="Package\Create Clarity tables"
@@ -1026,7 +1026,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           Id="Package\Populate Raw Tables (SSRS)"
           TopLeft="90.1190474744286,193.731373310498" /&gt;
         &lt;NodeLayout
-          Size="186,42"
+          Size="193,42"
           Id="Package\Stage Clarity Raw Data"
           TopLeft="369.380949545339,280.390757127507" /&gt;
         &lt;NodeLayout
@@ -1046,7 +1046,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="198.619047077064,235.731373310498"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,49.168622370947"
               Start="0,0"
               End="0,41.668622370947"&gt;
@@ -1065,10 +1065,10 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="461.357139620448,322.390757127507"&gt;
+          TopLeft="463.107139620448,322.390757127507"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,97.236701643792"
               Start="0,0"
               End="0,89.736701643792"&gt;
@@ -1090,7 +1090,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="449.666663028891,461.627458771299"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-133.833328337896,37.839209369324"
               Start="0,0"
               End="-133.833328337896,30.339209369324"&gt;
@@ -1124,7 +1124,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="281.666668024328,541.466668140623"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-9.333334690995,169.533331859377"
               Start="0,0"
               End="-9.333334690995,162.033331859377"&gt;
@@ -1158,7 +1158,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="350.000001357662,541.466668140623"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="255.666665309005,175.533331859377"
               Start="0,0"
               End="255.666665309005,168.033331859377"&gt;
@@ -1192,7 +1192,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="472.726186314341,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,48.0420249012961"
               Start="0,0"
               End="0,40.5420249012961"&gt;
@@ -1214,7 +1214,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="520.285708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="250.833320981927,54.6000000000001"
               Start="0,0"
               End="250.833320981927,47.1000000000001"&gt;
@@ -1248,7 +1248,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="773.5595047134,233.300001508395"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,49.333326672978"
               Start="0,0"
               End="0,41.833326672978"&gt;
@@ -1270,7 +1270,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="200.6190466797,326.899995681445"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="227.714283015858,92.727463089854"
               Start="0,0"
               End="227.714283015858,85.227463089854"&gt;
@@ -1304,7 +1304,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="774.619029493695,324.633328181373"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-282.285699798137,94.994130589926"
               Start="0,0"
               End="-282.285699798137,87.494130589926"&gt;
@@ -1338,7 +1338,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="1028.11902045366,326.833327375518"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-503.7856907581,92.794131395781"
               Start="0,0"
               End="-503.7856907581,85.294131395781"&gt;
@@ -1372,7 +1372,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="529.585708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="498.533312140572,235.533334731526"
               Start="0,0"
               End="498.533312140572,228.033334731526"&gt;
@@ -1406,7 +1406,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="196.202380426955,139.766660908593"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,53.964712401905"
               Start="0,0"
               End="0,46.464712401905"&gt;
@@ -1428,7 +1428,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="502.999996362225,461.627458771299"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="145.119049721429,37.5392093073351"
               Start="0,0"
               End="145.119049721429,30.0392093073351"&gt;
@@ -1462,7 +1462,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="610.785712750321,541.166668078634"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-260.119046083654,169.833331921366"
               Start="0,0"
               End="-260.119046083654,162.333331921366"&gt;
@@ -1496,7 +1496,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="470.416667097145,139.342017545288"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,51.524649851469"
               Start="0,0"
               End="0,44.024649851469"&gt;
@@ -1515,10 +1515,10 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="465.773809712017,232.866667396757"&gt;
+          TopLeft="467.523809712017,232.866667396757"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,47.52408973075"
               Start="0,0"
               End="0,40.02408973075"&gt;
@@ -1540,7 +1540,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="684.39285637516,541.166668078634"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,175.833331921366"
               Start="0,0"
               End="0,168.333331921366"&gt;
@@ -1562,7 +1562,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="771.809504614058,145.899992643992"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,45.400008864403"
               Start="0,0"
               End="0,37.900008864403"&gt;
@@ -1584,7 +1584,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="427.285708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-231.499994933606,48.4666682646011"
               Start="0,0"
               End="-231.499994933606,40.9666682646011"&gt;
@@ -1616,7 +1616,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         &lt;AnnotationLayout
           Text="at this point we have userid for clarity data and domain name for SSRS data"
           ParentId="Package"
-          FontInfo="{x:Null}"
+          FontInfo="{assembly:Null}"
           Size="428,40"
           Id="db15da9c-d040-410d-be73-c60d408e4898"
           TopLeft="1194.33330240515,425.800001818339" /&gt;
@@ -1667,7 +1667,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Populate Raw Tables (Clarity)"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="266,42"
           Id="Package\Populate Raw Tables (Clarity)\clarity_server-clarity-dashboard-run-data"
@@ -1703,7 +1703,9 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
@@ -1725,14 +1727,16 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is imported to raw tables from source tables  into &amp;quot;raw&amp;quot; tables. Workbench data is  a simple line for line import, while&amp;#xA;dashboard data is a bit more complex. &amp;#xA;Dashboard run usage is grouped into a daily summary in Clarity, so we need to split it out into 1 row per run before importing it.&amp;#xA;&amp;#xA;Notes&amp;#xA;- only importing data from last two years"
           ParentId="Package\Populate Raw Tables (Clarity)"
           FontInfo="{x:Null}"
-          Size="708,120"
+          Size="708,NaN"
           Id="cb7cbdca-e102-43cd-b458-4c39f532a9d5"
           TopLeft="197,65" /&gt;
       &lt;/GraphLayout&gt;
@@ -1784,75 +1788,31 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Populate Raw Tables (SlicerDicer)"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="190,42"
           Id="Package\Populate Raw Tables (SlicerDicer)\SlicerDicer Stats_Query"
           TopLeft="427.49998602602,60" /&gt;
         &lt;NodeLayout
-          Size="245,42"
-          Id="Package\Populate Raw Tables (SlicerDicer)\clarity_server-slicerdicer-stats_query"
-          TopLeft="404.166654182806,164.333334731526" /&gt;
-        &lt;NodeLayout
-          Size="180,42"
-          Id="Package\Populate Raw Tables (SlicerDicer)\SlicerDicer Stats_Http"
-          TopLeft="89.1666643155946,65.3333344215813" /&gt;
-        &lt;NodeLayout
           Size="236,42"
-          Id="Package\Populate Raw Tables (SlicerDicer)\clarity_server-slicerdicer-stats_http"
+          Id="Package\Populate Raw Tables (SlicerDicer)\slicerdicer_server-slicerdicer-stats_http"
           TopLeft="60,163.800001632372" /&gt;
-        &lt;EdgeLayout
-          Id="Package\Populate Raw Tables (SlicerDicer).Paths[OLE DB Source Output1]"
-          TopLeft="524.433320104413,101.6"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,62.7333347315255"
-              Start="0,0"
-              End="0,55.2333347315255"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,55.2333347315255" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;EdgeLayout
-          Id="Package\Populate Raw Tables (SlicerDicer).Paths[OLE DB Source Output]"
-          TopLeft="178.583332157797,106.933334421581"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,56.8666672107907"
-              Start="0,0"
-              End="0,49.3666672107907"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,49.3666672107907" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
+        &lt;NodeLayout
+          Size="272,42"
+          Id="Package\Populate Raw Tables (SlicerDicer)\slicerdicer_server-slicerdicer-stats_saveload"
+          TopLeft="74,361.800001942317" /&gt;
+        &lt;NodeLayout
+          Size="245,42"
+          Id="Package\Populate Raw Tables (SlicerDicer)\slicerdicer_server-slicerdicer-stats_query"
+          TopLeft="404.166654182806,164.333334731526" /&gt;
         &lt;NodeLayout
           Size="216,42"
           Id="Package\Populate Raw Tables (SlicerDicer)\SlicerDicer Stats_SaveLoad"
           TopLeft="89.1666643155946,266.333334731526" /&gt;
         &lt;NodeLayout
-          Size="272,42"
-          Id="Package\Populate Raw Tables (SlicerDicer)\clarity_server-slicerdicer-stats_saveload"
-          TopLeft="74,361.800001942317" /&gt;
+          Size="180,42"
+          Id="Package\Populate Raw Tables (SlicerDicer)\SlicerDicer Stats_Http"
+          TopLeft="89.1666643155946,65.3333344215813" /&gt;
         &lt;EdgeLayout
           Id="Package\Populate Raw Tables (SlicerDicer).Paths[OLE DB Source Output2]"
           TopLeft="197.166664315595,308.333334731526"&gt;
@@ -1884,12 +1844,83 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\Populate Raw Tables (SlicerDicer).Paths[OLE DB Source Output1]"
+          TopLeft="524.433320104413,101.6"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,62.7333347315255"
+              Start="0,0"
+              End="0,55.2333347315255"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,55.2333347315255" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\Populate Raw Tables (SlicerDicer).Paths[OLE DB Source Output]"
+          TopLeft="178.583332157797,106.933334421581"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,56.8666672107907"
+              Start="0,0"
+              End="0,49.3666672107907"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,49.3666672107907" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Populate Raw Tables (SlicerDicer)\slicerdicer_server-slicerdicer-stats_saveload"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Populate Raw Tables (SlicerDicer)\SlicerDicer Stats_SaveLoad"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
   &lt;TaskHost
     design-time-name="Package\Populate Raw Tables (SSRS)"&gt;
     &lt;LayoutInfo&gt;
@@ -2146,45 +2177,23 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Stage Slicer Dicer Raw Data"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
-          Size="161,42"
-          Id="Package\Stage Slicer Dicer Raw Data\SlicerDicer Runs"
-          TopLeft="409.5,164.5" /&gt;
-        &lt;NodeLayout
-          Size="270,42"
-          Id="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer"
-          TopLeft="352.5,278.5" /&gt;
-        &lt;EdgeLayout
-          Id="Package\Stage Slicer Dicer Raw Data.Paths[OLE DB Source Output]"
-          TopLeft="488.75,206.5"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,72"
-              Start="0,0"
-              End="0,64.5"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,64.5" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
+          Size="329,42"
+          Id="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer Sessions"
+          TopLeft="730.5,275.5" /&gt;
         &lt;NodeLayout
           Size="203,42"
           Id="Package\Stage Slicer Dicer Raw Data\SlicerDicer Session Runs"
           TopLeft="787.5,161.5" /&gt;
         &lt;NodeLayout
-          Size="329,42"
-          Id="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer Sessions"
-          TopLeft="730.5,275.5" /&gt;
+          Size="270,42"
+          Id="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer"
+          TopLeft="352.5,278.5" /&gt;
+        &lt;NodeLayout
+          Size="161,42"
+          Id="Package\Stage Slicer Dicer Raw Data\SlicerDicer Runs"
+          TopLeft="409.5,164.5" /&gt;
         &lt;EdgeLayout
           Id="Package\Stage Slicer Dicer Raw Data.Paths[OLE DB Source Output1]"
           TopLeft="892,203.5"&gt;
@@ -2204,12 +2213,59 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\Stage Slicer Dicer Raw Data.Paths[OLE DB Source Output]"
+          TopLeft="488.75,206.5"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,72"
+              Start="0,0"
+              End="0,64.5"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,64.5" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer Sessions"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Stage Slicer Dicer Raw Data\SlicerDicer Session Runs"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
   &lt;PipelineComponentMetadata
     design-time-name="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer"&gt;
     &lt;Properties&gt;
@@ -2314,7 +2370,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Stage Tableau Raw Data"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="143,42"
           Id="Package\Stage Tableau Raw Data\Tableau Runs"
@@ -2354,14 +2410,16 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is moved from raw tables into a common staging tables.&amp;#xA;"
           ParentId="Package\Stage Tableau Raw Data"
           FontInfo="{x:Null}"
-          Size="354,56"
+          Size="354,NaN"
           Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
           TopLeft="135,62" /&gt;
       &lt;/GraphLayout&gt;
@@ -2385,48 +2443,6 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     &lt;Properties&gt;
       &lt;Property&gt;
         &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Populate Raw Tables (SlicerDicer)\SlicerDicer Stats_SaveLoad"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Populate Raw Tables (SlicerDicer)\clarity_server-slicerdicer-stats_saveload"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Stage Slicer Dicer Raw Data\SlicerDicer Session Runs"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer Sessions"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
       &lt;/Property&gt;
     &lt;/Properties&gt;
   &lt;/PipelineComponentMetadata&gt;
