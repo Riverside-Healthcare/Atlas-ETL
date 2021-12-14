@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS2"
   DTS:PackageType="5"
-  DTS:VersionBuild="19"
-  DTS:VersionGUID="{FE7CF8BF-D290-48EC-8064-F2DEEDC2E176}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{1948533E-6C11-4089-AE93-E9A8DC885A7B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3489,6 +3489,13 @@ left outer join
                       cachedName="Language"
                       externalMetadataColumnId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
                       lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Language]" />
+                    <inputColumn
+                      refId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="425"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Name]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3508,6 +3515,10 @@ left outer join
                       refId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
                       dataType="nText"
                       name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -3563,7 +3574,8 @@ left outer join
                   name="SqlCommand"
                   UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">with #SSRS_XMLTwo as ( 
 select 
-  ItemId 
+  ItemId
+,Name 
 , CONVERT(xml, 
    CASE 
     WHEN LEFT(Content,3) = 0xEFBBBF  THEN CONVERT(varbinary(max),SUBSTRING(Content,4,LEN(Content))) 
@@ -3573,7 +3585,8 @@ select
 from 
 ( 
   SELECT 
-  ItemID 
+  ItemID
+,Name 
   ,CONVERT(varbinary(max),Content) AS Content 
  FROM raw.[clarity_server-reportserver-dbo-catalog] 
 WHERE Type IN (2,5,7,8) 
@@ -3607,12 +3620,14 @@ concat(
    
     ) as BizKey 
 ,t.query as Query 
+,t.name as Name
 ,getdate() as LastLoadDate 
 ,N'SQL' as Language
 From ( 
 select * from ( 
 SELECT 
     ItemID 
+,Name
     ,T.Query.value('(./*:CommandText/text())[1]','nvarchar(max)') AS Query 
       
 FROM #SSRS_XMLTwo 
@@ -3695,6 +3710,16 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
                       lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Language]"
                       name="Language"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="425"
+                      lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3716,6 +3741,11 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
                       dataType="wstr"
                       length="3"
                       name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="425"
+                      name="Name" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -3734,6 +3764,12 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
                       dataType="nText"
                       lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[Query]"
                       name="Query" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="425"
+                      lineageId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
                     <outputColumn
                       refId="Package\Stage SSRS Server 2 Queries\SSRS Server 2 Queries.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
                       dataType="dbTimeStamp"

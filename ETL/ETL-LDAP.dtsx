@@ -12,7 +12,7 @@
   DTS:ObjectName="ETL-LDAP"
   DTS:PackageType="5"
   DTS:VersionBuild="14"
-  DTS:VersionGUID="{0DB758A4-9680-4493-8252-6D1B952F1AFC}">
+  DTS:VersionGUID="{C7A22583-0ED6-42AD-946B-2BC708FF65F3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>

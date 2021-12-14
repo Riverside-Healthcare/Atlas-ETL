@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="270" DTS:VersionGUID="{2582CF50-ACEE-4BF4-B3A3-FAA1593390CA}">
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="272" DTS:VersionGUID="{FAAD40B5-7B4D-4562-A3D2-90FE3CF1C443}">
   <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[ssrs_database2.ReportServer]" DTS:CreationName="OLEDB" DTS:DTSID="{3F6936B0-14C6-4FD8-AB36-EC3E9E2A79FE}" DTS:ObjectName="ssrs_database2.ReportServer">
@@ -44,7 +44,7 @@
     <DTS:Executable DTS:refId="Package\Create Main ETL tables" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{92b581b0-afaf-48ef-b6e2-12c86336d2df}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Create Main ETL tables" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{AB7C51C9-46A1-41C5-B2BB-558C4003C07D}" SQLTask:SqlStatementSource=";DROP TABLE IF EXISTS [stage].[ReportObjectRunDataStaging]&#10;GO&#10;SET ANSI_NULLS ON&#10;GO&#10;SET QUOTED_IDENTIFIER ON&#10;GO&#10;CREATE TABLE [stage].[ReportObjectRunDataStaging](&#10;&#9;[SourceServer] [nvarchar](255) NOT NULL,&#10;&#9;[SourceDB] [nvarchar](255) NOT NULL,&#10;&#9;[SourceTable] [nvarchar](255) NOT NULL,&#10;&#9;[Name] [nvarchar](max) NULL,&#10;&#9;[ReportObjectType] [nvarchar](255) NOT NULL,&#10;&#9;[EpicMasterFile] [nvarchar](3) NULL,&#10;&#9;[EpicRecordID] [numeric](18, 0) NULL,&#10;&#9;[ReportServerCatalogID] [nvarchar](50) NULL,&#10;&#9;[RunID] [bigint] NOT NULL,&#10;&#9;[RunUserID] [nvarchar](100) NULL,&#10;&#9;[RunUserName] [nvarchar](100) NULL,&#10;&#9;[RunStartTime] [datetime] NULL,&#10;&#9;[RunDurationSeconds] [int] NULL,&#10;&#9;[RunStatus] [nvarchar](100) NULL&#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;GO&#10;"/>
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{AB7C51C9-46A1-41C5-B2BB-558C4003C07D}" SQLTask:SqlStatementSource=";DROP TABLE IF EXISTS [stage].[ReportObjectRunDataStaging]&#10;GO&#10;SET ANSI_NULLS ON&#10;GO&#10;SET QUOTED_IDENTIFIER ON&#10;GO&#10;CREATE TABLE [stage].[ReportObjectRunDataStaging](&#10;&#9;[SourceServer] [nvarchar](255) NOT NULL,&#10;&#9;[SourceDB] [nvarchar](255) NOT NULL,&#10;&#9;[SourceTable] [nvarchar](255) NOT NULL,&#10;&#9;[Name] [nvarchar](max) NULL,&#10;&#9;[ReportObjectType] [nvarchar](255) NOT NULL,&#10;&#9;[EpicMasterFile] [nvarchar](3) NULL,&#10;&#9;[EpicRecordID] [numeric](18, 0) NULL,&#10;&#9;[ReportServerCatalogID] [nvarchar](50) NULL,&#10;&#9;[RunID] [bigint] NOT NULL,&#10;&#9;[RunUserID] [nvarchar](250) NULL,&#10;&#9;[RunUserName] [nvarchar](4000) NULL,&#10;&#9;[RunStartTime] [datetime] NULL,&#10;&#9;[RunDurationSeconds] [int] NULL,&#10;&#9;[RunStatus] [nvarchar](500) NULL&#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;GO&#10;"/>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable DTS:refId="Package\Create SSRS tables" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{63e57845-03ca-49d9-bb5c-bd1558ef223c}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Create SSRS tables" DTS:ThreadHint="1">
@@ -459,18 +459,18 @@ SELECT [LogEntryId]
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Report Run Time Data Compilation" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{F8196E29-EB0C-4273-A517-1F4C0B50C980}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Report Run Time Data Compilation" DTS:ThreadHint="0">
+    <DTS:Executable DTS:refId="Package\Report Run Time Data Compilation" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{F8196E29-EB0C-4273-A517-1F4C0B50C980}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Report Run Time Data Compilation" DTS:ThreadHint="1">
       <DTS:Variables/>
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;&#10;SELECT @SQL =&#10;@DG_DB + '.[app].[CalculateReportRunTimeData]'&#10;exec sp_executesql @SQL">
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="&#9;drop table if exists #myTemp;&#10;&#10;&#9;select RunUserId, Count(*) as Runs, Cast(ROUND(Avg(cast(RunDurationSeconds as decimal)),2)as decimal(10,2))  as RunTime,&#10;&#9;DATEADD(dd, DATEPART(DW,RunStartTime)*-1+1, DATEADD(dd, DATEDIFF(dd, 0, RunStartTime), 0)) as RunWeek, &#10;convert(nvarchar(MAX),  DATEADD(dd, DATEPART(DW,RunStartTime)*-1+1, DATEADD(dd, DATEDIFF(dd, 0, RunStartTime), 0)), 101) as RunWeekString&#10;&#9;into #myTemp&#10;&#9;from ReportObjectRunData as d&#10;&#9;inner join ReportObject r on d.ReportObjectID = r.ReportObjectID&#10;&#9;where RunStatus = 'Success'&#10;&#9;  and r.ReportObjectTypeId not in (20,21)&#10;&#9;group by DATEADD(dd, DATEPART(DW,RunStartTime)*-1+1, DATEADD(dd, DATEDIFF(dd, 0, RunStartTime), 0)), RunUserId&#10;&#9;&#9;&#10;&#9;;&#10;&#9;&#9;&#10;&#10;&#9;--drop table if exists app.ReportObjectRunTime;&#10;&#9;if not exists (select * from sysobjects where name='ReportObjectRunTime' and xtype='U')&#10;&#9;&#9;exec('create table app.ReportObjectRunTime&#10;&#9;&#9;(&#10;&#9;&#9;&#9;Id int IDENTITY(1,1) NOT NULL PRIMARY KEY,&#10;&#9;&#9;&#9;RunUserId int,&#10;&#9;&#9;&#9;Runs int,&#10;&#9;&#9;&#9;RunTime decimal(10,2),&#10;&#9;&#9;&#9;RunWeek datetime,&#10;&#9;&#9;&#9;RunWeekString nvarchar(max),&#10;&#9;&#9;&#9;constraint fk_userruntime foreign key (RunUserId) references [User] (UserId)&#10;&#9;&#9;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;&#9;&#9;')&#10;&#9;;&#10;&#10;&#9;-- insert new records into table.&#10;&#9;insert into app.ReportObjectRunTime&#10;&#9;&#9;select&#10;&#9;&#9;&#9;RunUserId,&#10;&#9;&#9;&#9;Runs,&#10;&#9;&#9;&#9;cast(RunTime as Decimal(10,2)),&#10;&#9;&#9;&#9;RunWeek,&#10;&#9;&#9;&#9;RunWeekString&#10;&#9;&#9;from &#10;&#9;&#9;&#9;#myTemp&#10;&#9;&#9;except (select &#10;&#9;&#9;&#9;RunUserId,&#10;&#9;&#9;&#9;Runs,&#10;&#9;&#9;&#9;cast(RunTime as Decimal(10,2)),&#10;&#9;&#9;&#9;RunWeek,&#10;&#9;&#9;&#9;RunWeekString from app.ReportObjectRunTime)&#10;&#9;;&#10;&#10;&#9;-- delete old records from table&#10;&#9;delete app.ReportObjectRunTime &#10;&#9;from app.ReportObjectRunTime  l&#10;&#9;left outer join #myTemp as t on l.RunUserId = t.RunUserId&#10;&#9;&#9;and l.Runs = t.Runs&#10;&#9;&#9;and l.RunTime = t.RunTime&#10;&#9;&#9;and l.RunWeek = t.RunWeek&#10;&#9;&#9;and l.RunWeekString = t.RunWeekString&#10;&#9;where t.RunUserId is null&#10;&#9;;&#10;&#10;&#9;drop table if exists #myTemp;&#10;&#10;&#9;-- run data from report perspecitve&#10;&#9;if not exists (select * from sysobjects where name='ReportObjectReportRunTime' and xtype='U')&#10;&#9;&#9;exec('create table app.ReportObjectReportRunTime&#10;&#9;&#9;(&#10;&#9;&#9;&#9;Id int IDENTITY(1,1) NOT NULL PRIMARY KEY,&#10;&#9;&#9;&#9;ReportObjectId int,&#10;&#9;&#9;&#9;Duration int,&#10;&#9;&#9;&#9;Runs int,&#10;&#9;&#9;&#9;RunWeek datetime,&#10;&#9;&#9;&#9;RunWeekString nvarchar(max),&#10;&#9;&#9;&#9;constraint fk_reportruntime foreign key (ReportObjectId) references [ReportObject] (ReportObjectID)&#10;&#9;&#9;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;&#9;&#9;')&#10;&#9;;&#10;&#9;delete from app.ReportObjectReportRunTime where 1=1;&#10;&#9;insert into app.ReportObjectReportRunTime&#10;&#9;&#9;select&#10;&#9;&#9;&#9;  ReportObjectID,&#10;&#9;&#9;&#9;  Avg(RunDurationSeconds) Duration,&#10;&#9;&#9;&#9;  count(*) Runs,&#10;&#9;&#9;&#9;  DATEADD(&#10;&#9;&#9;&#9;&#9;week,&#10;&#9;&#9;&#9;&#9;DATEDIFF(week, -1, RunStartTime),&#10;&#9;&#9;&#9;&#9;-1&#10;&#9;&#9;&#9;  ) AS RunWeek,&#10;&#9;&#9;&#9;  convert(&#10;&#9;&#9;&#9;&#9;nvarchar(MAX),&#10;&#9;&#9;&#9;&#9;DATEADD(&#10;&#9;&#9;&#9;&#9;  week,&#10;&#9;&#9;&#9;&#9;  DATEDIFF(week, -1, RunStartTime),&#10;&#9;&#9;&#9;&#9;  -1&#10;&#9;&#9;&#9;&#9;),&#10;&#9;&#9;&#9;&#9;101&#10;&#9;&#9;&#9;  ) as RunWeekString&#10;&#9;&#9;&#9;FROM&#10;&#9;&#9;&#9;  [ReportObjectRunData]&#10;&#9;&#9;&#9;where&#10;&#9;&#9;&#9;  RunStatus = 'Success' -- and [ReportObjectID] = 21187&#10;&#9;&#9;&#9;group by&#10;&#9;&#9;&#9;  DATEADD(&#10;&#9;&#9;&#9;&#9;week,&#10;&#9;&#9;&#9;&#9;DATEDIFF(week, -1, RunStartTime),&#10;&#9;&#9;&#9;&#9;-1&#10;&#9;&#9;&#9;  ),&#10;&#9;&#9;&#9;  ReportObjectID,&#10;&#9;&#9;&#9;  convert(&#10;&#9;&#9;&#9;&#9;nvarchar(MAX),&#10;&#9;&#9;&#9;&#9;DATEADD(&#10;&#9;&#9;&#9;&#9;  week,&#10;&#9;&#9;&#9;&#9;  DATEDIFF(week, -1, RunStartTime),&#10;&#9;&#9;&#9;&#9;  -1&#10;&#9;&#9;&#9;&#9;),&#10;&#9;&#9;&#9;&#9;101&#10;&#9;&#9;&#9;  )&#10;&#10;&#9;;">
           <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Report Run User Data Compilation" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{6EF92BEB-59CA-4391-B9B0-E7C040533472}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Report Run User Data Compilation" DTS:ThreadHint="1">
+    <DTS:Executable DTS:refId="Package\Report Run User Data Compilation" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{6EF92BEB-59CA-4391-B9B0-E7C040533472}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Report Run User Data Compilation" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;&#10;SELECT @SQL = @DG_DB + '.[app].[CalculateReportRunData]'&#10;exec sp_executesql @SQL">
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="drop table if exists #myTemp;&#10;&#10;&#9;select d.ReportObjectId, isnull(r.displayTitle,r.Name) as Name, RunUserId, Count(*) as Runs, Cast(ROUND(Avg(cast(RunDurationSeconds as decimal)),2)as decimal(10,2))  as RunTime,convert(nvarchar(MAX),  Max(d.RunStartTime), 101) as LastRun, r.ReportObjectTypeID&#10;&#9;into #myTemp&#10;&#9;from ReportObjectRunData as d&#10;&#9;inner join ReportObject as r on r.ReportObjectId = d.ReportObjectId&#10;&#9;where RunStatus = 'Success'&#10;&#9;group by d.ReportObjectId, RunUserId,isnull(r.displayTitle,r.Name), r.ReportObjectTypeId&#10;&#9;&#9;&#10;&#9;;&#10;&#9;&#9;&#9;&#10;&#10;&#9;--drop table if exists app.ReportObjectTopRuns;&#10;&#9;if not exists (select * from sysobjects where name='ReportObjectTopRuns' and xtype='U')&#10;&#9;&#9;exec('create table app.ReportObjectTopRuns&#10;&#9;&#9;(&#10;&#9;&#9;&#9;Id int IDENTITY(1,1) NOT NULL PRIMARY KEY,&#10;&#9;&#9;&#9;ReportObjectId int,&#10;&#9;&#9;&#9;Name nvarchar(max),&#10;&#9;&#9;&#9;RunUserId int,&#10;&#9;&#9;&#9;Runs int,&#10;&#9;&#9;&#9;RunTime decimal(10,2),&#10;&#9;&#9;&#9;LastRun nvarchar(max),&#10;&#9;&#9;&#9;ReportObjectTypeId int null,&#10;&#9;&#9;&#9;constraint fk_user foreign key (RunUserId) references [User] (UserId)&#10;&#9;&#9;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;&#9;&#9;')&#10;&#9;;&#10;&#10;&#9;-- insert new records into table.&#10;&#9;insert into app.ReportObjectTopRuns&#10;&#9;&#9;select&#10;&#9;&#9;&#9;ReportObjectId,&#10;&#9;&#9;&#9;Name,&#10;&#9;&#9;&#9;RunUserId,&#10;&#9;&#9;&#9;Runs,&#10;&#9;&#9;&#9;cast(RunTime as decimal(10,2)),&#10;&#9;&#9;&#9;LastRun,&#10;&#9;&#9;&#9;ReportObjectTypeId&#10;&#9;&#9;from &#10;&#9;&#9;&#9;#myTemp&#10;&#9;&#9;except (select ReportObjectId,&#10;&#9;&#9;&#9;Name,&#10;&#9;&#9;&#9;RunUserId,&#10;&#9;&#9;&#9;Runs,&#10;&#9;&#9;&#9;cast(RunTime as decimal(10,2)),&#10;&#9;&#9;&#9;LastRun,&#10;&#9;&#9;&#9;ReportObjectTypeId from app.ReportObjectTopRuns)&#10;&#9;;&#10;&#10;&#9;-- delete old records from table&#10;&#9;delete app.ReportObjectTopRuns from app.ReportObjectTopRuns  l&#10;&#9;left join #myTemp as t on l.ReportObjectId = t.ReportObjectId&#10;&#9;&#9;and l.Name = t.Name&#10;&#9;&#9;and l.RunUserId = t.RunUserId&#10;&#9;&#9;and l.Runs = t.Runs&#10;&#9;&#9;and l.RunTime = t.RunTime&#10;&#9;&#9;and l.LastRun = t.LastRun&#10;&#9;&#9;and l.ReportObjectTypeId = t.ReportObjectTypeId&#10;&#9;where t.ReportObjectID is null&#10;&#10;&#9;;&#10;&#10;&#9;drop table if exists #myTemp;&#10;&#10;&#9;-- report run rank&#10;&#10;&#9;truncate table app.ReportObjectWeightedRunRank;&#10;&#10;&#9;insert into  app.ReportObjectWeightedRunRank&#10;&#9;select &#10;&#9;reportobjectid&#10;&#9;, CAST(runs * 10.000/max(runs) over () AS NUMERIC(12,4)) weighted_run_rank&#10;&#9;&#9;from (&#10;&#9;select cast(sum(weighted_runs)/16.000 as NUMERIC(12,4)) as runs, reportobjectid&#10;&#9;from (select reportobjectid&#10;&#9; , count(1) runs&#10;&#9; , (16 - (DATEPART(week, getdate()) - DATEPART(week, RunStartTime))) * count(1) weighted_runs&#10;&#9;from dbo.ReportObjectRunData r&#10;&#9;where FORMAT(RunStartTime, 'yyyy-MM-01 00:00:00.000') &gt;= dateadd(WEEK,-16,getdate())&#10;&#9;group by reportobjectid, (16 - (DATEPART(week, getdate()) - DATEPART(week, RunStartTime)))) as t group by reportobjectid&#10;&#9;) as t&#10;&#9;order by 2 desc">
           <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
@@ -614,12 +614,12 @@ from
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]" dataType="wstr" length="3" name="EpicMasterFile"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]" dataType="numeric" name="EpicRecordID" precision="18"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]" dataType="wstr" length="50" name="ReportServerCatalogID"/>
-                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunID]" dataType="i4" name="RunID"/>
+                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunID]" dataType="i8" name="RunID"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunUserID]" dataType="wstr" length="100" name="RunUserID"/>
-                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunUserName]" dataType="wstr" length="100" name="RunUserName"/>
+                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunUserName]" dataType="wstr" length="4000" name="RunUserName"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunStartTime]" dataType="dbTimeStamp" name="RunStartTime"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunDurationSeconds]" dataType="i4" name="RunDurationSeconds"/>
-                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunStatus]" dataType="wstr" length="100" name="RunStatus"/>
+                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[RunStatus]" dataType="wstr" length="500" name="RunStatus"/>
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -676,12 +676,12 @@ from
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]" dataType="wstr" length="3" name="EpicMasterFile"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]" dataType="numeric" name="EpicRecordID" precision="18"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]" dataType="wstr" length="50" name="ReportServerCatalogID"/>
-                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunID]" dataType="i4" name="RunID"/>
+                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunID]" dataType="i8" name="RunID"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunUserID]" dataType="wstr" length="100" name="RunUserID"/>
-                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunUserName]" dataType="wstr" length="100" name="RunUserName"/>
+                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunUserName]" dataType="wstr" length="4000" name="RunUserName"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunStartTime]" dataType="dbTimeStamp" name="RunStartTime"/>
                     <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunDurationSeconds]" dataType="i4" name="RunDurationSeconds"/>
-                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunStatus]" dataType="wstr" length="100" name="RunStatus"/>
+                    <externalMetadataColumn refId="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2.Inputs[OLE DB Destination Input].ExternalColumns[RunStatus]" dataType="wstr" length="500" name="RunStatus"/>
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -845,10 +845,10 @@ from
                     <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]" dataType="wstr" length="50" name="ReportServerCatalogID"/>
                     <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunID]" dataType="i8" name="RunID"/>
                     <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunUserID]" dataType="wstr" length="100" name="RunUserID"/>
-                    <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunUserName]" dataType="wstr" length="100" name="RunUserName"/>
+                    <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunUserName]" dataType="wstr" length="4000" name="RunUserName"/>
                     <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunStartTime]" dataType="dbTimeStamp" name="RunStartTime"/>
                     <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunDurationSeconds]" dataType="i4" name="RunDurationSeconds"/>
-                    <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunStatus]" dataType="wstr" length="100" name="RunStatus"/>
+                    <externalMetadataColumn refId="Package\Stage Tableau Raw Data\ReportObjectRunDataStaging Tableau.Inputs[OLE DB Destination Input].ExternalColumns[RunStatus]" dataType="wstr" length="500" name="RunStatus"/>
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -984,7 +984,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;
         &lt;NodeLayout
           Size="179,42"
           Id="Package\Create Clarity tables"
@@ -1046,7 +1046,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="198.619047077064,235.731373310498"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,49.168622370947"
               Start="0,0"
               End="0,41.668622370947"&gt;
@@ -1068,7 +1068,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="463.107139620448,322.390757127507"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,97.236701643792"
               Start="0,0"
               End="0,89.736701643792"&gt;
@@ -1090,7 +1090,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="449.666663028891,461.627458771299"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-133.833328337896,37.839209369324"
               Start="0,0"
               End="-133.833328337896,30.339209369324"&gt;
@@ -1124,7 +1124,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="281.666668024328,541.466668140623"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-9.333334690995,169.533331859377"
               Start="0,0"
               End="-9.333334690995,162.033331859377"&gt;
@@ -1158,7 +1158,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="350.000001357662,541.466668140623"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="255.666665309005,175.533331859377"
               Start="0,0"
               End="255.666665309005,168.033331859377"&gt;
@@ -1192,7 +1192,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="472.726186314341,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,48.0420249012961"
               Start="0,0"
               End="0,40.5420249012961"&gt;
@@ -1214,7 +1214,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="520.285708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="250.833320981927,54.6000000000001"
               Start="0,0"
               End="250.833320981927,47.1000000000001"&gt;
@@ -1248,7 +1248,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="773.5595047134,233.300001508395"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,49.333326672978"
               Start="0,0"
               End="0,41.833326672978"&gt;
@@ -1270,7 +1270,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="200.6190466797,326.899995681445"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="227.714283015858,92.727463089854"
               Start="0,0"
               End="227.714283015858,85.227463089854"&gt;
@@ -1304,7 +1304,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="774.619029493695,324.633328181373"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-282.285699798137,94.994130589926"
               Start="0,0"
               End="-282.285699798137,87.494130589926"&gt;
@@ -1338,7 +1338,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="1028.11902045366,326.833327375518"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-503.7856907581,92.794131395781"
               Start="0,0"
               End="-503.7856907581,85.294131395781"&gt;
@@ -1372,7 +1372,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="529.585708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="498.533312140572,235.533334731526"
               Start="0,0"
               End="498.533312140572,228.033334731526"&gt;
@@ -1406,7 +1406,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="196.202380426955,139.766660908593"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,53.964712401905"
               Start="0,0"
               End="0,46.464712401905"&gt;
@@ -1428,7 +1428,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="502.999996362225,461.627458771299"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="145.119049721429,37.5392093073351"
               Start="0,0"
               End="145.119049721429,30.0392093073351"&gt;
@@ -1462,7 +1462,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="610.785712750321,541.166668078634"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-260.119046083654,169.833331921366"
               Start="0,0"
               End="-260.119046083654,162.333331921366"&gt;
@@ -1496,7 +1496,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="470.416667097145,139.342017545288"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,51.524649851469"
               Start="0,0"
               End="0,44.024649851469"&gt;
@@ -1518,7 +1518,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="467.523809712017,232.866667396757"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,47.52408973075"
               Start="0,0"
               End="0,40.02408973075"&gt;
@@ -1540,7 +1540,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="684.39285637516,541.166668078634"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,175.833331921366"
               Start="0,0"
               End="0,168.333331921366"&gt;
@@ -1562,7 +1562,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="771.809504614058,145.899992643992"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,45.400008864403"
               Start="0,0"
               End="0,37.900008864403"&gt;
@@ -1584,7 +1584,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="427.285708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-231.499994933606,48.4666682646011"
               Start="0,0"
               End="-231.499994933606,40.9666682646011"&gt;
@@ -1616,7 +1616,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         &lt;AnnotationLayout
           Text="at this point we have userid for clarity data and domain name for SSRS data"
           ParentId="Package"
-          FontInfo="{assembly:Null}"
+          FontInfo="{x:Null}"
           Size="428,40"
           Id="db15da9c-d040-410d-be73-c60d408e4898"
           TopLeft="1194.33330240515,425.800001818339" /&gt;
@@ -1667,7 +1667,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Populate Raw Tables (Clarity)"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="266,42"
           Id="Package\Populate Raw Tables (Clarity)\clarity_server-clarity-dashboard-run-data"
@@ -1703,9 +1703,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
@@ -1727,16 +1725,14 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is imported to raw tables from source tables  into &amp;quot;raw&amp;quot; tables. Workbench data is  a simple line for line import, while&amp;#xA;dashboard data is a bit more complex. &amp;#xA;Dashboard run usage is grouped into a daily summary in Clarity, so we need to split it out into 1 row per run before importing it.&amp;#xA;&amp;#xA;Notes&amp;#xA;- only importing data from last two years"
           ParentId="Package\Populate Raw Tables (Clarity)"
           FontInfo="{x:Null}"
-          Size="708,NaN"
+          Size="708,120"
           Id="cb7cbdca-e102-43cd-b458-4c39f532a9d5"
           TopLeft="197,65" /&gt;
       &lt;/GraphLayout&gt;
@@ -2056,7 +2052,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Stage Clarity Raw Data"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="171,42"
           Id="Package\Stage Clarity Raw Data\OLE DB Destination"
@@ -2092,9 +2088,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
@@ -2116,16 +2110,14 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is moved from raw tables into a common staging tables.&amp;#xA;&amp;#xA;Notes&amp;#xA;- Clarity data uses epic user_id, which is now converted to domain name"
           ParentId="Package\Stage Clarity Raw Data"
           FontInfo="{x:Null}"
-          Size="410,NaN"
+          Size="410,88"
           Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
           TopLeft="135,62" /&gt;
       &lt;/GraphLayout&gt;
@@ -2177,7 +2169,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Stage Slicer Dicer Raw Data"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="329,42"
           Id="Package\Stage Slicer Dicer Raw Data\ReportObjectRunDataStaging SlicerDicer Sessions"
@@ -2213,9 +2205,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
@@ -2237,9 +2227,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
@@ -2291,7 +2279,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package\Stage SSRS Raw Data"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="226,42"
           Id="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2"
@@ -2327,9 +2315,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
@@ -2351,26 +2337,50 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is moved from raw tables into a common staging tables.&amp;#xA;&amp;#xA;Notes&amp;#xA;- SSRS users come as domain (ex first-last)"
           ParentId="Package\Stage SSRS Raw Data"
           FontInfo="{x:Null}"
-          Size="354,NaN"
+          Size="354,88"
           Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
           TopLeft="135,62" /&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 2"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Stage SSRS Raw Data\ReportObjectRunDataStaging 1"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
   &lt;TaskHost
     design-time-name="Package\Stage Tableau Raw Data"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="143,42"
           Id="Package\Stage Tableau Raw Data\Tableau Runs"
@@ -2410,16 +2420,14 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" /&gt;
+            &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is moved from raw tables into a common staging tables.&amp;#xA;"
           ParentId="Package\Stage Tableau Raw Data"
           FontInfo="{x:Null}"
-          Size="354,NaN"
+          Size="354,56"
           Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
           TopLeft="135,62" /&gt;
       &lt;/GraphLayout&gt;

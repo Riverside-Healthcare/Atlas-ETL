@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSAS"
   DTS:PackageType="5"
-  DTS:VersionBuild="107"
-  DTS:VersionGUID="{D8EFFF71-0448-4CCE-B92C-B703CD523D36}">
+  DTS:VersionBuild="110"
+  DTS:VersionGUID="{C63F90F6-D1BE-46AD-B49B-C1321AB4E6D4}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1533,13 +1533,18 @@ where [HIERARCHY_NAME]&lt;&gt;'Measures'</property>
                       cachedName="Language"
                       externalMetadataColumnId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
                       lineageId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output].Columns[Language]" />
+                    <inputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="nText"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output].Columns[Name]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
                       refId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]"
-                      dataType="wstr"
-                      length="500"
+                      dataType="nText"
                       name="BizKey" />
                     <externalMetadataColumn
                       refId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
@@ -1553,6 +1558,10 @@ where [HIERARCHY_NAME]&lt;&gt;'Measures'</property>
                       refId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
                       dataType="nText"
                       name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1938,7 +1947,7 @@ select distinct
   null as EpicReportTemplateId,
   null as ReportServerPath,
 convert(datetime,t.Date_modified) as Last_modified_date,
-  null as ReportObjectURL,
+null as ReportObjectURL,
   null as EpicMasterFile,
  null as EpicRecordID,
   null as DisplayTitle,
@@ -2408,6 +2417,7 @@ N'slicerdicer_server\cobalt','||'
 ,   '||'
 ) as BizKey
 ,m.Expression as Query
+,m.Measure_Name as Name
 ,getdate() as LastLoadDate
 , N'Text' as Language
 from raw.[slicerdicer_server-cobalt-dbo-measures] m
@@ -2486,6 +2496,15 @@ where m.Expression&lt;&gt;'1'</property>
                       lineageId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output].Columns[Language]"
                       name="Language"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      lineageId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2507,6 +2526,10 @@ where m.Expression&lt;&gt;'1'</property>
                       dataType="wstr"
                       length="4"
                       name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -2525,6 +2548,11 @@ where m.Expression&lt;&gt;'1'</property>
                       dataType="nText"
                       lineageId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Error Output].Columns[Query]"
                       name="Query" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="nText"
+                      lineageId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
                     <outputColumn
                       refId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
                       dataType="dbTimeStamp"
@@ -2816,15 +2844,15 @@ where m.Expression&lt;&gt;'1'</property>
     design-time-name="Package\Cubes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="111,42"
-          Id="Package\Cubes\Cubes"
-          TopLeft="198.5,90.5" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="229,42"
           Id="Package\Cubes\slicerdicer_server-cobalt-dbo-cubes"
           TopLeft="135.5,226.5" />
+        <NodeLayout
+          Size="111,42"
+          Id="Package\Cubes\Cubes"
+          TopLeft="198.5,90.5" />
         <EdgeLayout
           Id="Package\Cubes.Paths[OLE DB Source Output]"
           TopLeft="252,132.5">
@@ -2844,7 +2872,9 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -2875,7 +2905,7 @@ where m.Expression&lt;&gt;'1'</property>
     design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="127,42"
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Measures"
@@ -2923,7 +2953,9 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -2957,7 +2989,9 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3018,28 +3052,6 @@ where m.Expression&lt;&gt;'1'</property>
           Size="140,42"
           Id="Package\Stage Cubes\Stage cubes"
           TopLeft="134.5,94.5" />
-        <EdgeLayout
-          Id="Package\Stage Cubes.Paths[OLE DB Source Output]"
-          TopLeft="204.25,136.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,119"
-              Start="0,0"
-              End="0,111.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,111.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <NodeLayout
           Size="159,42"
           Id="Package\Stage Cubes\Stage measures"
@@ -3062,6 +3074,28 @@ where m.Expression&lt;&gt;'1'</property>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,98" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Stage Cubes.Paths[OLE DB Source Output]"
+          TopLeft="204.25,136.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,119"
+              Start="0,0"
+              End="0,111.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,111.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

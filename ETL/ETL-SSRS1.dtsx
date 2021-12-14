@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS1"
   DTS:PackageType="5"
-  DTS:VersionBuild="17"
-  DTS:VersionGUID="{D0025436-4D44-42E1-A3C1-D60ACAA194CB}">
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{A2E4F583-E7AE-4381-91F0-EF2EA607FA1D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3476,6 +3476,13 @@ left outer join
                       cachedName="Language"
                       externalMetadataColumnId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
                       lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Language]" />
+                    <inputColumn
+                      refId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="wstr"
+                      cachedLength="425"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Name]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3495,6 +3502,10 @@ left outer join
                       refId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
                       dataType="nText"
                       name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -3550,7 +3561,8 @@ left outer join
                   name="SqlCommand"
                   UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">with #SSRS_XMLOne as ( 
 select 
-  ItemId 
+  ItemId
+  ,Name 
 , CONVERT(xml, 
    CASE 
     WHEN LEFT(Content,3) = 0xEFBBBF  THEN CONVERT(varbinary(max),SUBSTRING(Content,4,LEN(Content))) 
@@ -3560,7 +3572,8 @@ select
 from 
 ( 
   SELECT 
-  ItemID 
+  ItemID
+   ,Name
   ,CONVERT(varbinary(max),Content) AS Content 
  FROM raw.[ssrs_database-reportserver-dbo-catalog] 
 WHERE Type IN (2,5,7,8) 
@@ -3594,12 +3607,14 @@ concat(
    
     ) as BizKey 
 ,t.query as Query 
+,t.name as Name
 ,getdate() as LastLoadDate 
 ,N'SQL' as Language
 From ( 
 select * from ( 
 SELECT 
-    ItemID 
+    ItemID
+	,Name 
     ,T.Query.value('(./*:CommandText/text())[1]','nvarchar(max)') AS Query 
       
 FROM #SSRS_XMLOne 
@@ -3682,6 +3697,16 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Language]"
                       name="Language"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      length="425"
+                      lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3703,6 +3728,11 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       dataType="wstr"
                       length="3"
                       name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="wstr"
+                      length="425"
+                      name="Name" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -3721,6 +3751,12 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       dataType="nText"
                       lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[Query]"
                       name="Query" />
+                    <outputColumn
+                      refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="wstr"
+                      length="425"
+                      lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
                     <outputColumn
                       refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
                       dataType="dbTimeStamp"

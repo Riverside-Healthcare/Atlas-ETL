@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-PostProcessing"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{4AE0C26F-EC1C-497D-A121-0BD37EA86432}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{7A6D6FF5-5F3A-4E6E-A1D1-7E628D02112D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
