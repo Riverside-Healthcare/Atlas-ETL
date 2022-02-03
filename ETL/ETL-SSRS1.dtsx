@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS1"
   DTS:PackageType="5"
-  DTS:VersionBuild="18"
-  DTS:VersionGUID="{A2E4F583-E7AE-4381-91F0-EF2EA607FA1D}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{50FDD394-9C0F-4274-BBA6-848D7E553012}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3560,7 +3560,7 @@ left outer join
                   description="The SQL command to be executed."
                   name="SqlCommand"
                   UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">with #SSRS_XMLOne as ( 
-select 
+select
   ItemId
   ,Name 
 , CONVERT(xml, 
@@ -3614,15 +3614,16 @@ From (
 select * from ( 
 SELECT 
     ItemID
-	,Name 
-    ,T.Query.value('(./*:CommandText/text())[1]','nvarchar(max)') AS Query 
+	,T.Query.value('./@Name', 'nvarchar(max)') as Name
+    ,T.Query.value('(./*:Query/*:CommandText/text())[1]','nvarchar(max)') AS Query 
       
 FROM #SSRS_XMLOne 
 --Get all the Query elements (The "*:" ignores any xml namespaces) 
-CROSS APPLY #SSRS_XMLOne.Content.nodes('//*:Query') T(Query) 
+CROSS APPLY #SSRS_XMLOne.Content.nodes('//*:DataSet') T(Query) 
   
 )  as t 
-where Query is not null) as t 
+where Query is not null
+) as t 
 inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</property>
                 <property
                   dataType="System.String"
@@ -3730,8 +3731,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       name="Language" />
                     <externalMetadataColumn
                       refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Output].ExternalColumns[Name]"
-                      dataType="wstr"
-                      length="425"
+                      dataType="nText"
                       name="Name" />
                   </externalMetadataColumns>
                 </output>
@@ -3753,8 +3753,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       name="Query" />
                     <outputColumn
                       refId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[Name]"
-                      dataType="wstr"
-                      length="425"
+                      dataType="nText"
                       lineageId="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query.Outputs[OLE DB Source Error Output].Columns[Name]"
                       name="Name" />
                     <outputColumn
@@ -3850,7 +3849,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="185,42"
           Id="Package\Create SSRS tables"
@@ -3880,7 +3879,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="160.5,103">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,59"
               Start="0,0"
               End="0,51.5">
@@ -3902,7 +3901,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="163.5,204">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,61"
               Start="0,0"
               End="0,53.5">
@@ -3924,7 +3923,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="167.5,307">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,59"
               Start="0,0"
               End="0,51.5">
@@ -3946,7 +3945,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="171.25,408">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,60"
               Start="0,0"
               End="0,52.5">
@@ -3968,7 +3967,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="174.25,510">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,54"
               Start="0,0"
               End="0,46.5">
@@ -4166,21 +4165,21 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
     design-time-name="Package\Stage SSRS Server 1 Queries">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="180,42"
-          Id="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query"
-          TopLeft="275.5,182.5" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="203,42"
           Id="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging"
           TopLeft="262.5,323.5" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\Stage SSRS Server 1 Queries\SSRS Server 1 Query"
+          TopLeft="275.5,182.5" />
         <EdgeLayout
           Id="Package\Stage SSRS Server 1 Queries.Paths[OLE DB Source Output]"
           TopLeft="364.8,224.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="0,99.3999999999999"
               Start="0,0"
               End="0,91.8999999999999">

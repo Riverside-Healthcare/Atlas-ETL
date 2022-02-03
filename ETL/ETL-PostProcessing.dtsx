@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-PostProcessing"
   DTS:PackageType="5"
-  DTS:VersionBuild="10"
-  DTS:VersionGUID="{7A6D6FF5-5F3A-4E6E-A1D1-7E628D02112D}">
+  DTS:VersionBuild="11"
+  DTS:VersionGUID="{15092FE0-93A3-4493-B874-3DAFE8481A72}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -59,33 +59,7 @@
     </DTS:PackageParameter>
   </DTS:PackageParameters>
   <DTS:Variables />
-  <DTS:Executables>
-    <DTS:Executable
-      DTS:refId="Package\Update Search Table &amp; Index"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:DelayValidation="True"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{887331f3-f6e2-4405-9a40-c405732ea696}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Update Search Table &amp; Index"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}"
-          SQLTask:BypassPrepare="False"
-          SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#xA;DECLARE @DG_DB VARCHAR(100);&#xA;SELECT @DG_DB = ?;&#xA;&#xA;SELECT @SQL = @DG_DB + '.[app].[Search_MasterDataUpdate]'&#xA;exec sp_executesql @SQL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
-        </SQLTask:SqlTaskData>
-      </DTS:ObjectData>
-    </DTS:Executable>
-  </DTS:Executables>
+  <DTS:Executables />
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -93,17 +67,5 @@
 <Objects
   Version="8">
   <!--Each node below will contain properties that do not affect runtime behavior.-->
-  <Package
-    design-time-name="Package">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
-        <NodeLayout
-          Size="217,42"
-          Id="Package\Update Search Table &amp; Index"
-          TopLeft="60,60" />
-      </GraphLayout>
-    </LayoutInfo>
-  </Package>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>
