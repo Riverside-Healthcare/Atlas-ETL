@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSAS"
   DTS:PackageType="5"
-  DTS:VersionBuild="110"
-  DTS:VersionGUID="{C63F90F6-D1BE-46AD-B49B-C1321AB4E6D4}">
+  DTS:VersionBuild="183"
+  DTS:VersionGUID="{D9A1B7BC-09CF-47CB-9E33-48DD20BB54F7}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -36,6 +36,7 @@
       DTS:ObjectName="clarity_server.CLARITYreport">
       <DTS:ObjectData>
         <DTS:ConnectionManager
+          DTS:Retain="True"
           DTS:ConnectionString="Data Source=clarity_server;User ID=;Initial Catalog=CLARITYreport;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -57,6 +58,149 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Data Source=slicerdicer_server\cobalt;Provider=MSOLAP.8;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
+      DTS:CreationName="FLATFILE"
+      DTS:DTSID="{F18746C7-EF50-40AF-95ED-E759980F226B}"
+      DTS:ObjectName="Flat File Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:Format="Delimited"
+          DTS:LocaleID="1033"
+          DTS:HeaderRowDelimiter="_x000D__x000A_"
+          DTS:RowDelimiter=""
+          DTS:TextQualifier="_x003C_none_x003E_"
+          DTS:CodePage="1252"
+          DTS:ConnectionString="C:\Users\Sean-Pickering\Desktop\testing cubes.txt">
+          <DTS:FlatFileColumns>
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="21"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ID"
+              DTS:DTSID="{89E51EA8-31EA-4167-B524-0B173DD89ACD}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="21"
+              DTS:TextQualified="True"
+              DTS:ObjectName="TableID"
+              DTS:DTSID="{9C4985F8-FC3E-4AB7-86BA-93BDEBF74484}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Name"
+              DTS:DTSID="{5BCBA864-9F38-4A22-9B0E-2E4D937E358E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Description"
+              DTS:DTSID="{9A5767EF-0BAC-4D23-AA27-322F2158C6EB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="21"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DataSourceID"
+              DTS:DTSID="{F148EAA7-C56A-4E46-98F4-13F771D36407}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="QueryDefinition"
+              DTS:DTSID="{6A9402E7-AB83-4848-9AB7-333E48E1441E}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="20"
+              DTS:TextQualified="True"
+              DTS:ObjectName="State"
+              DTS:DTSID="{7E9C4C25-06C0-43E9-9BEA-1B97C40E8EA5}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="20"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Type"
+              DTS:DTSID="{108385C6-C0F6-4304-9835-945DE1613B19}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="21"
+              DTS:TextQualified="True"
+              DTS:ObjectName="PartitionStorageID"
+              DTS:DTSID="{E83383EA-F46B-4E46-97D9-14F11D382447}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="20"
+              DTS:TextQualified="True"
+              DTS:ObjectName="Mode"
+              DTS:DTSID="{14610CF3-C185-4C76-966F-A35C006D5CEB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="20"
+              DTS:TextQualified="True"
+              DTS:ObjectName="DataView"
+              DTS:DTSID="{AD8D2011-9BC8-4EDD-BD06-109FD708AEEE}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="7"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ModifiedTime"
+              DTS:DTSID="{29AE7513-8B58-459F-AABD-510CE1577CAB}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="7"
+              DTS:TextQualified="True"
+              DTS:ObjectName="RefreshedTime"
+              DTS:DTSID="{460A6DAB-4F39-43BE-B5A2-9836FEC71F3F}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x002C_"
+              DTS:DataType="20"
+              DTS:TextQualified="True"
+              DTS:ObjectName="SystemFlags"
+              DTS:DTSID="{0CF76CB3-5043-4CFD-BB83-B57E5E0A655A}"
+              DTS:CreationName="" />
+            <DTS:FlatFileColumn
+              DTS:ColumnType="Delimited"
+              DTS:ColumnDelimiter="_x000D__x000A_"
+              DTS:MaximumWidth="255"
+              DTS:DataType="130"
+              DTS:TextQualified="True"
+              DTS:ObjectName="ErrorMessage"
+              DTS:DTSID="{7BD17B9D-C952-42F6-9174-A7AACF56D02D}"
+              DTS:CreationName="" />
+          </DTS:FlatFileColumns>
+        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -147,7 +291,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{415E0522-39F3-419D-BC8F-D8C2FEF4859C}"
-          SQLTask:SqlStatementSource="DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-cubes]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-cubes](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Description] [nvarchar](max) NULL,&#xA;&#x9;[Role] [nvarchar](max) NULL,&#xA;&#x9;[Date_modified] [datetime2] NULL,&#xA;&#x9;[Type] [int] NULL,&#xA;&#x9;[Date_queried] [datetime2](7) NULL,&#xA;&#x9;[Database_ID] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-measures]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-measures](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Measure_Name] [nvarchar](max) NULL,&#xA;&#x9;[Expression] [nvarchar](max) NULL,&#xA;&#x9;[IsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-dimensions]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-dimensions](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Dimension_Name] [nvarchar](max) NULL,&#xA;&#x9;[Hierarchy_Name] [nvarchar](max) NULL,&#xA;&#x9;[DimensionIsVisible] [nvarchar](max) NULL,&#xA;&#x9;[HierarchyIsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-cubes]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-cubes](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Description] [nvarchar](max) NULL,&#xA;&#x9;[Role] [nvarchar](max) NULL,&#xA;&#x9;[Date_modified] [datetime2] NULL,&#xA;&#x9;[Type] [int] NULL,&#xA;&#x9;[Date_queried] [datetime2](7) NULL,&#xA;&#x9;[Database_ID] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-measures]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-measures](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Measure_Name] [nvarchar](max) NULL,&#xA;&#x9;[Expression] [nvarchar](max) NULL,&#xA;&#x9;[IsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-dimensions]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-dimensions](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Dimension_Name] [nvarchar](max) NULL,&#xA;&#x9;[Hierarchy_Name] [nvarchar](max) NULL,&#xA;&#x9;[DimensionIsVisible] [nvarchar](max) NULL,&#xA;&#x9;[HierarchyIsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;drop table if exists [raw].[slicerdicer_server-cube_partitions]&#xA;go&#xA;create table  [raw].[slicerdicer_server-cube_partitions](&#xA;Dimension_Name [nvarchar](max) NULL,&#xA;Query [ntext] NULL&#xA;)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -626,11 +770,32 @@
             VarName="User::CubeList" />
         </DTS:ObjectData>
       </DTS:ForEachEnumerator>
-      <DTS:Variables />
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{FE7914FE-0213-4D1A-BC31-CDEE28E11B6B}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="QueryDefinition">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{EAC8DB19-F2E1-4C99-9A99-ED2587C1A0E4}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="Variable">
+          <DTS:VariableValue
+            DTS:DataType="8">XMLA_Command</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
       <DTS:Executables>
         <DTS:Executable
           DTS:refId="Package\Measures and Dimensions\Populate Measures and Dimensions"
           DTS:CreationName="Microsoft.Pipeline"
+          DTS:DelayValidation="True"
           DTS:Description="Data Flow Task"
           DTS:DTSID="{E9CF22E8-5080-43AB-B9E2-DAF3E33CCCA3}"
           DTS:ExecutableType="Microsoft.Pipeline"
@@ -640,6 +805,8 @@
           <DTS:Variables />
           <DTS:ObjectData>
             <pipeline
+              defaultBufferMaxRows="100000"
+              defaultBufferSize="104857600"
               version="1">
               <components>
                 <component
@@ -2667,12 +2834,12 @@ where m.Expression&lt;&gt;'1'</property>
         <NodeLayout
           Size="255,42"
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions"
-          TopLeft="14.5,28.5" />
+          TopLeft="22.5,72.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="302,195"
-          Size="302,238"
+          PanelSize="302,166"
+          Size="302,209"
           Id="Package\Measures and Dimensions"
           TopLeft="425.5,276.5" />
         <NodeLayout
@@ -2805,30 +2972,30 @@ where m.Expression&lt;&gt;'1'</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="576.5,514.5">
+          TopLeft="576.5,485.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
-              EndConnector="-182.666666666667,187"
+              EndConnector="-182.666666666667,216"
               Start="0,0"
-              End="-182.666666666667,179.5">
+              End="-182.666666666667,208.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,106.949860724234" />
+                    End="0,124.155988857939" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,106.949860724234"
-                    Point2="0,110.949860724234"
-                    Point3="-4,110.949860724234" />
+                    Point1="0,124.155988857939"
+                    Point2="0,128.155988857939"
+                    Point3="-4,128.155988857939" />
                   <mssgle:LineSegment
-                    End="-178.666666666667,110.949860724234" />
+                    End="-178.666666666667,128.155988857939" />
                   <mssgle:CubicBezierSegment
-                    Point1="-178.666666666667,110.949860724234"
-                    Point2="-182.666666666667,110.949860724234"
-                    Point3="-182.666666666667,114.949860724234" />
+                    Point1="-178.666666666667,128.155988857939"
+                    Point2="-182.666666666667,128.155988857939"
+                    Point3="-182.666666666667,132.155988857939" />
                   <mssgle:LineSegment
-                    End="-182.666666666667,179.5" />
+                    End="-182.666666666667,208.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2844,7 +3011,7 @@ where m.Expression&lt;&gt;'1'</property>
     design-time-name="Package\Cubes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="229,42"
           Id="Package\Cubes\slicerdicer_server-cobalt-dbo-cubes"
@@ -2872,9 +3039,7 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -2905,7 +3070,11 @@ where m.Expression&lt;&gt;'1'</property>
     design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures"
+          TopLeft="68.5,219.5" />
         <NodeLayout
           Size="127,42"
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Measures"
@@ -2915,49 +3084,9 @@ where m.Expression&lt;&gt;'1'</property>
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Dimensions"
           TopLeft="478,71" />
         <NodeLayout
-          Size="248,42"
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures"
-          TopLeft="68.5,219.5" />
-        <NodeLayout
           Size="256,42"
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-dimensions"
           TopLeft="429,210" />
-        <EdgeLayout
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[OLE DB Source Output1]"
-          TopLeft="546.5,113">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="10.5,97"
-              Start="0,0"
-              End="10.5,89.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,44.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,44.5"
-                    Point2="0,48.5"
-                    Point3="4,48.5" />
-                  <mssgle:LineSegment
-                    End="6.5,48.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="6.5,48.5"
-                    Point2="10.5,48.5"
-                    Point3="10.5,52.5" />
-                  <mssgle:LineSegment
-                    End="10.5,89.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
         <EdgeLayout
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[OLE DB Source Output]"
           TopLeft="179,131.5">
@@ -2989,14 +3118,59 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[OLE DB Source Output1]"
+          TopLeft="546.5,113">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="10.5,97"
+              Start="0,0"
+              End="10.5,89.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,44.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,44.5"
+                    Point2="0,48.5"
+                    Point3="4,48.5" />
+                  <mssgle:LineSegment
+                    End="6.5,48.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="6.5,48.5"
+                    Point2="10.5,48.5"
+                    Point3="10.5,52.5" />
+                  <mssgle:LineSegment
+                    End="10.5,89.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\Measures">
     <Properties>
@@ -3010,19 +3184,6 @@ where m.Expression&lt;&gt;'1'</property>
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -3043,11 +3204,7 @@ where m.Expression&lt;&gt;'1'</property>
     design-time-name="Package\Stage Cubes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="181,42"
-          Id="Package\Stage Cubes\ReportObjectStaging"
-          TopLeft="113.5,255.5" />
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="140,42"
           Id="Package\Stage Cubes\Stage cubes"
@@ -3060,6 +3217,10 @@ where m.Expression&lt;&gt;'1'</property>
           Size="211,42"
           Id="Package\Stage Cubes\ReportObjectQueryStaging"
           TopLeft="357.5,253.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Stage Cubes\ReportObjectStaging"
+          TopLeft="113.5,255.5" />
         <EdgeLayout
           Id="Package\Stage Cubes.Paths[OLE DB Source Output1]"
           TopLeft="459.25,148">
@@ -3079,7 +3240,9 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3101,25 +3264,14 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Stage Cubes\ReportObjectStaging">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Stage Cubes\Stage cubes">
     <Properties>
@@ -3138,6 +3290,19 @@ where m.Expression&lt;&gt;'1'</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Stage Cubes\ReportObjectQueryStaging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage Cubes\ReportObjectStaging">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

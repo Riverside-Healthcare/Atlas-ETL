@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="276" DTS:VersionGUID="{73E5B732-4CF2-46B6-BF49-973BE27F98ED}">
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="277" DTS:VersionGUID="{9EEA7D05-377A-42D1-90A4-04D01A61C236}">
   <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[ssrs_database2.ReportServer]" DTS:CreationName="OLEDB" DTS:DTSID="{3F6936B0-14C6-4FD8-AB36-EC3E9E2A79FE}" DTS:ObjectName="ssrs_database2.ReportServer">
@@ -53,7 +53,7 @@
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{AB7C51C9-46A1-41C5-B2BB-558C4003C07D}" SQLTask:SqlStatementSource=";DROP TABLE IF EXISTS [raw].[ssrs_database-reportserver-dbo-executionlogstorage]&#10;GO&#10;SET ANSI_NULLS ON&#10;GO&#10;SET QUOTED_IDENTIFIER ON&#10;GO&#10;CREATE TABLE [raw].[ssrs_database-reportserver-dbo-executionlogstorage](&#10;&#9;[LogEntryId] [bigint] IDENTITY(1,1) NOT NULL,&#10;&#9;[InstanceName] [nvarchar](38) NULL,&#10;&#9;[ReportID] [uniqueidentifier] NULL,&#10;&#9;[UserName] [nvarchar](260) NULL,&#10;&#9;[ExecutionId] [nvarchar](64) NULL,&#10;&#9;[RequestType] [tinyint] NULL,&#10;&#9;[Format] [nvarchar](26) NULL,&#10;&#9;[Parameters] [ntext] NULL,&#10;&#9;[ReportAction] [tinyint] NULL,&#10;&#9;[TimeStart] [datetime] NULL,&#10;&#9;[TimeEnd] [datetime] NULL,&#10;&#9;[TimeDataRetrieval] [int] NULL,&#10;&#9;[TimeProcessing] [int] NULL,&#10;&#9;[TimeRendering] [int] NULL,&#10;&#9;[Source] [tinyint] NULL,&#10;&#9;[Status] [nvarchar](40) NULL,&#10;&#9;[ByteCount] [bigint] NULL,&#10;&#9;[RowCount] [bigint] NULL,&#10;&#9;[AdditionalInfo] [xml] NULL,&#10;PRIMARY KEY CLUSTERED &#10;(&#10;&#9;[LogEntryId] ASC&#10;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]&#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;GO&#10;&#10;;DROP TABLE IF EXISTS [raw].[clarity_server-reportserver-dbo-executionlogstorage]&#10;GO&#10;SET ANSI_NULLS ON&#10;GO&#10;SET QUOTED_IDENTIFIER ON&#10;GO&#10;CREATE TABLE [raw].[clarity_server-reportserver-dbo-executionlogstorage](&#10;&#9;[LogEntryId] [bigint] IDENTITY(1,1) NOT NULL,&#10;&#9;[InstanceName] [nvarchar](38) NOT NULL,&#10;&#9;[ReportID] [uniqueidentifier] NULL,&#10;&#9;[UserName] [nvarchar](260) NULL,&#10;&#9;[ExecutionId] [nvarchar](64) NULL,&#10;&#9;[RequestType] [tinyint] NOT NULL,&#10;&#9;[Format] [nvarchar](26) NULL,&#10;&#9;[Parameters] [ntext] NULL,&#10;&#9;[ReportAction] [tinyint] NULL,&#10;&#9;[TimeStart] [datetime] NOT NULL,&#10;&#9;[TimeEnd] [datetime] NOT NULL,&#10;&#9;[TimeDataRetrieval] [int] NOT NULL,&#10;&#9;[TimeProcessing] [int] NOT NULL,&#10;&#9;[TimeRendering] [int] NOT NULL,&#10;&#9;[Source] [tinyint] NOT NULL,&#10;&#9;[Status] [nvarchar](40) NOT NULL,&#10;&#9;[ByteCount] [bigint] NOT NULL,&#10;&#9;[RowCount] [bigint] NOT NULL,&#10;&#9;[AdditionalInfo] [xml] NULL,&#10;PRIMARY KEY CLUSTERED &#10;(&#10;&#9;[LogEntryId] ASC&#10;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]&#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;GO&#10;"/>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Load Component Run Data" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{5F4B7018-1312-4D98-BAEF-A97BE8631DE9}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Load Component Run Data" DTS:ThreadHint="0">
+    <DTS:Executable DTS:refId="Package\Load Component Run Data" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{5F4B7018-1312-4D98-BAEF-A97BE8631DE9}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Load Component Run Data" DTS:ThreadHint="1">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;&#10;&#10;&#10;SELECT @SQL =&#10;'&#10;INSERT INTO ' + @DG_DB + '.[dbo].[ReportObjectRunData]&#10;           ([ReportObjectID]&#10;           ,[RunID]&#10;           ,[RunUserID]&#10;           ,[RunStartTime]&#10;           ,[RunDurationSeconds]&#10;           ,[RunStatus])&#10;&#10;select&#10;h.ChildReportObjectID,&#10;d.RunId,&#10;d.RunUserID,&#10;d.RunStartTime,&#10;d.RunDurationSeconds,&#10;d.RunStatus&#10;from &#10;' + @DG_DB + '.dbo.ReportObject r&#10;inner join ' + @DG_DB + '.dbo.ReportObjectRunData d on r.ReportObjectId = d.ReportObjectId&#10;inner join ' + @DG_DB + '.dbo.ReportObjectHierarchy h on r.ReportObjectID = h.ParentReportObjectID&#10;where r.ReportObjectTypeId = 20 --dasht&#10;'&#10;&#10;exec sp_executesql @SQL&#10;&#10;-- order is important.. column then exttension&#10;SELECT @SQL =&#10;'&#10;merge ' + @DG_DB + '.[dbo].[ReportObjectRunData] as dest&#10;         using (&#10;&#10;select distinct&#10;h.ChildReportObjectID as reportobjectid,&#10;d.RunId,&#10;d.RunUserID,&#10;d.RunStartTime,&#10;d.RunDurationSeconds,&#10;d.RunStatus&#10;from &#10;' + @DG_DB + '.dbo.ReportObject r&#10;inner join ' + @DG_DB + '.dbo.ReportObjectHierarchy h on h.ChildReportObjectID = r.ReportObjectId&#10;inner join ' + @DG_DB + '.dbo.ReportObjectRunData d on d.ReportObjectId = h.ParentReportObjectID&#10;where r.ReportObjectTypeId = 40 -- rw column&#10;) as source&#10;on dest.reportobjectid=source.reportobjectid and dest.runid = source.runid&#10;when not matched then &#10;  insert ([ReportObjectID]&#10;           ,[RunID]&#10;           ,[RunUserID]&#10;           ,[RunStartTime]&#10;           ,[RunDurationSeconds]&#10;           ,[RunStatus])&#10;&#9;&#9;   values (source.reportobjectid, source.runid, source.runuserid, source.runstarttime, source.rundurationseconds, source.runstatus);&#10;'&#10;&#10;exec sp_executesql @SQL&#10;&#10;SELECT @SQL =&#10;'&#10;merge ' + @DG_DB + '.[dbo].[ReportObjectRunData] as dest&#10;         using (&#10;&#10;select distinct&#10;h.ChildReportObjectID as reportobjectid,&#10;d.RunId,&#10;d.RunUserID,&#10;d.RunStartTime,&#10;d.RunDurationSeconds,&#10;d.RunStatus&#10;from &#10;' + @DG_DB + '.dbo.ReportObject r&#10;inner join ' + @DG_DB + '.dbo.ReportObjectHierarchy h on h.ChildReportObjectID = r.ReportObjectId&#10;inner join ' + @DG_DB + '.dbo.ReportObjectRunData d on d.ReportObjectId = h.ParentReportObjectID&#10;where r.ReportObjectTypeId = 39 -- rw column&#10;) as source&#10;on dest.reportobjectid=source.reportobjectid and dest.runid = source.runid&#10;when not matched then &#10;  insert ([ReportObjectID]&#10;           ,[RunID]&#10;           ,[RunUserID]&#10;           ,[RunStartTime]&#10;           ,[RunDurationSeconds]&#10;           ,[RunStatus])&#10;&#9;&#9;   values (source.reportobjectid, source.runid, source.runuserid, source.runstarttime, source.rundurationseconds, source.runstatus);&#10;'&#10;&#10;exec sp_executesql @SQL">
@@ -71,7 +71,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Load Sub SSRS Report Run Data" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{d8403316-4138-47c1-8bc9-908cb4ba1fb2}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Load Sub SSRS Report Run Data" DTS:ThreadHint="1">
+    <DTS:Executable DTS:refId="Package\Load Sub SSRS Report Run Data" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{d8403316-4138-47c1-8bc9-908cb4ba1fb2}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Load Sub SSRS Report Run Data" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE = ?;&#10;&#10;&#10;&#10;&#10;SELECT @SQL ='&#10;&#10;&#9;drop table if exists #SSRS_XML;&#10;&#9;select &#10;&#9;  ItemId&#10;&#9;, CONVERT(xml, &#10;&#9;&#9;&#9;&#9;CASE &#10;&#9;&#9;&#9;&#9;&#9;WHEN LEFT(Content,3) = 0xEFBBBF  THEN CONVERT(varbinary(max),SUBSTRING(Content,4,LEN(Content))) &#10;&#9;&#9;&#9;&#9;&#9;ELSE Content &#10;&#9;&#9;&#9;&#9;END,1) AS Content &#10;&#9;into #SSRS_XML&#10;&#9;from &#10;&#9;( &#10;&#9;&#9;SELECT &#10;&#9;&#9;&#9;ItemID&#10;&#9;&#9;&#9;,CONVERT(varbinary(max),Content) AS Content &#10;&#9;&#9;FROM '+@DG_STAGE+'.raw.[clarity_server-reportserver-dbo-catalog]&#10;&#9;&#9;WHERE Type IN (2,5,7,8) &#10;&#9;&#9;union all &#10;&#9;&#9;SELECT &#10;&#9;&#9;&#9;ItemID&#10;&#9;&#9;&#9;,CONVERT(varbinary(max),Content) AS Content &#10;&#9;&#9;FROM '+@DG_STAGE+'.raw.[ssrs_database-reportserver-dbo-catalog]&#10;&#9;&#9;WHERE Type IN (2,5,7,8) &#10;&#9;) as t&#10;&#9;&#10;&#9;drop table if exists #SSRS_SUB_REPORT;&#10;&#10;&#9;select * into #SSRS_SUB_REPORT From (&#10;&#9;select * from ( &#10;&#9;SELECT &#10;&#9;&#9;ItemID&#10;&#9;&#9;,T.SubReport.value(''(./*:ReportName/text())[1]'',''nvarchar(max)'') AS SubReport &#10;     &#10;&#9;FROM #SSRS_XML&#10;&#9; CROSS APPLY #SSRS_XML.Content.nodes(''//*:Subreport'') T(SubReport) &#10;&#10;&#9;)  as t&#10;&#9;where SubReport is not null) as t&#10;&#10;&#9;;&#10;&#10;&#9;INSERT INTO ' + @DG_DB + '.[dbo].[ReportObjectRunData]&#10;           ([ReportObjectID]&#10;           ,[RunID]&#10;           ,[RunUserID]&#10;           ,[RunStartTime]&#10;           ,[RunDurationSeconds]&#10;           ,[RunStatus])&#10;&#10;&#9;select subr.ReportObjectID,&#10;&#9;d.RunId,&#10;&#9;d.RunUserID,&#10;&#9;d.RunStartTime,&#10;&#9;d.RunDurationSeconds,&#10;&#9;d.RunStatus&#10;&#9;from #SSRS_SUB_REPORT sub&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject r on r.ReportServerCatalogID = cast(sub.ItemID as nvarchar(max))&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject subr on subr.ReportServerPath = sub.SubReport and r.SourceServer = subr.SourceServer&#10;&#10;&#9;-- runs&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObjectRunData d on r.ReportObjectId = d.ReportObjectId&#10;&#10;&#9;; &#10;&#9;drop table if exists #SSRS_SUB_REPORT;&#10;&#9;drop table if exists #SSRS_XML;&#10;&#9;'&#10;&#10;&#9;exec sp_executesql @SQL">
@@ -958,6 +958,14 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable DTS:refId="Package\Update Runs In ReportObject" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{7693c98f-eea5-4d2e-a8d7-89a24ff653d6}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Update Runs In ReportObject" DTS:ThreadHint="0">
+      <DTS:Variables/>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="update ReportObject&#10;set Runs=&#10;(select count(rd.RunID) from dbo.reportobjectrundata rd where rd.reportobjectid=r.reportobjectid&#10;and rd.RunStartTime &lt; DATEADD(m,0-coalesce((select cast(value as int)&#10;from app.GlobalSiteSettings settings&#10;where settings.Id=1),24), GETDATE()))&#10;from dbo.reportobject r">
+          <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint]" DTS:CreationName="" DTS:DTSID="{F7EFBCF3-9D4B-4B13-BE0B-70935AAC690A}" DTS:From="Package\Populate Raw Tables (SSRS)" DTS:LogicalAnd="True" DTS:ObjectName="Constraint" DTS:To="Package\Stage SSRS Raw Data"/>
@@ -968,6 +976,8 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 18]" DTS:CreationName="" DTS:DTSID="{24673C82-8F02-4280-A025-767D9E9B809E}" DTS:From="Package\Stage Tableau Raw Data" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 18" DTS:To="Package\Load Data to atlas"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 19]" DTS:CreationName="" DTS:DTSID="{28311955-7A4B-4800-A4D9-2B02F01A9BA8}" DTS:From="Package\Create Main ETL tables" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 19" DTS:To="Package\Stage Tableau Raw Data"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 2]" DTS:CreationName="" DTS:DTSID="{9B547E2D-7DBC-480B-8BFC-D6143EA2A4AE}" DTS:From="Package\Create SSRS tables" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 2" DTS:To="Package\Populate Raw Tables (SSRS)"/>
+    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 20]" DTS:CreationName="" DTS:DTSID="{3004281D-0C21-47ED-BE1B-9509F673BB90}" DTS:From="Package\Report Run Time Data Compilation" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 20" DTS:To="Package\Update Runs In ReportObject"/>
+    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 21]" DTS:CreationName="" DTS:DTSID="{EFB89589-4D14-489A-B127-C20AC5C2B015}" DTS:From="Package\Report Run User Data Compilation" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 21" DTS:To="Package\Update Runs In ReportObject"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 3]" DTS:CreationName="" DTS:DTSID="{2431BD0D-CB5E-4508-BFFE-E57FEDA4257F}" DTS:From="Package\Load Data to atlas" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 3" DTS:To="Package\Load Sub SSRS Report Run Data"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 4]" DTS:CreationName="" DTS:DTSID="{EBBEAB82-4413-4DB0-8C7E-EE10577A77CD}" DTS:From="Package\Load Sub SSRS Report Run Data" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 4" DTS:To="Package\Report Run Time Data Compilation"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 7]" DTS:CreationName="" DTS:DTSID="{A9E307B5-3087-49E1-A2B4-F06763C79049}" DTS:From="Package\Load Sub SSRS Report Run Data" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 7" DTS:To="Package\Report Run User Data Compilation"/>
@@ -984,7 +994,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     design-time-name="Package"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;
         &lt;NodeLayout
           Size="179,42"
           Id="Package\Create Clarity tables"
@@ -1046,7 +1056,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="198.619047077064,235.731373310498"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,49.168622370947"
               Start="0,0"
               End="0,41.668622370947"&gt;
@@ -1068,7 +1078,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="463.107139620448,322.390757127507"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,97.236701643792"
               Start="0,0"
               End="0,89.736701643792"&gt;
@@ -1090,7 +1100,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="449.666663028891,461.627458771299"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-133.833328337896,37.839209369324"
               Start="0,0"
               End="-133.833328337896,30.339209369324"&gt;
@@ -1124,7 +1134,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="281.666668024328,541.466668140623"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-9.333334690995,169.533331859377"
               Start="0,0"
               End="-9.333334690995,162.033331859377"&gt;
@@ -1158,27 +1168,27 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="350.000001357662,541.466668140623"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="255.666665309005,175.533331859377"
+              StartConnector="{x:Null}"
+              EndConnector="251.666665309005,182.533331859377"
               Start="0,0"
-              End="255.666665309005,168.033331859377"&gt;
+              End="251.666665309005,175.033331859377"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,83.8607478441247" /&gt;
+                    End="0,87.3644996865474" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,83.8607478441247"
-                    Point2="0,87.8607478441247"
-                    Point3="4,87.8607478441247" /&gt;
+                    Point1="0,87.3644996865474"
+                    Point2="0,91.3644996865474"
+                    Point3="4,91.3644996865474" /&gt;
                   &lt;mssgle:LineSegment
-                    End="251.666665309005,87.8607478441247" /&gt;
+                    End="247.666665309005,91.3644996865474" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="251.666665309005,87.8607478441247"
-                    Point2="255.666665309005,87.8607478441247"
-                    Point3="255.666665309005,91.8607478441247" /&gt;
+                    Point1="247.666665309005,91.3644996865474"
+                    Point2="251.666665309005,91.3644996865474"
+                    Point3="251.666665309005,95.3644996865474" /&gt;
                   &lt;mssgle:LineSegment
-                    End="255.666665309005,168.033331859377" /&gt;
+                    End="251.666665309005,175.033331859377" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -1192,7 +1202,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="472.726186314341,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,48.0420249012961"
               Start="0,0"
               End="0,40.5420249012961"&gt;
@@ -1214,7 +1224,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="520.285708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="250.833320981927,54.6000000000001"
               Start="0,0"
               End="250.833320981927,47.1000000000001"&gt;
@@ -1248,7 +1258,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="773.5595047134,233.300001508395"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,49.333326672978"
               Start="0,0"
               End="0,41.833326672978"&gt;
@@ -1270,7 +1280,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="200.6190466797,326.899995681445"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="227.714283015858,92.727463089854"
               Start="0,0"
               End="227.714283015858,85.227463089854"&gt;
@@ -1304,7 +1314,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="774.619029493695,324.633328181373"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-282.285699798137,94.994130589926"
               Start="0,0"
               End="-282.285699798137,87.494130589926"&gt;
@@ -1338,7 +1348,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="1028.11902045366,326.833327375518"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-503.7856907581,92.794131395781"
               Start="0,0"
               End="-503.7856907581,85.294131395781"&gt;
@@ -1372,7 +1382,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="529.585708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="498.533312140572,235.533334731526"
               Start="0,0"
               End="498.533312140572,228.033334731526"&gt;
@@ -1406,7 +1416,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="196.202380426955,139.766660908593"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,53.964712401905"
               Start="0,0"
               End="0,46.464712401905"&gt;
@@ -1428,7 +1438,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="502.999996362225,461.627458771299"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="145.119049721429,37.5392093073351"
               Start="0,0"
               End="145.119049721429,30.0392093073351"&gt;
@@ -1462,7 +1472,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="610.785712750321,541.166668078634"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-260.119046083654,169.833331921366"
               Start="0,0"
               End="-260.119046083654,162.333331921366"&gt;
@@ -1496,7 +1506,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="470.416667097145,139.342017545288"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,51.524649851469"
               Start="0,0"
               End="0,44.024649851469"&gt;
@@ -1518,7 +1528,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="467.523809712017,232.866667396757"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,47.52408973075"
               Start="0,0"
               End="0,40.02408973075"&gt;
@@ -1537,18 +1547,18 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="684.39285637516,541.166668078634"&gt;
+          TopLeft="682.39285637516,541.166668078634"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,175.833331921366"
+              StartConnector="{x:Null}"
+              EndConnector="0,182.833331921366"
               Start="0,0"
-              End="0,168.333331921366"&gt;
+              End="0,175.333331921366"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,168.333331921366" /&gt;
+                    End="0,175.333331921366" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -1562,7 +1572,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="771.809504614058,145.899992643992"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,45.400008864403"
               Start="0,0"
               End="0,37.900008864403"&gt;
@@ -1584,7 +1594,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
           TopLeft="427.285708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-231.499994933606,48.4666682646011"
               Start="0,0"
               End="-231.499994933606,40.9666682646011"&gt;
@@ -1616,7 +1626,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         &lt;AnnotationLayout
           Text="at this point we have userid for clarity data and domain name for SSRS data"
           ParentId="Package"
-          FontInfo="{assembly:Null}"
+          FontInfo="{x:Null}"
           Size="428,40"
           Id="db15da9c-d040-410d-be73-c60d408e4898"
           TopLeft="1194.33330240515,425.800001818339" /&gt;
@@ -1627,7 +1637,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
         &lt;NodeLayout
           Size="241,42"
           Id="Package\Report Run User Data Compilation"
-          TopLeft="341.666661236021,81.7666672727797" /&gt;
+          TopLeft="337.666661236021,88.7666672727797" /&gt;
         &lt;GroupLayout
           Text="Update Run Data Cache Tables"
           ParentId="Package"
@@ -1660,6 +1670,78 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
             &lt;/mssge:FontInfo&gt;
           &lt;/AnnotationLayout.FontInfo&gt;
         &lt;/AnnotationLayout&gt;
+        &lt;NodeLayout
+          Size="223,42"
+          Id="Package\Update Runs In ReportObject"
+          TopLeft="339.119047474429,916.5" /&gt;
+        &lt;EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 20]"
+          TopLeft="311.5,753"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="103.285714141095,163.5"
+              Start="0,0"
+              End="103.285714141095,156"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,93.4011576135352" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,93.4011576135352"
+                    Point2="0,97.4011576135352"
+                    Point3="4,97.4011576135352" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="99.2857141410952,97.4011576135352" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="99.2857141410952,97.4011576135352"
+                    Point2="103.285714141095,97.4011576135352"
+                    Point3="103.285714141095,101.401157613535" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="103.285714141095,156" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 21]"
+          TopLeft="640.5,766"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-154.047619192238,150.5"
+              Start="0,0"
+              End="-154.047619192238,143"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,85.6567230632235" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,85.6567230632235"
+                    Point2="0,89.6567230632235"
+                    Point3="-4,89.6567230632235" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-150.047619192238,89.6567230632235" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="-150.047619192238,89.6567230632235"
+                    Point2="-154.047619192238,89.6567230632235"
+                    Point3="-154.047619192238,93.6567230632235" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-154.047619192238,143" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/Package&gt;
@@ -1739,20 +1821,7 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
   &lt;PipelineComponentMetadata
-    design-time-name="Package\Populate Raw Tables (Clarity)\clarity_server-clarity-dashboard-run-data"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Populate Raw Tables (Clarity)\Dashboard Run Data"&gt;
+    design-time-name="Package\Populate Raw Tables (Clarity)\RW_RPT_RUN_DATA"&gt;
     &lt;Properties&gt;
       &lt;Property&gt;
         &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
@@ -1773,7 +1842,20 @@ inner join [raw].[tableau-users] u on u.UserID=r.UserID</property>
     &lt;/Properties&gt;
   &lt;/PipelineComponentMetadata&gt;
   &lt;PipelineComponentMetadata
-    design-time-name="Package\Populate Raw Tables (Clarity)\RW_RPT_RUN_DATA"&gt;
+    design-time-name="Package\Populate Raw Tables (Clarity)\clarity_server-clarity-dashboard-run-data"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Populate Raw Tables (Clarity)\Dashboard Run Data"&gt;
     &lt;Properties&gt;
       &lt;Property&gt;
         &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
