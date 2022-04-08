@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS1"
   DTS:PackageType="5"
-  DTS:VersionBuild="20"
-  DTS:VersionGUID="{50FDD394-9C0F-4274-BBA6-848D7E553012}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{74146F8E-F817-49D6-BCFA-0177F8CE8D0F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3360,7 +3360,7 @@ left outer join
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
-          SQLTask:SqlStatementSource="insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,subscriptionto)&#xA;   &#xA; (SELECT [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,LTRIM(RTRIM(s.Value)) SubscriptionTo&#xA; FROM [raw].[ssrs_database-reportserver-dbo-subscriptions] Subscriptions&#xA;   CROSS APPLY STRING_SPLIT(&#xA;        LEFT(&#xA;          REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;          CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;         ), ';') as s&#xA;&#xA; WHERE Subscriptions.ExtensionSettings LIKE '%;%' AND s.value IS NOT NULL and s.value != '') &#xA;&#xA;;&#xA;&#xA;&#xA;insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,subscriptionto) &#xA;  &#xA; (SELECT [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,REPLACE(LEFT(&#xA;      REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;      CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;      ), '&lt;ParameterValues&gt;&lt;ParameterValue&gt;&lt;Name&gt;PATH&lt;/Name&gt;&lt;Value&gt;', '')&#xA;&#xA; FROM [raw].[ssrs_database-reportserver-dbo-subscriptions] Subscriptions&#xA;&#xA; WHERE Subscriptions.ExtensionSettings NOT LIKE '%;%' &#xA;   and LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    )  not like '&lt;Parameter%')&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,subscriptionto)&#xA;   &#xA; (SELECT distinct [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,LTRIM(RTRIM(s.Value)) SubscriptionTo&#xA; FROM [raw].[ssrs_database-reportserver-dbo-subscriptions] Subscriptions&#xA;   CROSS APPLY STRING_SPLIT(&#xA;        LEFT(&#xA;          REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;          CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;         ), ';') as s&#xA;&#xA; WHERE Subscriptions.ExtensionSettings LIKE '%;%' AND s.value IS NOT NULL and s.value != '') &#xA;&#xA;;&#xA;&#xA;&#xA;insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,subscriptionto) &#xA;  &#xA; (SELECT distinct [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,REPLACE(LEFT(&#xA;      REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;      CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;      ), '&lt;ParameterValues&gt;&lt;ParameterValue&gt;&lt;Name&gt;PATH&lt;/Name&gt;&lt;Value&gt;', '')&#xA;&#xA; FROM [raw].[ssrs_database-reportserver-dbo-subscriptions] Subscriptions&#xA;&#xA; WHERE Subscriptions.ExtensionSettings NOT LIKE '%;%' &#xA;   and LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    )  not like '&lt;Parameter%')&#xA;&#xA;&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -3849,7 +3849,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="185,42"
           Id="Package\Create SSRS tables"
@@ -3879,7 +3879,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="160.5,103">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,59"
               Start="0,0"
               End="0,51.5">
@@ -3901,7 +3901,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="163.5,204">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,61"
               Start="0,0"
               End="0,53.5">
@@ -3923,7 +3923,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="167.5,307">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,59"
               Start="0,0"
               End="0,51.5">
@@ -3945,7 +3945,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="171.25,408">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,60"
               Start="0,0"
               End="0,52.5">
@@ -3967,7 +3967,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="174.25,510">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,54"
               Start="0,0"
               End="0,46.5">
@@ -4165,7 +4165,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
     design-time-name="Package\Stage SSRS Server 1 Queries">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="203,42"
           Id="Package\Stage SSRS Server 1 Queries\ReportObjectQueryStaging"
@@ -4179,7 +4179,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
           TopLeft="364.8,224.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,99.3999999999999"
               Start="0,0"
               End="0,91.8999999999999">
@@ -4193,7 +4193,9 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

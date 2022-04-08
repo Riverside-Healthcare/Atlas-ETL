@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS2"
   DTS:PackageType="5"
-  DTS:VersionBuild="21"
-  DTS:VersionGUID="{B15FA689-E53F-414C-B6EF-512E0C115D96}">
+  DTS:VersionBuild="22"
+  DTS:VersionGUID="{7E6C6D91-4062-4424-9C2A-D26917C9ABDD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3373,7 +3373,7 @@ left outer join
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
-          SQLTask:SqlStatementSource="insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,SubscriptionTo)&#xA;  &#xA; (SELECT [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,LTRIM(RTRIM(s.Value)) SubscriptionTo&#xA; FROM [raw].[clarity_server-reportserver-dbo-subscriptions] Subscriptions&#xA;   CROSS APPLY STRING_SPLIT(&#xA;        LEFT(&#xA;          REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;         ), ';') as s&#xA;&#xA; WHERE Subscriptions.ExtensionSettings LIKE '%;%' &#xA; AND s.value IS NOT NULL and s.value != '')&#xA;;&#xA;&#xA; /**************Reports that dont go to multiple people, or go to a path********************/&#xA;&#xA;insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,subscriptionto)&#xA;&#xA; (SELECT [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,REPLACE(LEFT(&#xA;      REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;      ), '&lt;ParameterValues&gt;&lt;ParameterValue&gt;&lt;Name&gt;PATH&lt;/Name&gt;&lt;Value&gt;', '')&#xA;&#xA; FROM [raw].[clarity_server-reportserver-dbo-subscriptions] Subscriptions&#xA;&#xA; WHERE Subscriptions.ExtensionSettings NOT LIKE '%;%'&#xA;  and LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    )  not like '&lt;Parameter%')&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,SubscriptionTo)&#xA;  &#xA; (SELECT distinct [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,LTRIM(RTRIM(s.Value)) SubscriptionTo&#xA; FROM [raw].[clarity_server-reportserver-dbo-subscriptions] Subscriptions&#xA;   CROSS APPLY STRING_SPLIT(&#xA;        LEFT(&#xA;          REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;         ), ';') as s&#xA;&#xA; WHERE Subscriptions.ExtensionSettings LIKE '%;%' &#xA; AND s.value IS NOT NULL and s.value != '')&#xA;;&#xA;&#xA; /**************Reports that dont go to multiple people, or go to a path********************/&#xA;&#xA;insert  into [stage].[ReportObjectSubscriptions]&#xA;&#xA; (SubscriptionId, ReportObjectId, InactiveFlags,EmailList,[Description],laststatus,LastRunTime,subscriptionto)&#xA;&#xA; (SELECT distinct [SubscriptionID]&#xA;    ,[Report_OID]&#xA;    ,[InactiveFlags]&#xA;&#xA;    ,LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    ) AS EmailList&#xA;    ,[Description]&#xA;    ,[LastStatus]&#xA;    ,[LastRunTime]&#xA;    ,REPLACE(LEFT(&#xA;      REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;      ), '&lt;ParameterValues&gt;&lt;ParameterValue&gt;&lt;Name&gt;PATH&lt;/Name&gt;&lt;Value&gt;', '')&#xA;&#xA; FROM [raw].[clarity_server-reportserver-dbo-subscriptions] Subscriptions&#xA;&#xA; WHERE Subscriptions.ExtensionSettings NOT LIKE '%;%'&#xA;  and LEFT(&#xA;     REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), &#xA;     CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1&#xA;    )  not like '&lt;Parameter%')&#xA;&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -3861,7 +3861,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="186,42"
           Id="Package\Create SSRS 2 tables"
@@ -3891,7 +3891,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           TopLeft="159.5,102">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,63"
               Start="0,0"
               End="0,55.5">
@@ -3913,7 +3913,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           TopLeft="164,207">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,60"
               Start="0,0"
               End="0,52.5">
@@ -3935,7 +3935,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           TopLeft="168.25,309">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,57"
               Start="0,0"
               End="0,49.5">
@@ -3957,7 +3957,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           TopLeft="169.25,408">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,60"
               Start="0,0"
               End="0,52.5">
@@ -3979,7 +3979,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           TopLeft="171,510">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,57"
               Start="0,0"
               End="0,49.5">
@@ -4187,7 +4187,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
     design-time-name="Package\Stage SSRS 2">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="171,42"
           Id="Package\Stage SSRS 2\Report Server Two"
@@ -4215,7 +4215,9 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -4233,7 +4235,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
     design-time-name="Package\Stage SSRS Server 2 Queries">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="203,42"
           Id="Package\Stage SSRS Server 2 Queries\ReportObjectQueryStaging"
@@ -4247,7 +4249,7 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
           TopLeft="305.5,160.1">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-20.4,117.4"
               Start="0,0"
               End="-20.4,109.9">
@@ -4273,7 +4275,9 @@ inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID<
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

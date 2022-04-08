@@ -11,11 +11,23 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSAS"
   DTS:PackageType="5"
-  DTS:VersionBuild="183"
-  DTS:VersionGUID="{D9A1B7BC-09CF-47CB-9E33-48DD20BB54F7}">
+  DTS:VersionBuild="193"
+  DTS:VersionGUID="{F99F0D0C-6CBF-4BD8-BD83-EC81522B317D}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Dynamic ADO]"
+      DTS:CreationName="ADO.NET:OLEDB"
+      DTS:DTSID="{578FE337-C008-4167-B973-52F7BF4818F6}"
+      DTS:ObjectName="Dynamic ADO">
+      <DTS:PropertyExpression
+        DTS:Name="InitialCatalog">@[User::Cube]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=slicerdicer_server\cobalt;Initial Catalog=;Provider=MSOLAP.8;Integrated Security=SSPI;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
     <DTS:ConnectionManager
       DTS:refId="Package.ConnectionManagers[Dynamic Conn]"
       DTS:CreationName="OLEDB"
@@ -48,159 +60,6 @@
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Data Source=slicerdicer_server\cobalt;Provider=MSOLAP.7;Integrated Security=SSPI;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[slicerdicer_server\cobalt 1]"
-      DTS:CreationName="ADO.NET:OLEDB"
-      DTS:DTSID="{578FE337-C008-4167-B973-52F7BF4818F6}"
-      DTS:ObjectName="slicerdicer_server\cobalt 1">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=slicerdicer_server\cobalt;Provider=MSOLAP.8;Integrated Security=SSPI;" />
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Flat File Connection Manager]"
-      DTS:CreationName="FLATFILE"
-      DTS:DTSID="{F18746C7-EF50-40AF-95ED-E759980F226B}"
-      DTS:ObjectName="Flat File Connection Manager">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:Format="Delimited"
-          DTS:LocaleID="1033"
-          DTS:HeaderRowDelimiter="_x000D__x000A_"
-          DTS:RowDelimiter=""
-          DTS:TextQualifier="_x003C_none_x003E_"
-          DTS:CodePage="1252"
-          DTS:ConnectionString="C:\Users\Sean-Pickering\Desktop\testing cubes.txt">
-          <DTS:FlatFileColumns>
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="21"
-              DTS:TextQualified="True"
-              DTS:ObjectName="ID"
-              DTS:DTSID="{89E51EA8-31EA-4167-B524-0B173DD89ACD}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="21"
-              DTS:TextQualified="True"
-              DTS:ObjectName="TableID"
-              DTS:DTSID="{9C4985F8-FC3E-4AB7-86BA-93BDEBF74484}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="255"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Name"
-              DTS:DTSID="{5BCBA864-9F38-4A22-9B0E-2E4D937E358E}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="255"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Description"
-              DTS:DTSID="{9A5767EF-0BAC-4D23-AA27-322F2158C6EB}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="21"
-              DTS:TextQualified="True"
-              DTS:ObjectName="DataSourceID"
-              DTS:DTSID="{F148EAA7-C56A-4E46-98F4-13F771D36407}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:MaximumWidth="255"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="QueryDefinition"
-              DTS:DTSID="{6A9402E7-AB83-4848-9AB7-333E48E1441E}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="20"
-              DTS:TextQualified="True"
-              DTS:ObjectName="State"
-              DTS:DTSID="{7E9C4C25-06C0-43E9-9BEA-1B97C40E8EA5}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="20"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Type"
-              DTS:DTSID="{108385C6-C0F6-4304-9835-945DE1613B19}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="21"
-              DTS:TextQualified="True"
-              DTS:ObjectName="PartitionStorageID"
-              DTS:DTSID="{E83383EA-F46B-4E46-97D9-14F11D382447}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="20"
-              DTS:TextQualified="True"
-              DTS:ObjectName="Mode"
-              DTS:DTSID="{14610CF3-C185-4C76-966F-A35C006D5CEB}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="20"
-              DTS:TextQualified="True"
-              DTS:ObjectName="DataView"
-              DTS:DTSID="{AD8D2011-9BC8-4EDD-BD06-109FD708AEEE}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="7"
-              DTS:TextQualified="True"
-              DTS:ObjectName="ModifiedTime"
-              DTS:DTSID="{29AE7513-8B58-459F-AABD-510CE1577CAB}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="7"
-              DTS:TextQualified="True"
-              DTS:ObjectName="RefreshedTime"
-              DTS:DTSID="{460A6DAB-4F39-43BE-B5A2-9836FEC71F3F}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x002C_"
-              DTS:DataType="20"
-              DTS:TextQualified="True"
-              DTS:ObjectName="SystemFlags"
-              DTS:DTSID="{0CF76CB3-5043-4CFD-BB83-B57E5E0A655A}"
-              DTS:CreationName="" />
-            <DTS:FlatFileColumn
-              DTS:ColumnType="Delimited"
-              DTS:ColumnDelimiter="_x000D__x000A_"
-              DTS:MaximumWidth="255"
-              DTS:DataType="130"
-              DTS:TextQualified="True"
-              DTS:ObjectName="ErrorMessage"
-              DTS:DTSID="{7BD17B9D-C952-42F6-9174-A7AACF56D02D}"
-              DTS:CreationName="" />
-          </DTS:FlatFileColumns>
-        </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
@@ -291,7 +150,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{415E0522-39F3-419D-BC8F-D8C2FEF4859C}"
-          SQLTask:SqlStatementSource="DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-cubes]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-cubes](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Description] [nvarchar](max) NULL,&#xA;&#x9;[Role] [nvarchar](max) NULL,&#xA;&#x9;[Date_modified] [datetime2] NULL,&#xA;&#x9;[Type] [int] NULL,&#xA;&#x9;[Date_queried] [datetime2](7) NULL,&#xA;&#x9;[Database_ID] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-measures]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-measures](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Measure_Name] [nvarchar](max) NULL,&#xA;&#x9;[Expression] [nvarchar](max) NULL,&#xA;&#x9;[IsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-dimensions]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-dimensions](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Dimension_Name] [nvarchar](max) NULL,&#xA;&#x9;[Hierarchy_Name] [nvarchar](max) NULL,&#xA;&#x9;[DimensionIsVisible] [nvarchar](max) NULL,&#xA;&#x9;[HierarchyIsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;drop table if exists [raw].[slicerdicer_server-cube_partitions]&#xA;go&#xA;create table  [raw].[slicerdicer_server-cube_partitions](&#xA;Dimension_Name [nvarchar](max) NULL,&#xA;Query [ntext] NULL&#xA;)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-cubes]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-cubes](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Description] [nvarchar](max) NULL,&#xA;&#x9;[Role] [nvarchar](max) NULL,&#xA;&#x9;[Date_modified] [datetime2] NULL,&#xA;&#x9;[Type] [int] NULL,&#xA;&#x9;[Date_queried] [datetime2](7) NULL,&#xA;&#x9;[Database_ID] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-measures]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-measures](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Measure_Name] [nvarchar](max) NULL,&#xA;&#x9;[Expression] [nvarchar](max) NULL,&#xA;&#x9;[IsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;DROP TABLE IF EXISTS [raw].[slicerdicer_server-cobalt-dbo-dimensions]&#xA;GO&#xA;SET ANSI_NULLS ON&#xA;GO&#xA;SET QUOTED_IDENTIFIER ON&#xA;GO&#xA;CREATE TABLE [raw].[slicerdicer_server-cobalt-dbo-dimensions](&#xA;&#x9;[Catalog_Name] [nvarchar](max) NULL,&#xA;&#x9;[Cube_Name] [nvarchar](max) NULL,&#xA;&#x9;[Dimension_Name] [nvarchar](max) NULL,&#xA;&#x9;[Hierarchy_Name] [nvarchar](max) NULL,&#xA;&#x9;[DimensionIsVisible] [nvarchar](max) NULL,&#xA;&#x9;[HierarchyIsVisible] [nvarchar](max) NULL&#xA;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#xA;GO&#xA;;&#xA;drop table if exists [raw].[slicerdicer_server-cube_partitions]&#xA;go&#xA;create table  [raw].[slicerdicer_server-cube_partitions](&#xA;Dimension_Name [nvarchar](max) NULL,&#xA;Query [ntext] NULL,&#xA;Cube_Name [ntext] NULL&#xA;)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -809,6 +668,213 @@
               defaultBufferSize="104857600"
               version="1">
               <components>
+                <component
+                  refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+                  name="ADO NET Source"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement used by the component to extract data."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select  '' as Cube_name,[Name] as Dimension_Name,
+[QueryDefinition] as Query from $SYSTEM.TMSCHEMA_PARTITIONS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">30</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                      name="AllowImplicitStringConversion">true</property>
+                    <property
+                      dataType="System.String"
+                      description="The Source database table name."
+                      expressionType="Notify"
+                      name="TableOrViewName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specify the mode to retrieve external column information"
+                      name="AccessMode"
+                      typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Connections[IDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[Dynamic ADO]"
+                      connectionManagerRefId="Package.ConnectionManagers[Dynamic ADO]"
+                      description="Managed connection manager"
+                      name="IDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output]"
+                      name="ADO NET Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Cube_name]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Cube_name]"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Cube_name]"
+                          name="Cube_name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Dimension_Name]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Dimension_Name]"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Dimension_Name]"
+                          name="Dimension_Name"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Query]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Query]"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Query]"
+                          name="Query"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Cube_name]"
+                          dataType="nText"
+                          name="Cube_name" />
+                        <externalMetadataColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Dimension_Name]"
+                          dataType="nText"
+                          name="Dimension_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[Query]"
+                          dataType="nText"
+                          name="Query" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output]"
+                      isErrorOut="true"
+                      name="ADO NET Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Cube_name]"
+                          dataType="nText"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Cube_name]"
+                          name="Cube_name" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Dimension_Name]"
+                          dataType="nText"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Dimension_Name]"
+                          name="Dimension_Name" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Query]"
+                          dataType="nText"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[Query]"
+                          name="Query" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Derived Column"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Inputs[Derived Column Input].Columns[Cube_name]"
+                          cachedDataType="nText"
+                          cachedName="Cube_name"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Cube_name]"
+                          truncationRowDisposition="FailComponent"
+                          usageType="readWrite">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[User::Cube]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[User::Cube]</property>
+                          </properties>
+                        </inputColumn>
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Inputs[Derived Column Input]">
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
                 <component
                   refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Dimensions"
                   componentClassID="Microsoft.OLEDBSource"
@@ -1349,6 +1415,140 @@ where [HIERARCHY_NAME]&lt;&gt;'Measures'</property>
                   </outputs>
                 </component>
                 <component
+                  refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="slicerdicer_server-cube_partitions"
+                  usesDispositions="true"
+                  validateExternalMetadata="False"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[raw].[slicerdicer_server-cube_partitions]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                      connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].Columns[Dimension_Name]"
+                          cachedDataType="nText"
+                          cachedName="Dimension_Name"
+                          externalMetadataColumnId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].ExternalColumns[Dimension_Name]"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Dimension_Name]" />
+                        <inputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].Columns[Query]"
+                          cachedDataType="nText"
+                          cachedName="Query"
+                          externalMetadataColumnId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Query]" />
+                        <inputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].Columns[Cube_name]"
+                          cachedDataType="nText"
+                          cachedName="Cube_name"
+                          externalMetadataColumnId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].ExternalColumns[Cube_name]"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output].Columns[Cube_name]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].ExternalColumns[Dimension_Name]"
+                          dataType="nText"
+                          name="Dimension_Name" />
+                        <externalMetadataColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
+                          dataType="nText"
+                          name="Query" />
+                        <externalMetadataColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input].ExternalColumns[Cube_name]"
+                          dataType="nText"
+                          name="Cube_name" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
                   refId="Package\Measures and Dimensions\Populate Measures and Dimensions\Measures"
                   componentClassID="Microsoft.OLEDBSource"
                   contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
@@ -1565,6 +1765,16 @@ where [HIERARCHY_NAME]&lt;&gt;'Measures'</property>
               </components>
               <paths>
                 <path
+                  refId="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[ADO NET Source Output]"
+                  endId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Inputs[Derived Column Input]"
+                  name="ADO NET Source Output"
+                  startId="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source.Outputs[ADO NET Source Output]" />
+                <path
+                  refId="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[Derived Column Output]"
+                  endId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column.Outputs[Derived Column Output]" />
+                <path
                   refId="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[OLE DB Source Output]"
                   endId="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures.Inputs[OLE DB Destination Input]"
                   name="OLE DB Source Output"
@@ -1750,6 +1960,161 @@ where [HIERARCHY_NAME]&lt;&gt;'Measures'</property>
                       refId="Package\Stage Cubes\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\Stage Cubes\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Stage Cubes\ReportObjectQueryStaging 1"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ReportObjectQueryStaging 1"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stage].[ReportObjectQueryStaging]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].Columns[BizKey]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="BizKey"
+                      externalMetadataColumnId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[BizKey]" />
+                    <inputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].Columns[Query]"
+                      cachedDataType="nText"
+                      cachedName="Query"
+                      externalMetadataColumnId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Query]" />
+                    <inputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].Columns[LastLoadDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LastLoadDate"
+                      externalMetadataColumnId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[LastLoadDate]" />
+                    <inputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="4"
+                      cachedName="Language"
+                      externalMetadataColumnId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Language]" />
+                    <inputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].Columns[Name]"
+                      cachedDataType="nText"
+                      cachedName="Name"
+                      externalMetadataColumnId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Name]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]"
+                      dataType="nText"
+                      name="BizKey" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
+                      dataType="nText"
+                      name="Query" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Stage Cubes\ReportObjectQueryStaging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\ReportObjectQueryStaging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Stage Cubes\ReportObjectQueryStaging 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -2748,6 +3113,206 @@ where m.Expression&lt;&gt;'1'</property>
                 </output>
               </outputs>
             </component>
+            <component
+              refId="Package\Stage Cubes\Stage Partitions"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Stage Partitions"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select
+concat(
+N'slicerdicer_server\cobalt','||'
+, N'SSAS'
+,   '||'
+,  N'SSAS Cubes'
+,   '||'
+,CONVERT(NVARCHAR(50), HashBytes('MD5', c.Database_ID), 2)
+,   '||'
+,   '||'
+) as BizKey
+,p.Query as Query
+,p.Dimension_Name as Name
+,getdate() as LastLoadDate
+, N'Text' as Language
+from raw.[slicerdicer_server-cube_partitions] p
+inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.Cube_Name as nvarchar(max))</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Stage Cubes\Stage Partitions.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[BizKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[BizKey]"
+                      length="500"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[BizKey]"
+                      name="BizKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Query]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[Query]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Query]"
+                      name="Query"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
+                      name="LastLoadDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Language]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      length="4"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Language]"
+                      name="Language"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Name]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].Columns[Name]"
+                      name="Name"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[BizKey]"
+                      dataType="wstr"
+                      length="91"
+                      name="BizKey" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[Query]"
+                      dataType="nText"
+                      name="Query" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      dataType="wstr"
+                      length="4"
+                      name="Language" />
+                    <externalMetadataColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      dataType="nText"
+                      name="Name" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[BizKey]"
+                      dataType="wstr"
+                      length="91"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[BizKey]"
+                      name="BizKey" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[Query]"
+                      dataType="nText"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[Query]"
+                      name="Query" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      dataType="nText"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      name="Name" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
+                      name="LastLoadDate" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      dataType="wstr"
+                      length="4"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      name="Language" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
           </components>
           <paths>
             <path
@@ -2760,6 +3325,11 @@ where m.Expression&lt;&gt;'1'</property>
               endId="Package\Stage Cubes\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]"
               name="OLE DB Source Output"
               startId="Package\Stage Cubes\Stage measures.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Stage Cubes.Paths[OLE DB Source Output2]"
+              endId="Package\Stage Cubes\ReportObjectQueryStaging 1.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Stage Cubes\Stage Partitions.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -2834,12 +3404,12 @@ where m.Expression&lt;&gt;'1'</property>
         <NodeLayout
           Size="255,42"
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions"
-          TopLeft="22.5,72.5" />
+          TopLeft="24.5,36.5" />
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="302,166"
-          Size="302,209"
+          PanelSize="302,212"
+          Size="302,254"
           Id="Package\Measures and Dimensions"
           TopLeft="425.5,276.5" />
         <NodeLayout
@@ -2972,30 +3542,30 @@ where m.Expression&lt;&gt;'1'</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="576.5,485.5">
+          TopLeft="576.5,530.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{x:Null}"
-              EndConnector="-182.666666666667,216"
+              EndConnector="-182.666666666667,171"
               Start="0,0"
-              End="-182.666666666667,208.5">
+              End="-182.666666666667,163.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,124.155988857939" />
+                    End="0,97.4568245125348" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,124.155988857939"
-                    Point2="0,128.155988857939"
-                    Point3="-4,128.155988857939" />
+                    Point1="0,97.4568245125348"
+                    Point2="0,101.456824512535"
+                    Point3="-4,101.456824512535" />
                   <mssgle:LineSegment
-                    End="-178.666666666667,128.155988857939" />
+                    End="-178.666666666667,101.456824512535" />
                   <mssgle:CubicBezierSegment
-                    Point1="-178.666666666667,128.155988857939"
-                    Point2="-182.666666666667,128.155988857939"
-                    Point3="-182.666666666667,132.155988857939" />
+                    Point1="-178.666666666667,101.456824512535"
+                    Point2="-182.666666666667,101.456824512535"
+                    Point3="-182.666666666667,105.456824512535" />
                   <mssgle:LineSegment
-                    End="-182.666666666667,208.5" />
+                    End="-182.666666666667,163.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -3070,7 +3640,7 @@ where m.Expression&lt;&gt;'1'</property>
     design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="248,42"
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures"
@@ -3155,6 +3725,74 @@ where m.Expression&lt;&gt;'1'</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions"
+          TopLeft="472,570" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source"
+          TopLeft="504.5,364.5" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column"
+          TopLeft="497.5,466.5" />
+        <EdgeLayout
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[ADO NET Source Output]"
+          TopLeft="587.5,406.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-11,60"
+              Start="0,0"
+              End="-11,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-7,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-7,30"
+                    Point2="-11,30"
+                    Point3="-11,34" />
+                  <mssgle:LineSegment
+                    End="-11,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[Derived Column Output]"
+          TopLeft="579.25,508.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,61.5"
+              Start="0,0"
+              End="0,54">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
@@ -3204,7 +3842,7 @@ where m.Expression&lt;&gt;'1'</property>
     design-time-name="Package\Stage Cubes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="140,42"
           Id="Package\Stage Cubes\Stage cubes"
@@ -3240,9 +3878,7 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -3264,9 +3900,49 @@ where m.Expression&lt;&gt;'1'</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Stage Cubes\Stage Partitions"
+          TopLeft="132,357.5" />
+        <NodeLayout
+          Size="211,42"
+          Id="Package\Stage Cubes\ReportObjectQueryStaging 1"
+          TopLeft="113.5,505" />
+        <EdgeLayout
+          Id="Package\Stage Cubes.Paths[OLE DB Source Output2]"
+          TopLeft="210.5,399.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="8.5,105.5"
+              Start="0,0"
+              End="8.5,98">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,48.75"
+                    Point2="0,52.75"
+                    Point3="4,52.75" />
+                  <mssgle:LineSegment
+                    End="4.5,52.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="4.5,52.75"
+                    Point2="8.5,52.75"
+                    Point3="8.5,56.75" />
+                  <mssgle:LineSegment
+                    End="8.5,98" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3303,6 +3979,48 @@ where m.Expression&lt;&gt;'1'</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Stage Cubes\ReportObjectStaging">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage Cubes\Stage Partitions">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage Cubes\ReportObjectQueryStaging 1">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
