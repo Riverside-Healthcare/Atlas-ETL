@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-Tableau"
   DTS:PackageType="5"
-  DTS:VersionBuild="16"
-  DTS:VersionGUID="{FCF78B91-4E7D-4B37-AEC0-372DD0A9893B}">
+  DTS:VersionBuild="18"
+  DTS:VersionGUID="{DBF8180E-419F-44D4-84C1-3C69E7CD4DC0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -63,14 +63,14 @@
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Stage Tableau"
+      DTS:refId="Package\Stage"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:DelayValidation="True"
       DTS:Description="Data Flow Task"
       DTS:DTSID="{6b5aa7e1-023e-4afa-b2ab-60b70ec27190}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Stage Tableau"
+      DTS:ObjectName="Stage"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
       <DTS:ObjectData>
@@ -78,7 +78,314 @@
           version="1">
           <components>
             <component
-              refId="Package\Stage Tableau\ReportObjectHierarchyStaging"
+              refId="Package\Stage\Groups"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Groups"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select groupname, username  from  raw.[tableau-groups] s
+inner join raw.[tableau-users] u on s.UserID = u.UserID
+and groupname is not null</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Stage\Groups.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Stage\Groups.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Output].Columns[groupname]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Groups.Outputs[OLE DB Source Output].ExternalColumns[groupname]"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Output].Columns[groupname]"
+                      name="groupname"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Output].Columns[username]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Groups.Outputs[OLE DB Source Output].ExternalColumns[username]"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Output].Columns[username]"
+                      name="username"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Output].ExternalColumns[groupname]"
+                      dataType="nText"
+                      name="groupname" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Output].ExternalColumns[username]"
+                      dataType="nText"
+                      name="username" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Stage\Groups.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[groupname]"
+                      dataType="nText"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[groupname]"
+                      name="groupname" />
+                    <outputColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[username]"
+                      dataType="nText"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[username]"
+                      name="username" />
+                    <outputColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Stage\Queries"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Queries"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select
+concat(
+N'eptblp01','||'
+, N'tableau'
+,   '||'
+,  N'Tableau Workbook'
+,   '||'
+,   '||'
+,   '||'
+, r.id
+) as BizKey
+,q.query as Query
+,getdate() as LastLoadDate
+, N'SQL' as Language
+from [raw].[tableau-queries] q
+inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping">"Parameter0:Input",{ADCB400A-FFDB-493F-884E-FE18EB972780};"Parameter1:Input",{ADCB400A-FFDB-493F-884E-FE18EB972780};</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Stage\Queries.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Stage\Queries.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[BizKey]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[BizKey]"
+                      length="200"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[BizKey]"
+                      name="BizKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[Query]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[Query]"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[Query]"
+                      name="Query"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
+                      name="LastLoadDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[Language]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      length="3"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[Language]"
+                      name="Language"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[BizKey]"
+                      dataType="wstr"
+                      length="53"
+                      name="BizKey" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[Query]"
+                      dataType="nText"
+                      name="Query" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      name="Language" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[BizKey]"
+                      dataType="wstr"
+                      length="53"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[BizKey]"
+                      name="BizKey" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[Query]"
+                      dataType="nText"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[Query]"
+                      name="Query" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
+                      name="LastLoadDate" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[Language]"
+                      name="Language" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Stage\ReportObjectHierarchyStaging"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -135,7 +442,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Connections[OleDbConnection]"
+                  refId="Package\Stage\ReportObjectHierarchyStaging.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
@@ -143,47 +450,47 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input]"
+                  refId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].Columns[ParentReportObjectBizKey]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].Columns[ParentReportObjectBizKey]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="ParentReportObjectBizKey"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ParentReportObjectBizKey]"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ParentReportObjectBizKey]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ParentReportObjectBizKey]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ParentReportObjectBizKey]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].Columns[ChildReportObjectBizKey]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].Columns[ChildReportObjectBizKey]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="ChildReportObjectBizKey"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ChildReportObjectBizKey]"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ChildReportObjectBizKey]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ChildReportObjectBizKey]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ChildReportObjectBizKey]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].Columns[line]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].Columns[line]"
                       cachedDataType="i4"
                       cachedName="line"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[Line]"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[line]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[Line]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[line]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ParentReportObjectBizKey]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ParentReportObjectBizKey]"
                       dataType="wstr"
                       length="255"
                       name="ParentReportObjectBizKey" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ChildReportObjectBizKey]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[ChildReportObjectBizKey]"
                       dataType="wstr"
                       length="255"
                       name="ChildReportObjectBizKey" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[Line]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input].ExternalColumns[Line]"
                       dataType="i4"
                       name="Line" />
                   </externalMetadataColumns>
@@ -191,22 +498,22 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Stage\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Stage\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Stage Tableau\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Stage\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Stage\ReportObjectHierarchyStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -215,7 +522,152 @@
               </outputs>
             </component>
             <component
-              refId="Package\Stage Tableau\ReportObjectStaging 5"
+              refId="Package\Stage\ReportObjectQueryStaging"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ReportObjectQueryStaging"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stage].[ReportObjectQueryStaging]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Stage\ReportObjectQueryStaging.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[BizKey]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="BizKey"
+                      externalMetadataColumnId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[BizKey]" />
+                    <inputColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Query]"
+                      cachedDataType="nText"
+                      cachedName="Query"
+                      externalMetadataColumnId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[Query]" />
+                    <inputColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[LastLoadDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LastLoadDate"
+                      externalMetadataColumnId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[LastLoadDate]" />
+                    <inputColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Language]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="Language"
+                      externalMetadataColumnId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      lineageId="Package\Stage\Queries.Outputs[OLE DB Source Output].Columns[Language]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]"
+                      dataType="nText"
+                      name="BizKey" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
+                      dataType="nText"
+                      name="Query" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
+                      dataType="nText"
+                      name="Language" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Stage\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Stage\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Stage\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Stage\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Stage\ReportObjectStaging 5"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
@@ -272,7 +724,7 @@
               </properties>
               <connections>
                 <connection
-                  refId="Package\Stage Tableau\ReportObjectStaging 5.Connections[OleDbConnection]"
+                  refId="Package\Stage\ReportObjectStaging 5.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
@@ -280,194 +732,194 @@
               </connections>
               <inputs>
                 <input
-                  refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input]"
+                  refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[SourceServer]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[SourceServer]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="SourceServer"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceServer]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceServer]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[SourceDB]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[SourceDB]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="SourceDB"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceDB]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceDB]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[SourceTable]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[SourceTable]"
                       cachedDataType="wstr"
                       cachedLength="255"
                       cachedName="SourceTable"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceTable]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceTable]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[Name]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[Name]"
                       cachedDataType="nText"
                       cachedName="Name"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Name]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Name]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[Description]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[Description]"
                       cachedDataType="nText"
                       cachedName="Description"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Description]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Description]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[DetailedDescription]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[DetailedDescription]"
                       cachedDataType="i4"
                       cachedName="DetailedDescription"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[DetailedDescription]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[DetailedDescription]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[ReportObjectType]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[ReportObjectType]"
                       cachedDataType="wstr"
                       cachedLength="261"
                       cachedName="ReportObjectType"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectType]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectType]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[Author]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[Author]"
                       cachedDataType="wstr"
                       cachedLength="322"
                       cachedName="Author"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Author]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Author]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Author]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Author]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[LastModifiedBy]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[LastModifiedBy]"
                       cachedDataType="wstr"
                       cachedLength="322"
                       cachedName="LastModifiedBy"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedBy]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedBy]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[LastModifiedDate]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[LastModifiedDate]"
                       cachedDataType="dbTimeStamp"
                       cachedName="LastModifiedDate"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedDate]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedDate]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[ReportObjectURL]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[ReportObjectURL]"
                       cachedDataType="wstr"
                       cachedLength="4000"
                       cachedName="ReportObjectURL"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectURL]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectURL]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[EpicMasterFile]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[EpicMasterFile]"
                       cachedDataType="wstr"
                       cachedLength="3"
                       cachedName="EpicMasterFile"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[EpicMasterFile]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[EpicMasterFile]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[EpicRecordID]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[EpicRecordID]"
                       cachedDataType="numeric"
                       cachedName="EpicRecordID"
                       cachedPrecision="18"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[EpicRecordID]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[EpicRecordID]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[ReportServerCatalogID]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[ReportServerCatalogID]"
                       cachedDataType="i4"
                       cachedName="ReportServerCatalogID"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportServerCatalogID]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportServerCatalogID]" />
                     <inputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[DefaultVisibilityYN]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].Columns[DefaultVisibilityYN]"
                       cachedDataType="wstr"
                       cachedLength="50"
                       cachedName="DefaultVisibilityYN"
-                      externalMetadataColumnId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[DefaultVisibilityYN]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[DefaultVisibilityYN]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]"
                       dataType="wstr"
                       length="255"
                       name="SourceServer" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]"
                       dataType="wstr"
                       length="255"
                       name="SourceDB" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]"
                       dataType="wstr"
                       length="255"
                       name="SourceTable" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Name]"
                       dataType="nText"
                       name="Name" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       dataType="nText"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]"
                       dataType="nText"
                       name="DetailedDescription" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]"
                       dataType="wstr"
                       length="255"
                       name="ReportObjectType" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Author]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[Author]"
                       dataType="nText"
                       name="Author" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]"
                       dataType="nText"
                       name="LastModifiedBy" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]"
                       dataType="dbTimeStamp"
                       name="LastModifiedDate" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]"
                       dataType="nText"
                       name="ReportObjectURL" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]"
                       dataType="wstr"
                       length="3"
                       name="EpicMasterFile" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]"
                       dataType="numeric"
                       name="EpicRecordID"
                       precision="18" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]"
                       dataType="wstr"
                       length="50"
                       name="ReportServerCatalogID" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]"
                       dataType="wstr"
                       length="1"
                       name="DefaultVisibilityYN" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicReportTemplateId]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[EpicReportTemplateId]"
                       dataType="numeric"
                       name="EpicReportTemplateId"
                       precision="18" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerPath]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerPath]"
                       dataType="nText"
                       name="ReportServerPath" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DisplayTitle]"
+                      refId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input].ExternalColumns[DisplayTitle]"
                       dataType="nText"
                       name="DisplayTitle" />
                   </externalMetadataColumns>
@@ -475,22 +927,22 @@
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Stage Tableau\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Stage\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Stage\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Stage\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Stage Tableau\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Stage\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Stage\ReportObjectStaging 5.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -499,7 +951,339 @@
               </outputs>
             </component>
             <component
-              refId="Package\Stage Tableau\Tableau"
+              refId="Package\Stage\ReportObjectUser"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ReportObjectUser"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stage].[ReportObjectUser]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Stage\ReportObjectUser.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].Columns[username]"
+                      cachedDataType="nText"
+                      cachedName="username"
+                      externalMetadataColumnId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Username]"
+                      lineageId="Package\Stage\Users.Outputs[OLE DB Source Output].Columns[username]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[UserID]"
+                      dataType="i4"
+                      name="UserID" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Username]"
+                      dataType="nText"
+                      name="Username" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[EmployeeID]"
+                      dataType="nText"
+                      name="EmployeeID" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[AccountName]"
+                      dataType="nText"
+                      name="AccountName" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[DisplayName]"
+                      dataType="nText"
+                      name="DisplayName" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[FullName]"
+                      dataType="nText"
+                      name="FullName" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[FirstName]"
+                      dataType="nText"
+                      name="FirstName" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[LastName]"
+                      dataType="nText"
+                      name="LastName" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Department]"
+                      dataType="nText"
+                      name="Department" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Title]"
+                      dataType="nText"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Phone]"
+                      dataType="nText"
+                      name="Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Email]"
+                      dataType="nText"
+                      name="Email" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Base]"
+                      dataType="nText"
+                      name="Base" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[EpicId]"
+                      dataType="nText"
+                      name="EpicId" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[LastLogin]"
+                      dataType="dbTimeStamp"
+                      name="LastLogin" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Fullname_calc]"
+                      dataType="nText"
+                      name="Fullname_calc" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input].ExternalColumns[Firstname_calc]"
+                      dataType="nText"
+                      name="Firstname_calc" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Stage\ReportObjectUser.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage\ReportObjectUser.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Stage\ReportObjectUser.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Stage\ReportObjectUser.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Stage\ReportObjectUser.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Stage\ReportObjectUserGroups"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="ReportObjectUserGroups"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[stage].[ReportObjectUserGroups]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Stage\ReportObjectUserGroups.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].Columns[groupname]"
+                      cachedDataType="nText"
+                      cachedName="groupname"
+                      externalMetadataColumnId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[GroupName]"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Output].Columns[groupname]" />
+                    <inputColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].Columns[username]"
+                      cachedDataType="nText"
+                      cachedName="username"
+                      externalMetadataColumnId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[Username]"
+                      lineageId="Package\Stage\Groups.Outputs[OLE DB Source Output].Columns[username]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[GroupId]"
+                      dataType="i4"
+                      name="GroupId" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[AccountName]"
+                      dataType="nText"
+                      name="AccountName" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[GroupName]"
+                      dataType="nText"
+                      name="GroupName" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[GroupEmail]"
+                      dataType="nText"
+                      name="GroupEmail" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[GroupType]"
+                      dataType="nText"
+                      name="GroupType" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[GroupSource]"
+                      dataType="nText"
+                      name="GroupSource" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
+                      dataType="dbTimeStamp"
+                      name="LastLoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[EpicId]"
+                      dataType="nText"
+                      name="EpicId" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input].ExternalColumns[Username]"
+                      dataType="nText"
+                      name="Username" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Stage\ReportObjectUserGroups.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Stage\ReportObjectUserGroups.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Stage\ReportObjectUserGroups.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Stage\ReportObjectUserGroups.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Stage\Tableau"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -566,7 +1350,7 @@ LEFT OUTER JOIN [raw].[tableau-users] users ON users.userid = report.ownerid</pr
               </properties>
               <connections>
                 <connection
-                  refId="Package\Stage Tableau\Tableau.Connections[OleDbConnection]"
+                  refId="Package\Stage\Tableau.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
@@ -574,161 +1358,161 @@ LEFT OUTER JOIN [raw].[tableau-users] users ON users.userid = report.ownerid</pr
               </connections>
               <outputs>
                 <output
-                  refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output]"
+                  refId="Package\Stage\Tableau.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceServer]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceServer]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceServer]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceServer]"
                       length="255"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceServer]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceServer]"
                       name="SourceServer"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceDB]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceDB]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceDB]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceDB]"
                       length="255"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceDB]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceDB]"
                       name="SourceDB"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceTable]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceTable]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceTable]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceTable]"
                       length="255"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[SourceTable]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[SourceTable]"
                       name="SourceTable"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Name]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Name]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Name]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Name]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Name]"
                       name="Name"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Description]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Description]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Description]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Description]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Description]"
                       name="Description"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[DetailedDescription]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[DetailedDescription]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DetailedDescription]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[DetailedDescription]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DetailedDescription]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[DetailedDescription]"
                       name="DetailedDescription"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectType]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectType]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectType]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectType]"
                       length="261"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectType]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectType]"
                       name="ReportObjectType"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Author]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Author]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Author]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Author]"
                       length="322"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[Author]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[Author]"
                       name="Author"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedBy]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedBy]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedBy]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedBy]"
                       length="322"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedBy]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedBy]"
                       name="LastModifiedBy"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedDate]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedDate]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedDate]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedDate]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedDate]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[LastModifiedDate]"
                       name="LastModifiedDate"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectURL]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectURL]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectURL]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectURL]"
                       length="4000"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectURL]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportObjectURL]"
                       name="ReportObjectURL"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[EpicMasterFile]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[EpicMasterFile]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicMasterFile]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicMasterFile]"
                       length="3"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[EpicMasterFile]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[EpicMasterFile]"
                       name="EpicMasterFile"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[EpicRecordID]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[EpicRecordID]"
                       dataType="numeric"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicRecordID]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[EpicRecordID]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicRecordID]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[EpicRecordID]"
                       name="EpicRecordID"
                       precision="18"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportServerCatalogID]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportServerCatalogID]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportServerCatalogID]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportServerCatalogID]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportServerCatalogID]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportServerCatalogID]"
                       name="ReportServerCatalogID"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[DefaultVisibilityYN]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[DefaultVisibilityYN]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DefaultVisibilityYN]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DefaultVisibilityYN]"
                       length="50"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[DefaultVisibilityYN]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[DefaultVisibilityYN]"
                       name="DefaultVisibilityYN"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportTemplateId]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportTemplateId]"
                       dataType="numeric"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportTemplateId]"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].Columns[ReportTemplateId]"
+                      externalMetadataColumnId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportTemplateId]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Output].Columns[ReportTemplateId]"
                       name="ReportTemplateId"
                       precision="18"
                       truncationRowDisposition="FailComponent" />
@@ -736,174 +1520,174 @@ LEFT OUTER JOIN [raw].[tableau-users] users ON users.userid = report.ownerid</pr
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceServer]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceServer]"
                       dataType="wstr"
                       length="8"
                       name="SourceServer" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceDB]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceDB]"
                       dataType="wstr"
                       length="7"
                       name="SourceDB" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceTable]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[SourceTable]"
                       dataType="wstr"
                       length="7"
                       name="SourceTable" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Name]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Name]"
                       dataType="nText"
                       name="Name" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Description]"
                       dataType="nText"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DetailedDescription]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DetailedDescription]"
                       dataType="i4"
                       name="DetailedDescription" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectType]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectType]"
                       dataType="nText"
                       name="ReportObjectType" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Author]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Author]"
                       dataType="nText"
                       name="Author" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedBy]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedBy]"
                       dataType="i4"
                       name="LastModifiedBy" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedDate]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastModifiedDate]"
                       dataType="dbTimeStamp"
                       name="LastModifiedDate" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectURL]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportObjectURL]"
                       dataType="nText"
                       name="ReportObjectURL" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicMasterFile]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicMasterFile]"
                       dataType="i4"
                       name="EpicMasterFile" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicRecordID]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[EpicRecordID]"
                       dataType="i4"
                       name="EpicRecordID" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportServerCatalogID]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportServerCatalogID]"
                       dataType="i4"
                       name="ReportServerCatalogID" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DefaultVisibilityYN]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[DefaultVisibilityYN]"
                       dataType="wstr"
                       length="1"
                       name="DefaultVisibilityYN" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportTemplateId]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Output].ExternalColumns[ReportTemplateId]"
                       dataType="i4"
                       name="ReportTemplateId" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceServer]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceServer]"
                       dataType="wstr"
                       length="8"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceServer]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceServer]"
                       name="SourceServer" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceDB]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceDB]"
                       dataType="wstr"
                       length="7"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceDB]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceDB]"
                       name="SourceDB" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceTable]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceTable]"
                       dataType="wstr"
                       length="7"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceTable]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[SourceTable]"
                       name="SourceTable" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[Name]"
                       dataType="nText"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[Name]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[Name]"
                       name="Name" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[Description]"
                       dataType="nText"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[Description]"
                       name="Description" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[DetailedDescription]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[DetailedDescription]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[DetailedDescription]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[DetailedDescription]"
                       name="DetailedDescription" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectType]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectType]"
                       dataType="nText"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectType]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectType]"
                       name="ReportObjectType" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[Author]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[Author]"
                       dataType="nText"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[Author]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[Author]"
                       name="Author" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedBy]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedBy]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedBy]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedBy]"
                       name="LastModifiedBy" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedDate]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedDate]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedDate]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[LastModifiedDate]"
                       name="LastModifiedDate" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectURL]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectURL]"
                       dataType="nText"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectURL]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportObjectURL]"
                       name="ReportObjectURL" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicMasterFile]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicMasterFile]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicMasterFile]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicMasterFile]"
                       name="EpicMasterFile" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicRecordID]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicRecordID]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicRecordID]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[EpicRecordID]"
                       name="EpicRecordID" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportServerCatalogID]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportServerCatalogID]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportServerCatalogID]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportServerCatalogID]"
                       name="ReportServerCatalogID" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[DefaultVisibilityYN]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[DefaultVisibilityYN]"
                       dataType="wstr"
                       length="1"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[DefaultVisibilityYN]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[DefaultVisibilityYN]"
                       name="DefaultVisibilityYN" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportTemplateId]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportTemplateId]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportTemplateId]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ReportTemplateId]"
                       name="ReportTemplateId" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Stage\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -912,7 +1696,7 @@ LEFT OUTER JOIN [raw].[tableau-users] users ON users.userid = report.ownerid</pr
               </outputs>
             </component>
             <component
-              refId="Package\Stage Tableau\Tableau Hierarchy"
+              refId="Package\Stage\Tableau Hierarchy"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
@@ -990,7 +1774,7 @@ inner join [raw].[tableau-reports] r on (CONCAT('Workbook',r.id)=h.ParentID and 
               </properties>
               <connections>
                 <connection
-                  refId="Package\Stage Tableau\Tableau Hierarchy.Connections[OleDbConnection]"
+                  refId="Package\Stage\Tableau Hierarchy.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
@@ -998,263 +1782,87 @@ inner join [raw].[tableau-reports] r on (CONCAT('Workbook',r.id)=h.ParentID and 
               </connections>
               <outputs>
                 <output
-                  refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output]"
+                  refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ParentReportObjectBizKey]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ParentReportObjectBizKey]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ParentReportObjectBizKey]"
+                      externalMetadataColumnId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ParentReportObjectBizKey]"
                       length="255"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ParentReportObjectBizKey]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ParentReportObjectBizKey]"
                       name="ParentReportObjectBizKey"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ChildReportObjectBizKey]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ChildReportObjectBizKey]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ChildReportObjectBizKey]"
+                      externalMetadataColumnId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ChildReportObjectBizKey]"
                       length="255"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ChildReportObjectBizKey]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[ChildReportObjectBizKey]"
                       name="ChildReportObjectBizKey"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[line]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[line]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[line]"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[line]"
+                      externalMetadataColumnId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[line]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].Columns[line]"
                       name="line"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ParentReportObjectBizKey]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ParentReportObjectBizKey]"
                       dataType="wstr"
                       length="53"
                       name="ParentReportObjectBizKey" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ChildReportObjectBizKey]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[ChildReportObjectBizKey]"
                       dataType="nText"
                       name="ChildReportObjectBizKey" />
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[line]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output].ExternalColumns[line]"
                       dataType="i4"
                       name="line" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ParentReportObjectBizKey]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ParentReportObjectBizKey]"
                       dataType="wstr"
                       length="53"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ParentReportObjectBizKey]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ParentReportObjectBizKey]"
                       name="ParentReportObjectBizKey" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ChildReportObjectBizKey]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ChildReportObjectBizKey]"
                       dataType="nText"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ChildReportObjectBizKey]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ChildReportObjectBizKey]"
                       name="ChildReportObjectBizKey" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[line]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[line]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[line]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[line]"
                       name="line" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-          </components>
-          <paths>
-            <path
-              refId="Package\Stage Tableau.Paths[OLE DB Source Output]"
-              endId="Package\Stage Tableau\ReportObjectStaging 5.Inputs[OLE DB Destination Input]"
-              name="OLE DB Source Output"
-              startId="Package\Stage Tableau\Tableau.Outputs[OLE DB Source Output]" />
-            <path
-              refId="Package\Stage Tableau.Paths[OLE DB Source Output1]"
-              endId="Package\Stage Tableau\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input]"
-              name="OLE DB Source Output"
-              startId="Package\Stage Tableau\Tableau Hierarchy.Outputs[OLE DB Source Output]" />
-          </paths>
-        </pipeline>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Stage Tableau Queries"
-      DTS:CreationName="Microsoft.Pipeline"
-      DTS:DelayValidation="True"
-      DTS:Description="Data Flow Task"
-      DTS:DTSID="{819acd01-812f-44b4-88ce-f0d2906e0fde}"
-      DTS:ExecutableType="Microsoft.Pipeline"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Stage Tableau Queries"
-      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\Stage Tableau Queries\ReportObjectQueryStaging"
-              componentClassID="Microsoft.OLEDBDestination"
-              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
-              description="OLE DB Destination"
-              name="ReportObjectQueryStaging"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.Int32"
-                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">0</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the name of the database object used to open a rowset."
-                  name="OpenRowset">[stage].[ReportObjectQueryStaging]</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies the variable that contains the name of the database object used to open a rowset."
-                  name="OpenRowsetVariable"></property>
-                <property
-                  dataType="System.String"
-                  description="The SQL command to be executed."
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the column code page to use when code page information is unavailable from the data source."
-                  name="DefaultCodePage">1252</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Forces the use of the DefaultCodePage property value when describing character data."
-                  name="AlwaysUseDefaultCodePage">false</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies the mode used to access the database."
-                  name="AccessMode"
-                  typeConverter="AccessMode">3</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepIdentity">false</property>
-                <property
-                  dataType="System.Boolean"
-                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
-                  name="FastLoadKeepNulls">false</property>
-                <property
-                  dataType="System.String"
-                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
-                <property
-                  dataType="System.Int32"
-                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
-                  name="FastLoadMaxInsertCommitSize">2147483647</property>
-              </properties>
-              <connections>
-                <connection
-                  refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  description="The OLE DB runtime connection used to access the database."
-                  name="OleDbConnection" />
-              </connections>
-              <inputs>
-                <input
-                  refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]"
-                  errorOrTruncationOperation="Insert"
-                  errorRowDisposition="FailComponent"
-                  hasSideEffects="true"
-                  name="OLE DB Destination Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[BizKey]"
-                      cachedDataType="wstr"
-                      cachedLength="200"
-                      cachedName="BizKey"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[BizKey]" />
-                    <inputColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Query]"
-                      cachedDataType="nText"
-                      cachedName="Query"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Query]" />
-                    <inputColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[LastLoadDate]"
-                      cachedDataType="dbTimeStamp"
-                      cachedName="LastLoadDate"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[LastLoadDate]" />
-                    <inputColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].Columns[Language]"
-                      cachedDataType="wstr"
-                      cachedLength="3"
-                      cachedName="Language"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Language]" />
-                  </inputColumns>
-                  <externalMetadataColumns
-                    isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]"
-                      dataType="nText"
-                      name="BizKey" />
-                    <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Query]"
-                      dataType="nText"
-                      name="Query" />
-                    <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]"
-                      dataType="dbTimeStamp"
-                      name="LastLoadDate" />
-                    <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input].ExternalColumns[Language]"
-                      dataType="nText"
-                      name="Language" />
-                  </externalMetadataColumns>
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1263,11 +1871,11 @@ inner join [raw].[tableau-reports] r on (CONCAT('Workbook',r.id)=h.ParentID and 
               </outputs>
             </component>
             <component
-              refId="Package\Stage Tableau Queries\Tableau"
+              refId="Package\Stage\Users"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
-              name="Tableau"
+              name="Users"
               usesDispositions="true"
               version="7">
               <properties>
@@ -1287,22 +1895,8 @@ inner join [raw].[tableau-reports] r on (CONCAT('Workbook',r.id)=h.ParentID and 
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select
-concat(
-N'eptblp01','||'
-, N'tableau'
-,   '||'
-,  N'Tableau Workbook'
-,   '||'
-,   '||'
-,   '||'
-, r.id
-) as BizKey
-,q.query as Query
-,getdate() as LastLoadDate
-, N'SQL' as Language
-from [raw].[tableau-queries] q
-inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select username  from  raw.[tableau-users]
+where username is not null</property>
                 <property
                   dataType="System.String"
                   description="The variable that contains the SQL command to be executed."
@@ -1323,11 +1917,11 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
                 <property
                   dataType="System.String"
                   description="The mappings between the parameters in the SQL command and variables."
-                  name="ParameterMapping">"Parameter0:Input",{ADCB400A-FFDB-493F-884E-FE18EB972780};"Parameter1:Input",{ADCB400A-FFDB-493F-884E-FE18EB972780};</property>
+                  name="ParameterMapping"></property>
               </properties>
               <connections>
                 <connection
-                  refId="Package\Stage Tableau Queries\Tableau.Connections[OleDbConnection]"
+                  refId="Package\Stage\Users.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
@@ -1335,107 +1929,47 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
               </connections>
               <outputs>
                 <output
-                  refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output]"
+                  refId="Package\Stage\Users.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[BizKey]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[BizKey]"
-                      length="200"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[BizKey]"
-                      name="BizKey"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Query]"
+                      refId="Package\Stage\Users.Outputs[OLE DB Source Output].Columns[username]"
                       dataType="nText"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Query]"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Query]"
-                      name="Query"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
-                      dataType="dbTimeStamp"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[LastLoadDate]"
-                      name="LastLoadDate"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Language]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Language]"
-                      length="3"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].Columns[Language]"
-                      name="Language"
+                      externalMetadataColumnId="Package\Stage\Users.Outputs[OLE DB Source Output].ExternalColumns[username]"
+                      lineageId="Package\Stage\Users.Outputs[OLE DB Source Output].Columns[username]"
+                      name="username"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[BizKey]"
-                      dataType="wstr"
-                      length="53"
-                      name="BizKey" />
-                    <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Query]"
+                      refId="Package\Stage\Users.Outputs[OLE DB Source Output].ExternalColumns[username]"
                       dataType="nText"
-                      name="Query" />
-                    <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[LastLoadDate]"
-                      dataType="dbTimeStamp"
-                      name="LastLoadDate" />
-                    <externalMetadataColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output].ExternalColumns[Language]"
-                      dataType="wstr"
-                      length="3"
-                      name="Language" />
+                      name="username" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Stage\Users.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[BizKey]"
-                      dataType="wstr"
-                      length="53"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[BizKey]"
-                      name="BizKey" />
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[Query]"
+                      refId="Package\Stage\Users.Outputs[OLE DB Source Error Output].Columns[username]"
                       dataType="nText"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[Query]"
-                      name="Query" />
+                      lineageId="Package\Stage\Users.Outputs[OLE DB Source Error Output].Columns[username]"
+                      name="username" />
                     <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
-                      dataType="dbTimeStamp"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[LastLoadDate]"
-                      name="LastLoadDate" />
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[Language]"
-                      dataType="wstr"
-                      length="3"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[Language]"
-                      name="Language" />
-                    <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Stage\Users.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Stage\Users.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Stage\Users.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Stage\Users.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1446,63 +1980,35 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
           </components>
           <paths>
             <path
-              refId="Package\Stage Tableau Queries.Paths[OLE DB Source Output]"
-              endId="Package\Stage Tableau Queries\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]"
+              refId="Package\Stage.Paths[OLE DB Source Output]"
+              endId="Package\Stage\ReportObjectStaging 5.Inputs[OLE DB Destination Input]"
               name="OLE DB Source Output"
-              startId="Package\Stage Tableau Queries\Tableau.Outputs[OLE DB Source Output]" />
+              startId="Package\Stage\Tableau.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Stage.Paths[OLE DB Source Output1]"
+              endId="Package\Stage\ReportObjectHierarchyStaging.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Stage\Tableau Hierarchy.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Stage.Paths[OLE DB Source Output2]"
+              endId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Stage\Queries.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Stage.Paths[OLE DB Source Output3]"
+              endId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Stage\Users.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Stage.Paths[OLE DB Source Output4]"
+              endId="Package\Stage\ReportObjectUserGroups.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Stage\Groups.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Tableau Users and Groups"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:DelayValidation="True"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{eacaa3a1-35f0-426e-962a-dd56f33f1e70}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Tableau Users and Groups"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
-          SQLTask:SqlStatementSource="insert into [stage].[ReportObjectUserGroups]&#xA;&#xA;(Groupname,Username)&#xA;&#xA;select groupname, username  from  raw.[tableau-groups] s&#xA;inner join raw.[tableau-users] u on s.UserID = u.UserID&#xA;and groupname is not null&#xA;&#xA;&#xA;;&#xA;&#xA;&#xA;insert into [stage].[ReportObjectUser]&#xA;(Username)&#xA;&#xA;select username  from  raw.[tableau-users]&#xA;where username is not null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="0"
-            SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
-          <SQLTask:ParameterBinding
-            SQLTask:ParameterName="1"
-            SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog"
-            SQLTask:ParameterDirection="Input"
-            SQLTask:DataType="130"
-            SQLTask:ParameterSize="-1" />
-        </SQLTask:SqlTaskData>
-      </DTS:ObjectData>
-    </DTS:Executable>
   </DTS:Executables>
-  <DTS:PrecedenceConstraints>
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint]"
-      DTS:CreationName=""
-      DTS:DTSID="{87B3598F-DE11-44D2-B334-43459B598AAA}"
-      DTS:From="Package\Stage Tableau"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint"
-      DTS:To="Package\Stage Tableau Queries" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Constraint 28]"
-      DTS:CreationName=""
-      DTS:DTSID="{7b6a58a0-e6ab-477b-8392-2ff5f0929ed7}"
-      DTS:From="Package\Stage Tableau Queries"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Constraint 28"
-      DTS:To="Package\Tableau Users and Groups" />
-  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
 <!--If you manually edit this section and make a mistake, you can delete it. -->
@@ -1514,101 +2020,55 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
         <NodeLayout
-          Size="146,42"
-          Id="Package\Stage Tableau"
+          Size="108,42"
+          Id="Package\Stage"
           TopLeft="106,63" />
-        <NodeLayout
-          Size="192,42"
-          Id="Package\Stage Tableau Queries"
-          TopLeft="78.81699884973,177" />
-        <NodeLayout
-          Size="211,42"
-          Id="Package\Tableau Users and Groups"
-          TopLeft="76,252.985430709582" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint]"
-          TopLeft="176.908499424865,105">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,72"
-              Start="0,0"
-              End="0,64.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,64.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 28]"
-          TopLeft="178.158499424865,219">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,33.9854307095818"
-              Start="0,0"
-              End="0,26.4854307095818">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.4854307095818" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
   <TaskHost
-    design-time-name="Package\Stage Tableau">
+    design-time-name="Package\Stage">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="169,42"
-          Id="Package\Stage Tableau\Tableau Hierarchy"
+          Id="Package\Stage\Tableau Hierarchy"
           TopLeft="590.5,31.5" />
         <NodeLayout
           Size="119,42"
-          Id="Package\Stage Tableau\Tableau"
+          Id="Package\Stage\Tableau"
           TopLeft="284.499999503295,29.8666666735543" />
         <NodeLayout
           Size="176,42"
-          Id="Package\Stage Tableau\ReportObjectStaging 5"
-          TopLeft="254.333331214057,137.399999979337" />
+          Id="Package\Stage\ReportObjectStaging 5"
+          TopLeft="284.333331214057,84.399999979337" />
         <NodeLayout
           Size="228,42"
-          Id="Package\Stage Tableau\ReportObjectHierarchyStaging"
-          TopLeft="556.5,145.5" />
+          Id="Package\Stage\ReportObjectHierarchyStaging"
+          TopLeft="592.5,80.5" />
         <EdgeLayout
-          Id="Package\Stage Tableau.Paths[OLE DB Source Output1]"
-          TopLeft="672.75,73.5">
+          Id="Package\Stage.Paths[OLE DB Source Output1]"
+          TopLeft="759.5,52.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,72"
+              StartConnector="{assembly:Null}"
+              EndConnector="-53,28"
               Start="0,0"
-              End="0,64.5">
+              End="-53,20.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,64.5" />
+                    End="-49,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-49,0"
+                    Point2="-53,0"
+                    Point3="-53,4" />
+                  <mssgle:LineSegment
+                    End="-53,20.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1618,19 +2078,25 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package\Stage Tableau.Paths[OLE DB Source Output]"
-          TopLeft="343.216665358676,71.4666666735543">
+          Id="Package\Stage.Paths[OLE DB Source Output]"
+          TopLeft="403.499999503295,50.8666666735543">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,65.9333333057828"
+              StartConnector="{assembly:Null}"
+              EndConnector="-31.166668289238,33.5333333057827"
               Start="0,0"
-              End="0,58.4333333057828">
+              End="-31.166668289238,26.0333333057827">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,58.4333333057828" />
+                    End="-27.166668289238,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-27.166668289238,0"
+                    Point2="-31.166668289238,0"
+                    Point3="-31.166668289238,4" />
+                  <mssgle:LineSegment
+                    End="-31.166668289238,26.0333333057827" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1639,48 +2105,106 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <TaskHost
-    design-time-name="Package\Stage Tableau Queries">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="119,42"
-          Id="Package\Stage Tableau Queries\Tableau"
-          TopLeft="284.499999503295,29.8666666735543" />
+          Size="118,42"
+          Id="Package\Stage\Queries"
+          TopLeft="284.499999503295,247.5" />
         <NodeLayout
           Size="203,42"
-          Id="Package\Stage Tableau Queries\ReportObjectQueryStaging"
-          TopLeft="254.333331214057,137.399999979337" />
+          Id="Package\Stage\ReportObjectQueryStaging"
+          TopLeft="285.333331214057,302.033333305783" />
         <EdgeLayout
-          Id="Package\Stage Tableau Queries.Paths[OLE DB Source Output]"
-          TopLeft="344.099999503295,71.4666666735543">
+          Id="Package\Stage.Paths[OLE DB Source Output2]"
+          TopLeft="402.499999503295,268.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="11.833331710762,65.9333333057827"
+              StartConnector="{assembly:Null}"
+              EndConnector="-15.666668289238,33.533333305783"
               Start="0,0"
-              End="11.833331710762,58.4333333057827">
+              End="-15.666668289238,26.033333305783">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28.9666666528913" />
+                    End="-11.666668289238,0" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,28.9666666528913"
-                    Point2="0,32.9666666528913"
-                    Point3="4,32.9666666528913" />
+                    Point1="-11.666668289238,0"
+                    Point2="-15.666668289238,0"
+                    Point3="-15.666668289238,4" />
                   <mssgle:LineSegment
-                    End="7.83333171076202,32.9666666528913" />
+                    End="-15.666668289238,26.033333305783" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="108,42"
+          Id="Package\Stage\Users"
+          TopLeft="593,273" />
+        <NodeLayout
+          Size="115,42"
+          Id="Package\Stage\Groups"
+          TopLeft="290.333331214057,357.033333305783" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Stage\ReportObjectUser"
+          TopLeft="595,323" />
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output3]"
+          TopLeft="701,294">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-22.5,29"
+              Start="0,0"
+              End="-22.5,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.5,0" />
                   <mssgle:CubicBezierSegment
-                    Point1="7.83333171076202,32.9666666528913"
-                    Point2="11.833331710762,32.9666666528913"
-                    Point3="11.833331710762,36.9666666528913" />
+                    Point1="-18.5,0"
+                    Point2="-22.5,0"
+                    Point3="-22.5,4" />
                   <mssgle:LineSegment
-                    End="11.833331710762,58.4333333057827" />
+                    End="-22.5,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Stage\ReportObjectUserGroups"
+          TopLeft="293,420" />
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output4]"
+          TopLeft="405.333331214057,378.033333305783">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-10.833331214057,41.966666694217"
+              Start="0,0"
+              End="-10.833331214057,34.466666694217">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-6.83333121405701,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-6.83333121405701,0"
+                    Point2="-10.833331214057,0"
+                    Point3="-10.833331214057,4" />
+                  <mssgle:LineSegment
+                    End="-10.833331214057,34.466666694217" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1693,7 +2217,23 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Stage Tableau Queries\ReportObjectQueryStaging">
+    design-time-name="Package\Stage\Users">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\Groups">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\ReportObjectUser">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -1706,10 +2246,15 @@ inner join [raw].[tableau-reports] r on r.workbookname=q.reportid</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Stage Tableau Queries\Tableau">
+    design-time-name="Package\Stage\ReportObjectUserGroups">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
