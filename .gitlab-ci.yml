@@ -4,7 +4,7 @@ stages:
 - publish
 public:
   stage: publish
-  image: python:3.10
+  image: python:3.11
   dependencies: []
   only:
   - master
@@ -39,7 +39,7 @@ public:
   - git status
 public-epic:
   stage: publish
-  image: python:3.10
+  image: python:3.11
   dependencies: []
   only:
   - master
@@ -72,7 +72,7 @@ github:
   only:
   - public
   stage: publish
-  image: python:3.10
+  image: python:3.11
   before_script:
   - command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client
     -y )
