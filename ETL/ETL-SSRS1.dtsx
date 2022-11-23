@@ -11,16 +11,16 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS1"
   DTS:PackageType="5"
-  DTS:VersionBuild="25"
-  DTS:VersionGUID="{FCD08CF8-1972-4C66-ADCF-CBE2BFC6A15E}">
+  DTS:VersionBuild="27"
+  DTS:VersionGUID="{100C16D3-6B6B-4E02-95FB-FFEEAD0799FF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+      DTS:refId="Package.ConnectionManagers[atlas_server.atlas_staging]"
       DTS:CreationName="OLEDB"
       DTS:DTSID="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}"
-      DTS:ObjectName="atlas_database.atlas_staging">
+      DTS:ObjectName="atlas_server.atlas_staging">
       <DTS:PropertyExpression
         DTS:Name="InitialCatalog">@[$Package::DG_Staging_InitialCatalog]</DTS:PropertyExpression>
       <DTS:ObjectData>
@@ -29,10 +29,10 @@
       </DTS:ObjectData>
     </DTS:ConnectionManager>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[ssrs_database.ReportServer]"
+      DTS:refId="Package.ConnectionManagers[ssrs_server.ReportServer]"
       DTS:CreationName="OLEDB"
       DTS:DTSID="{C1795A26-84EB-4028-9791-6371D857314A}"
-      DTS:ObjectName="ssrs_database.ReportServer">
+      DTS:ObjectName="ssrs_server.ReportServer">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="Data Source=ssrs_database;User ID=;Initial Catalog=ReportServer;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
@@ -170,8 +170,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\Catalog.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ssrs_database.ReportServer]"
-                  connectionManagerRefId="Package.ConnectionManagers[ssrs_database.ReportServer]"
+                  connectionManagerID="Package.ConnectionManagers[ssrs_server.ReportServer]"
+                  connectionManagerRefId="Package.ConnectionManagers[ssrs_server.ReportServer]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -723,8 +723,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\PolicyUserRole.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ssrs_database.ReportServer]"
-                  connectionManagerRefId="Package.ConnectionManagers[ssrs_database.ReportServer]"
+                  connectionManagerID="Package.ConnectionManagers[ssrs_server.ReportServer]"
+                  connectionManagerRefId="Package.ConnectionManagers[ssrs_server.ReportServer]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -891,8 +891,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\ssrs_database-reportserver-dbo-catalog.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1254,8 +1254,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\ssrs_database-reportserver-dbo-policyuserrole.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1397,8 +1397,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\ssrs_database-reportserver-dbo-subscriptions.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1690,8 +1690,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\ssrs_database-reportserver-dbo-users.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -1847,8 +1847,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\Subscriptions.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ssrs_database.ReportServer]"
-                  connectionManagerRefId="Package.ConnectionManagers[ssrs_database.ReportServer]"
+                  connectionManagerID="Package.ConnectionManagers[ssrs_server.ReportServer]"
+                  connectionManagerRefId="Package.ConnectionManagers[ssrs_server.ReportServer]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2274,8 +2274,8 @@
               <connections>
                 <connection
                   refId="Package\Load Raw\Users.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[ssrs_database.ReportServer]"
-                  connectionManagerRefId="Package.ConnectionManagers[ssrs_database.ReportServer]"
+                  connectionManagerID="Package.ConnectionManagers[ssrs_server.ReportServer]"
+                  connectionManagerRefId="Package.ConnectionManagers[ssrs_server.ReportServer]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2572,8 +2572,8 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               <connections>
                 <connection
                   refId="Package\Stage\Queries.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2765,8 +2765,8 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               <connections>
                 <connection
                   refId="Package\Stage\ReportObjectQueryStaging.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -2921,8 +2921,8 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               <connections>
                 <connection
                   refId="Package\Stage\ReportObjectStaging 2.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3223,8 +3223,8 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               <connections>
                 <connection
                   refId="Package\Stage\ReportObjectSubscriptions.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3237,11 +3237,12 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[SubscriptionID]"
-                      cachedDataType="guid"
-                      cachedName="SubscriptionID"
+                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[subscriptionid]"
+                      cachedDataType="wstr"
+                      cachedLength="41"
+                      cachedName="subscriptionid"
                       externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionId]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionID]" />
+                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[subscriptionid]" />
                     <inputColumn
                       refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[InactiveFlags]"
                       cachedDataType="i4"
@@ -3283,11 +3284,12 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                       externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionTo]"
                       lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionTo]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[Report_OID]"
-                      cachedDataType="guid"
-                      cachedName="Report_OID"
+                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[report_oid]"
+                      cachedDataType="wstr"
+                      cachedLength="41"
+                      cachedName="report_oid"
                       externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectId]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Report_OID]" />
+                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[report_oid]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3410,8 +3412,8 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               <connections>
                 <connection
                   refId="Package\Stage\ReportObjectUser.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -3653,8 +3655,8 @@ left outer join
               <connections>
                 <connection
                   refId="Package\Stage\Reports.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4114,8 +4116,8 @@ left outer join
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">(SELECT distinct [SubscriptionID]
-    ,[Report_OID]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">(SELECT distinct   concat(N'',[SubscriptionID]) as subscriptionid
+    ,  concat(N'',[Report_OID]) as report_oid
     ,[InactiveFlags]
     ,LEFT(
      REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), 
@@ -4136,8 +4138,8 @@ left outer join
 
  union
   
- (SELECT distinct [SubscriptionID]
-    ,[Report_OID]
+ (SELECT distinct   concat(N'',[SubscriptionID]) 
+    ,  concat(N'',[Report_OID])
     ,[InactiveFlags]
 
     ,LEFT(
@@ -4184,8 +4186,8 @@ left outer join
               <connections>
                 <connection
                   refId="Package\Stage\Subscriptions.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4194,24 +4196,6 @@ left outer join
                   refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
-                    <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionID]"
-                      dataType="guid"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionID]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionID]"
-                      name="SubscriptionID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Report_OID]"
-                      dataType="guid"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[Report_OID]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Report_OID]"
-                      name="Report_OID"
-                      truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[InactiveFlags]"
                       dataType="i4"
@@ -4270,17 +4254,29 @@ left outer join
                       lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionTo]"
                       name="SubscriptionTo"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[subscriptionid]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[subscriptionid]"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[subscriptionid]"
+                      name="subscriptionid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[report_oid]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[report_oid]"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[report_oid]"
+                      name="report_oid"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
-                    <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionID]"
-                      dataType="guid"
-                      name="SubscriptionID" />
-                    <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[Report_OID]"
-                      dataType="guid"
-                      name="Report_OID" />
                     <externalMetadataColumn
                       refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[InactiveFlags]"
                       dataType="i4"
@@ -4309,6 +4305,16 @@ left outer join
                       dataType="wstr"
                       length="4000"
                       name="SubscriptionTo" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[subscriptionid]"
+                      dataType="wstr"
+                      length="41"
+                      name="subscriptionid" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[report_oid]"
+                      dataType="wstr"
+                      length="41"
+                      name="report_oid" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -4317,15 +4323,17 @@ left outer join
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[SubscriptionID]"
-                      dataType="guid"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[SubscriptionID]"
-                      name="SubscriptionID" />
+                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[subscriptionid]"
+                      dataType="wstr"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[subscriptionid]"
+                      name="subscriptionid" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[Report_OID]"
-                      dataType="guid"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[Report_OID]"
-                      name="Report_OID" />
+                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[report_oid]"
+                      dataType="wstr"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[report_oid]"
+                      name="report_oid" />
                     <outputColumn
                       refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[InactiveFlags]"
                       dataType="i4"
@@ -4430,8 +4438,8 @@ and username != ''</property>
               <connections>
                 <connection
                   refId="Package\Stage\Users.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
-                  connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
+                  connectionManagerID="Package.ConnectionManagers[atlas_server.atlas_staging]"
+                  connectionManagerRefId="Package.ConnectionManagers[atlas_server.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -4552,7 +4560,7 @@ and username != ''</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="128,42"
           Id="Package\Add Index"
@@ -4574,7 +4582,7 @@ and username != ''</property>
           TopLeft="199,183">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-21,50"
               Start="0,0"
               End="-13.5,50">
@@ -4608,7 +4616,7 @@ and username != ''</property>
           TopLeft="215,82">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-16,49"
               Start="0,0"
               End="-8.5,49">
@@ -4642,7 +4650,7 @@ and username != ''</property>
           TopLeft="71,131">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,52"
               Start="0,0"
               End="-7.5,52">
@@ -4678,15 +4686,11 @@ and username != ''</property>
     design-time-name="Package\Load Raw">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="272,42"
           Id="Package\Load Raw\ssrs_database-reportserver-dbo-policyuserrole"
           TopLeft="61.2083333333327,244.349206349208" />
-        <NodeLayout
-          Size="145,42"
-          Id="Package\Load Raw\Subscriptions"
-          TopLeft="534.288690476191,40.882539682539" />
         <NodeLayout
           Size="232,42"
           Id="Package\Load Raw\ssrs_database-reportserver-dbo-users"
@@ -4704,6 +4708,10 @@ and username != ''</property>
           Id="Package\Load Raw\Users"
           TopLeft="283.288690476191,28.333333333333" />
         <NodeLayout
+          Size="145,42"
+          Id="Package\Load Raw\Subscriptions"
+          TopLeft="534.288690476191,40.882539682539" />
+        <NodeLayout
           Size="117,42"
           Id="Package\Load Raw\Catalog"
           TopLeft="43.7886904761911,35.238095238095" />
@@ -4716,7 +4724,7 @@ and username != ''</property>
           TopLeft="337.288690476191,70.333333333333">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="37,35.349206349208"
               Start="0,0"
               End="37,27.849206349208">
@@ -4750,7 +4758,7 @@ and username != ''</property>
           TopLeft="102.288690476191,77.238095238095">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="29,25.984126984127"
               Start="0,0"
               End="29,18.484126984127">
@@ -4784,7 +4792,7 @@ and username != ''</property>
           TopLeft="606.788690476191,82.882539682539">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="27.5,28.349206349206"
               Start="0,0"
               End="27.5,20.849206349206">
@@ -4818,7 +4826,7 @@ and username != ''</property>
           TopLeft="183.208333333333,214">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="13.9999999999997,30.349206349208"
               Start="0,0"
               End="13.9999999999997,22.849206349208">
@@ -4856,71 +4864,37 @@ and username != ''</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="167,42"
-          Id="Package\Stage\ReportObjectUser"
-          TopLeft="373,351" />
-        <NodeLayout
-          Size="108,42"
-          Id="Package\Stage\Users"
-          TopLeft="387,282" />
-        <NodeLayout
           Size="203,42"
           Id="Package\Stage\ReportObjectQueryStaging"
           TopLeft="61,343.747899184178" />
-        <NodeLayout
-          Size="145,42"
-          Id="Package\Stage\Subscriptions"
-          TopLeft="359,59" />
-        <NodeLayout
-          Size="210,42"
-          Id="Package\Stage\ReportObjectSubscriptions"
-          TopLeft="381,160" />
         <NodeLayout
           Size="118,42"
           Id="Package\Stage\Reports"
           TopLeft="73.683673455486,60" />
         <NodeLayout
+          Size="210,42"
+          Id="Package\Stage\ReportObjectSubscriptions"
+          TopLeft="381,160" />
+        <NodeLayout
+          Size="167,42"
+          Id="Package\Stage\ReportObjectUser"
+          TopLeft="373,351" />
+        <NodeLayout
           Size="185,42"
           Id="Package\Stage\ReportObjectStaging 2"
           TopLeft="60,163.747899184178" />
         <NodeLayout
+          Size="108,42"
+          Id="Package\Stage\Users"
+          TopLeft="387,282" />
+        <NodeLayout
           Size="118,42"
           Id="Package\Stage\Queries"
           TopLeft="73,265.747899184178" />
-        <EdgeLayout
-          Id="Package\Stage.Paths[OLE DB Source Output]"
-          TopLeft="132.683673455486,102">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="19.816326544514,61.747899184178"
-              Start="0,0"
-              End="19.816326544514,54.247899184178">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.873949592089" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26.873949592089"
-                    Point2="0,30.873949592089"
-                    Point3="4,30.873949592089" />
-                  <mssgle:LineSegment
-                    End="15.816326544514,30.873949592089" />
-                  <mssgle:CubicBezierSegment
-                    Point1="15.816326544514,30.873949592089"
-                    Point2="19.816326544514,30.873949592089"
-                    Point3="19.816326544514,34.873949592089" />
-                  <mssgle:LineSegment
-                    End="19.816326544514,54.247899184178" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        <NodeLayout
+          Size="145,42"
+          Id="Package\Stage\Subscriptions"
+          TopLeft="359,59" />
         <EdgeLayout
           Id="Package\Stage.Paths[OLE DB Source Output1]"
           TopLeft="431.5,101">
@@ -4947,6 +4921,40 @@ and username != ''</property>
                     Point3="54.5,33.5" />
                   <mssgle:LineSegment
                     End="54.5,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output]"
+          TopLeft="132.683673455486,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="19.816326544514,61.747899184178"
+              Start="0,0"
+              End="19.816326544514,54.247899184178">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.873949592089" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.873949592089"
+                    Point2="0,30.873949592089"
+                    Point3="4,30.873949592089" />
+                  <mssgle:LineSegment
+                    End="15.816326544514,30.873949592089" />
+                  <mssgle:CubicBezierSegment
+                    Point1="15.816326544514,30.873949592089"
+                    Point2="19.816326544514,30.873949592089"
+                    Point3="19.816326544514,34.873949592089" />
+                  <mssgle:LineSegment
+                    End="19.816326544514,54.247899184178" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5026,5 +5034,13 @@ and username != ''</property>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\Subscriptions">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
 </Objects>]]></DTS:DesignTimeProperties>
 </DTS:Executable>

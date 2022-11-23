@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="408" DTS:VersionGUID="{1A09F990-A929-4FC2-9C67-37327EB92310}">
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{AE32D470-4445-41E5-82FF-47844EA6FCCC}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-RunData" DTS:PackageType="5" DTS:VersionBuild="425" DTS:VersionGUID="{60E976B2-AC80-4E5B-B0B8-DCF52A20E4D5}">
   <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[ssrs_database2.ReportServer]" DTS:CreationName="OLEDB" DTS:DTSID="{3F6936B0-14C6-4FD8-AB36-EC3E9E2A79FE}" DTS:ObjectName="ssrs_database2.ReportServer">
@@ -50,7 +50,7 @@
     <DTS:Executable DTS:refId="Package\Create Main ETL tables" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{92b581b0-afaf-48ef-b6e2-12c86336d2df}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Create Main ETL tables" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{AB7C51C9-46A1-41C5-B2BB-558C4003C07D}" SQLTask:SqlStatementSource=";DROP TABLE IF EXISTS [stage].[ReportObjectRunDataStaging] &#10;GO &#10;SET ANSI_NULLS ON &#10;GO &#10;SET QUOTED_IDENTIFIER ON &#10;GO &#10;CREATE TABLE [stage].[ReportObjectRunDataStaging]( &#10;    RunDataId  [int] IDENTITY(1,1) NOT NULL,&#10;     [RunId] [nvarchar](max) NOT NULL, &#10;     [RunUserName] [nvarchar](4000) NULL, &#10;     [RunStartTime] [datetime] NULL, &#10;     [RunStartTime_Year] [datetime] NULL, &#10;     [RunStartTime_Month] [datetime] NULL, &#10;     [RunStartTime_Hour] [datetime] NULL, &#10;     [RunStartTime_Day] [datetime] NULL, &#10;     [RunDurationSeconds] [int] NULL, &#10;     [RunStatus] [nvarchar](500) NULL &#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] &#10;GO&#10;&#10;;DROP TABLE IF EXISTS [stage].[ReportObjectRunDataParentStaging]&#10;GO &#10;SET ANSI_NULLS ON &#10;GO &#10;SET QUOTED_IDENTIFIER ON &#10;GO &#10;CREATE TABLE [stage].[ReportObjectRunDataParentStaging]( &#10;     [ReportObjectBizKey] [nvarchar](max) NOT NULL, &#10;     RunParentId  [int] IDENTITY(1,1) NOT NULL,&#10;     [RunDataId] [nvarchar](max) NOT NULL, &#10;  &#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] &#10;GO&#10;&#10;drop table if exists  [stage].[ReportObjectRunDataBridgeStaging];&#10;go&#10;&#10;CREATE TABLE [stage].[ReportObjectRunDataBridgeStaging](&#10;&#9;[ReportObjectBizKey] [nvarchar](max) NOT NULL,&#10;&#9;[RunId] [nvarchar](max) NOT NULL,&#10;&#9;Runs int not null&#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;GO"/>
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{AB7C51C9-46A1-41C5-B2BB-558C4003C07D}" SQLTask:SqlStatementSource=";DROP TABLE IF EXISTS [stage].[ReportObjectRunDataStaging] &#10;GO &#10;SET ANSI_NULLS ON &#10;GO &#10;SET QUOTED_IDENTIFIER ON &#10;GO &#10;CREATE TABLE [stage].[ReportObjectRunDataStaging]( &#10;    RunDataId  [int] IDENTITY(1,1) NOT NULL,&#10;     [RunId] [nvarchar](max) NOT NULL, &#10;     [RunUserName] [nvarchar](4000) NULL, &#10;     [RunStartTime] [datetime] NULL, &#10;     [RunStartTime_Year] [datetime] NULL, &#10;     [RunStartTime_Month] [datetime] NULL, &#10;     [RunStartTime_Hour] [datetime] NULL, &#10;     [RunStartTime_Day] [datetime] NULL, &#10;     [RunDurationSeconds] [int] NULL, &#10;     [RunStatus] [nvarchar](500) NULL &#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] &#10;GO&#10;&#10;;DROP TABLE IF EXISTS [stage].[ReportObjectRunDataParentStaging]&#10;GO &#10;SET ANSI_NULLS ON &#10;GO &#10;SET QUOTED_IDENTIFIER ON &#10;GO &#10;CREATE TABLE [stage].[ReportObjectRunDataParentStaging]( &#10;     [ReportObjectBizKey] [nvarchar](max) NOT NULL, &#10;     RunParentId  [int] IDENTITY(1,1) NOT NULL,&#10;     [RunDataId] [nvarchar](max) NOT NULL, &#10;  &#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY] &#10;GO&#10;&#10;drop table if exists  [stage].[ReportObjectRunDataBridgeStaging];&#10;go&#10;&#10;CREATE TABLE [stage].[ReportObjectRunDataBridgeStaging](&#10;&#9;[ReportObjectBizKey] [nvarchar](max) NOT NULL,&#10;&#9;[RunId] [nvarchar](max) NOT NULL,&#10;[Inherited] int not null default 0,&#10;&#9;Runs int not null&#10;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;GO"/>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable DTS:refId="Package\Index Stage" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{3723C71F-4759-42D3-AED9-36DF340CE3BB}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Index Stage" DTS:ThreadHint="0">
@@ -157,7 +157,7 @@ group by ReportObjectBizKey, rundataid</property>
     <DTS:Executable DTS:refId="Package\Populate Atlas Bridge" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{9EF5FFBF-48F9-44E6-AC52-EB6BF82160EB}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Populate Atlas Bridge" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;DECLARE @ORG_AD_NAME VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;Select @ORG_AD_NAME = ?;&#10;&#10;SELECT @SQL = &#10;'&#10;-- bridge table&#10;with  #bridge_runs as (&#10;&#9;select  r.ReportObjectID, b.RunId as rundataid, b.runs&#10;&#9;from ' + @DG_STAGE_DB + '.stage.ReportObjectRunDataBridgeStaging as b&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject r on b.ReportObjectBizKey = r.ReportObjectBizKey&#10;)&#10;&#10;MERGE ' + @DG_DB + '.dbo.reportobjectrundatabridge as dest&#10;USING #bridge_runs as source&#10;&#9;ON dest.runid = source.rundataid&#10;&#9;AND dest.reportobjectid = source.reportobjectid&#10;WHEN NOT MATCHED&#10;    THEN insert (runid, reportobjectid,runs)&#10;&#9;values (source.rundataid, source.reportobjectid,source.runs)&#10;;&#10;'&#10;&#10;exec sp_executesql @SQL&#10;&#10;">
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;DECLARE @ORG_AD_NAME VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;Select @ORG_AD_NAME = ?;&#10;&#10;SELECT @SQL = &#10;'&#10;-- bridge table&#10;with  #bridge_runs as (&#10;&#9;select  r.ReportObjectID, b.RunId as rundataid, b.runs, b.inherited&#10;&#9;from ' + @DG_STAGE_DB + '.stage.ReportObjectRunDataBridgeStaging as b&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObject r on b.ReportObjectBizKey = r.ReportObjectBizKey&#10;)&#10;&#10;MERGE ' + @DG_DB + '.dbo.reportobjectrundatabridge as dest&#10;USING #bridge_runs as source&#10;&#9;ON dest.runid = source.rundataid&#10;&#9;AND dest.reportobjectid = source.reportobjectid&#10;WHEN NOT MATCHED&#10;    THEN insert (runid, reportobjectid,runs, inherited)&#10;&#9;values (source.rundataid, source.reportobjectid,source.runs, source.inherited)&#10;;&#10;'&#10;&#10;exec sp_executesql @SQL&#10;&#10;">
           <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
           <SQLTask:ParameterBinding SQLTask:ParameterName="1" SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
           <SQLTask:ParameterBinding SQLTask:ParameterName="2" SQLTask:DtsVariableName="$Package::Org_AD_Name" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
@@ -170,14 +170,6 @@ group by ReportObjectBizKey, rundataid</property>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;&#10;&#10;&#10;SELECT @SQL = &#10;'&#10;-- run data table&#10;select &#10;runstarttime, rundurationseconds, runstatus,  runid as rundataid, runstarttime_year, runstarttime_month,runstarttime_day, runstarttime_hour,&#10; (select userid from ' + @DG_DB + '.dbo.[User] u where s.RunUserName = u.username and u.username != '''' and u.username is not null) userid&#10; into #run_data_temp&#10;from ' + @DG_STAGE_DB + '.stage.ReportObjectRunDataStaging s&#10;&#10;MERGE ' + @DG_DB + '.dbo.reportobjectrundata as dest&#10;USING  #run_data_temp as source&#10; ON dest.rundataid = source.rundataid&#10;WHEN NOT MATCHED&#10;    THEN insert (runuserid, runstarttime,rundurationseconds, runstatus, lastloaddate,rundataid, runstarttime_year, runstarttime_month,runstarttime_day, runstarttime_hour)&#10; values (source.userid,source.runstarttime,source.rundurationseconds, source.runstatus, getdate(), source.rundataid, runstarttime_year,runstarttime_month,runstarttime_day, runstarttime_hour)&#10;;&#10;&#10;&#10;'&#10;&#10;exec sp_executesql @SQL&#10;&#10;">
           <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
           <SQLTask:ParameterBinding SQLTask:ParameterName="1" SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
-        </SQLTask:SqlTaskData>
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Report Run User Data Compilation (to be removed)" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:Disabled="True" DTS:DTSID="{6EF92BEB-59CA-4391-B9B0-E7C040533472}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Report Run User Data Compilation (to be removed)" DTS:ThreadHint="4">
-      <DTS:Variables/>
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="drop table if exists #myTemp;&#10;&#10;&#9;select d.ReportObjectId, isnull(r.displayTitle,r.Name) as Name, RunUserId, Count(*) as Runs, Cast(ROUND(Avg(cast(RunDurationSeconds as decimal)),2)as decimal(10,2))  as RunTime,convert(nvarchar(MAX),  Max(d.RunStartTime), 101) as LastRun, r.ReportObjectTypeID&#10;&#9;into #myTemp&#10;&#9;from ReportObjectRunData as d&#10;&#9;inner join ReportObject as r on r.ReportObjectId = d.ReportObjectId&#10;&#9;where RunStatus = 'Success'&#10;&#9;group by d.ReportObjectId, RunUserId,isnull(r.displayTitle,r.Name), r.ReportObjectTypeId&#10;&#9;&#9;&#10;&#9;;&#10;&#9;&#9;&#9;&#10;&#10;&#9;--drop table if exists app.ReportObjectTopRuns;&#10;&#9;if not exists (select * from sysobjects where name='ReportObjectTopRuns' and xtype='U')&#10;&#9;&#9;exec('create table app.ReportObjectTopRuns&#10;&#9;&#9;(&#10;&#9;&#9;&#9;Id int IDENTITY(1,1) NOT NULL PRIMARY KEY,&#10;&#9;&#9;&#9;ReportObjectId int,&#10;&#9;&#9;&#9;Name nvarchar(max),&#10;&#9;&#9;&#9;RunUserId int,&#10;&#9;&#9;&#9;Runs int,&#10;&#9;&#9;&#9;RunTime decimal(10,2),&#10;&#9;&#9;&#9;LastRun nvarchar(max),&#10;&#9;&#9;&#9;ReportObjectTypeId int null,&#10;&#9;&#9;&#9;constraint fk_user foreign key (RunUserId) references [User] (UserId)&#10;&#9;&#9;) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]&#10;&#9;&#9;')&#10;&#9;;&#10;&#9;&#10;&#9;-- insert new records into table.&#10;&#9;insert into app.ReportObjectTopRuns&#10;&#9;&#9;select&#10;&#9;&#9;&#9;ReportObjectId,&#10;&#9;&#9;&#9;Name,&#10;&#9;&#9;&#9;RunUserId,&#10;&#9;&#9;&#9;Runs,&#10;&#9;&#9;&#9;cast(RunTime as decimal(10,2)),&#10;&#9;&#9;&#9;LastRun,&#10;&#9;&#9;&#9;ReportObjectTypeId&#10;&#9;&#9;from &#10;&#9;&#9;&#9;#myTemp&#10;&#9;&#9;where exists (select * from dbo.[User] u where u.userid = runuserid)&#10;&#9;&#9;except (select ReportObjectId,&#10;&#9;&#9;&#9;Name,&#10;&#9;&#9;&#9;RunUserId,&#10;&#9;&#9;&#9;Runs,&#10;&#9;&#9;&#9;cast(RunTime as decimal(10,2)),&#10;&#9;&#9;&#9;LastRun,&#10;&#9;&#9;&#9;ReportObjectTypeId from app.ReportObjectTopRuns)&#10;&#9;;&#10;&#10;&#9;-- delete old records from table&#10;&#9;delete app.ReportObjectTopRuns from app.ReportObjectTopRuns  l&#10;&#9;left join #myTemp as t on l.ReportObjectId = t.ReportObjectId&#10;&#9;&#9;and l.Name = t.Name&#10;&#9;&#9;and l.RunUserId = t.RunUserId&#10;&#9;&#9;and l.Runs = t.Runs&#10;&#9;&#9;and l.RunTime = t.RunTime&#10;&#9;&#9;and l.LastRun = t.LastRun&#10;&#9;&#9;and l.ReportObjectTypeId = t.ReportObjectTypeId&#10;&#9;where t.ReportObjectID is null&#10;&#10;&#9;;&#10;&#10;&#9;drop table if exists #myTemp;&#10;&#10;&#9;">
-          <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
@@ -209,11 +201,13 @@ group by ReportObjectBizKey, rundataid</property>
                     <inputColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].Columns[runs]" cachedDataType="i4" cachedName="runs" externalMetadataColumnId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[Runs]" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[runs]"/>
                     <inputColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].Columns[RunDataId]" cachedDataType="nText" cachedName="RunDataId" externalMetadataColumnId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[RunId]" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[RunDataId]"/>
                     <inputColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].Columns[reportobjectbidkey]" cachedDataType="wstr" cachedLength="82" cachedName="reportobjectbidkey" externalMetadataColumnId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectBizKey]" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[reportobjectbidkey]"/>
+                    <inputColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].Columns[inherited]" cachedDataType="i4" cachedName="inherited" externalMetadataColumnId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[Inherited]" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[inherited]"/>
                   </inputColumns>
                   <externalMetadataColumns isUsed="True">
                     <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectBizKey]" dataType="nText" name="ReportObjectBizKey"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[RunId]" dataType="nText" name="RunId"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[Runs]" dataType="i4" name="Runs"/>
+                    <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 1.Inputs[OLE DB Destination Input].ExternalColumns[Inherited]" dataType="i4" name="Inherited"/>
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -250,11 +244,13 @@ group by ReportObjectBizKey, rundataid</property>
                     <inputColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].Columns[runs]" cachedDataType="i4" cachedName="runs" externalMetadataColumnId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[Runs]" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[runs]"/>
                     <inputColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].Columns[RunDataId]" cachedDataType="nText" cachedName="RunDataId" externalMetadataColumnId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[RunId]" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[RunDataId]"/>
                     <inputColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].Columns[reportobjectbidkey]" cachedDataType="wstr" cachedLength="84" cachedName="reportobjectbidkey" externalMetadataColumnId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectBizKey]" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[reportobjectbidkey]"/>
+                    <inputColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].Columns[inherited]" cachedDataType="i4" cachedName="inherited" externalMetadataColumnId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[Inherited]" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[inherited]"/>
                   </inputColumns>
                   <externalMetadataColumns isUsed="True">
                     <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectBizKey]" dataType="nText" name="ReportObjectBizKey"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[RunId]" dataType="nText" name="RunId"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[Runs]" dataType="i4" name="Runs"/>
+                    <externalMetadataColumn refId="Package\SSRS Bridge\Bridge 2.Inputs[OLE DB Destination Input].ExternalColumns[Inherited]" dataType="i4" name="Inherited"/>
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -321,7 +317,8 @@ group by ReportObjectBizKey, rundataid</property>
 ,   null 
 ,   '||' 
 ,   null) as reportobjectbidkey,
-d.RunDataId, count(1) runs
+d.RunDataId, count(1) runs,
+1 as inherited
 	from #SSRS_SUB_REPORT sub
 
 	inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemID = sub.ItemID
@@ -370,11 +367,13 @@ d.RunDataId
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[reportobjectbidkey]" dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[reportobjectbidkey]" length="82" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[reportobjectbidkey]" name="reportobjectbidkey" truncationRowDisposition="FailComponent"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[RunDataId]" dataType="nText" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[RunDataId]" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[RunDataId]" name="RunDataId" truncationRowDisposition="FailComponent"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[runs]" dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[runs]" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[runs]" name="runs" truncationRowDisposition="FailComponent"/>
+                    <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[inherited]" dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[inherited]" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].Columns[inherited]" name="inherited" truncationRowDisposition="FailComponent"/>
                   </outputColumns>
                   <externalMetadataColumns isUsed="True">
                     <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[reportobjectbidkey]" dataType="wstr" length="82" name="reportobjectbidkey"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[RunDataId]" dataType="nText" name="RunDataId"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[runs]" dataType="i4" name="runs"/>
+                    <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Output].ExternalColumns[inherited]" dataType="i4" name="inherited"/>
                   </externalMetadataColumns>
                 </output>
                 <output refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output]" isErrorOut="true" name="OLE DB Source Error Output">
@@ -382,6 +381,7 @@ d.RunDataId
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[reportobjectbidkey]" dataType="wstr" length="82" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[reportobjectbidkey]" name="reportobjectbidkey"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[RunDataId]" dataType="nText" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[RunDataId]" name="RunDataId"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[runs]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[runs]" name="runs"/>
+                    <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[inherited]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[inherited]" name="inherited"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 1 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
                   </outputColumns>
@@ -443,7 +443,8 @@ d.RunDataId
 ,   '||' 
 ,   null) as reportobjectbidkey,
 d.RunDataId
-, count(1) runs
+, count(1) runs,
+1 as inherited
 	from #SSRS_SUB_REPORT sub
 
 	inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemID = sub.ItemID
@@ -491,11 +492,13 @@ d.RunDataId
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[reportobjectbidkey]" dataType="wstr" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[reportobjectbidkey]" length="84" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[reportobjectbidkey]" name="reportobjectbidkey" truncationRowDisposition="FailComponent"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[RunDataId]" dataType="nText" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[RunDataId]" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[RunDataId]" name="RunDataId" truncationRowDisposition="FailComponent"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[runs]" dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[runs]" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[runs]" name="runs" truncationRowDisposition="FailComponent"/>
+                    <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[inherited]" dataType="i4" errorOrTruncationOperation="Conversion" errorRowDisposition="FailComponent" externalMetadataColumnId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[inherited]" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].Columns[inherited]" name="inherited" truncationRowDisposition="FailComponent"/>
                   </outputColumns>
                   <externalMetadataColumns isUsed="True">
                     <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[reportobjectbidkey]" dataType="wstr" length="84" name="reportobjectbidkey"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[RunDataId]" dataType="nText" name="RunDataId"/>
                     <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[runs]" dataType="i4" name="runs"/>
+                    <externalMetadataColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Output].ExternalColumns[inherited]" dataType="i4" name="inherited"/>
                   </externalMetadataColumns>
                 </output>
                 <output refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output]" isErrorOut="true" name="OLE DB Source Error Output">
@@ -503,6 +506,7 @@ d.RunDataId
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[reportobjectbidkey]" dataType="wstr" length="84" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[reportobjectbidkey]" name="reportobjectbidkey"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[RunDataId]" dataType="nText" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[RunDataId]" name="RunDataId"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[runs]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[runs]" name="runs"/>
+                    <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[inherited]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[inherited]" name="inherited"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
                     <outputColumn refId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\SSRS Bridge\SSRS 2 to sub report.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
                   </outputColumns>
@@ -944,7 +948,7 @@ from
 
 	) 
 
-	select ReportObjectBizKey, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(rundurationseconds as nvarchar) +  runstatus),2) as rundataid
+	select ReportObjectBizKey, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(isnull(rundurationseconds,0) as nvarchar) +  isnull(runstatus, '')),2) as rundataid
 
 	from #runs</property>
                 <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable"/>
@@ -1018,7 +1022,7 @@ from
 
 	) 
 
-	select distinct RunUserName, RunStart,RunStart_Year,RunStart_Month,RunStart_Day, RunStart_Hour, RunDurationSeconds, RunStatus, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(rundurationseconds as nvarchar) +  runstatus),2) as rundataid
+	select distinct RunUserName, RunStart,RunStart_Year,RunStart_Month,RunStart_Day, RunStart_Hour, RunDurationSeconds, RunStatus, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(isnull(rundurationseconds,0) as nvarchar) + isnull(runstatus, '')),2) as rundataid
 
 	from #runs</property>
                 <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable"/>
@@ -1297,7 +1301,7 @@ from
 
 	) 
 
-	select ReportObjectBizKey, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(rundurationseconds as nvarchar) +  runstatus),2) as rundataid
+	select ReportObjectBizKey, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(isnull(rundurationseconds,0) as nvarchar) + isnull(runstatus, '')),2) as rundataid
 
 	from #runs</property>
                 <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable"/>
@@ -1371,7 +1375,7 @@ from
 
 	) 
 
-	select distinct RunUserName, RunStart,RunStart_Year,RunStart_Month,RunStart_Day, RunStart_Hour, RunDurationSeconds, RunStatus, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(rundurationseconds as nvarchar) +  runstatus),2) as rundataid
+	select distinct RunUserName, RunStart,RunStart_Year,RunStart_Month,RunStart_Day, RunStart_Hour, RunDurationSeconds, RunStatus, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(isnull(rundurationseconds,0) as nvarchar) +  isnull(runstatus, '')),2) as rundataid
 
 	from #runs</property>
                 <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable"/>
@@ -1682,7 +1686,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
 
 	) 
 
-	select ReportObjectBizKey, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(rundurationseconds as nvarchar) +  runstatus),2) as rundataid
+	select ReportObjectBizKey, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(isnull(rundurationseconds,0) as nvarchar) + isnull(runstatus, '')),2) as rundataid
 
 	from #runs</property>
                 <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable"/>
@@ -1753,7 +1757,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
 
 	) 
 
-	select distinct RunUserName, runstart,RunStart_Year,RunStart_Month,RunStart_Day, RunStart_Hour, RunDurationSeconds, RunStatus, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(rundurationseconds as nvarchar) +  runstatus),2) as rundataid
+	select distinct RunUserName, runstart,RunStart_Year,RunStart_Month,RunStart_Day, RunStart_Hour, RunDurationSeconds, RunStatus, convert(nvarchar(256),HASHBYTES('SHA2_256',runusername +  convert(nvarchar, RunStart,109) +  cast(isnull(rundurationseconds,0) as nvarchar) + isnull(runstatus, '')),2) as rundataid
 
 	from #runs</property>
                 <property dataType="System.String" description="The variable that contains the SQL command to be executed." name="SqlCommandVariable"/>
@@ -1816,14 +1820,6 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
         </pipeline>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Update Runs In ReportObject" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:Disabled="True" DTS:DTSID="{7693c98f-eea5-4d2e-a8d7-89a24ff653d6}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Update Runs In ReportObject" DTS:ThreadHint="4">
-      <DTS:Variables/>
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{C2F16F37-819E-4F16-AF67-EDB4D3CDF018}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="update ReportObject&#10;set Runs=&#10;(select count(rd.RunID) from dbo.reportobjectrundata rd where rd.reportobjectid=r.reportobjectid&#10;and rd.RunStartTime &lt; DATEADD(m,0-coalesce((select cast(value as int)&#10;from app.GlobalSiteSettings settings&#10;where settings.name='Default Visibiliy Time'),24), GETDATE()))&#10;from dbo.reportobject r">
-          <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::Data_Governance_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
-        </SQLTask:SqlTaskData>
-      </DTS:ObjectData>
-    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint]" DTS:CreationName="" DTS:DTSID="{DEEE5DB6-C28A-4DA3-B5EB-446859A896D4}" DTS:From="Package\SlicerDicer Raw" DTS:LogicalAnd="True" DTS:ObjectName="Constraint" DTS:To="Package\SlicerDicer Index"/>
@@ -1835,7 +1831,6 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 19]" DTS:CreationName="" DTS:DTSID="{716E1A26-CEFC-4604-AA92-45E408243619}" DTS:From="Package\Create Main ETL tables" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 19" DTS:To="Package\Tableau Index"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 2]" DTS:CreationName="" DTS:DTSID="{9B547E2D-7DBC-480B-8BFC-D6143EA2A4AE}" DTS:From="Package\SSRS tables" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 2" DTS:To="Package\SSRS Raw"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 20]" DTS:CreationName="" DTS:DTSID="{8CB260F0-D718-4168-B02F-5088793EE37F}" DTS:From="Package\Clarity Bridge" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 20" DTS:To="Package\Populate Atlas Bridge"/>
-    <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 21]" DTS:CreationName="" DTS:DTSID="{EFB89589-4D14-489A-B127-C20AC5C2B015}" DTS:From="Package\Report Run User Data Compilation (to be removed)" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 21" DTS:To="Package\Update Runs In ReportObject"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 22]" DTS:CreationName="" DTS:DTSID="{2CAB7B0D-DBD3-4F3F-A613-5F82F75E9901}" DTS:From="Package\Populate Atlas Runs" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 22" DTS:To="Package\Populate Atlas Bridge"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 23]" DTS:CreationName="" DTS:DTSID="{6BA04155-BDB4-4329-AF1F-1AD5520F6A17}" DTS:From="Package\Tableau Bridge" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 23" DTS:To="Package\Populate Atlas Bridge"/>
     <DTS:PrecedenceConstraint DTS:refId="Package.PrecedenceConstraints[Constraint 25]" DTS:CreationName="" DTS:DTSID="{7AA67BBB-4AE4-462D-989F-1FF089F0A8C9}" DTS:From="Package\Consolidate Runs" DTS:LogicalAnd="True" DTS:ObjectName="Constraint 25" DTS:To="Package\Populate Atlas Runs"/>
@@ -1859,7 +1854,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="145,42"
           Id="Package\Clarity Bridge"
@@ -1905,14 +1900,6 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           Id="Package\Populate Atlas Runs"
           TopLeft="342,795" /&gt;
         &lt;NodeLayout
-          Size="329,42"
-          Id="Package\Report Run User Data Compilation (to be removed)"
-          TopLeft="962.666661236021,817.76666727278" /&gt;
-        &lt;NodeLayout
-          Size="164,42"
-          Id="Package\SlicerDicer Stage"
-          TopLeft="663.619029493695,394.633328181373" /&gt;
-        &lt;NodeLayout
           Size="162,42"
           Id="Package\SlicerDicer Index"
           TopLeft="661,274.5" /&gt;
@@ -1920,6 +1907,10 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           Size="157,42"
           Id="Package\SlicerDicer Raw"
           TopLeft="653.499979933104,191.300001508395" /&gt;
+        &lt;NodeLayout
+          Size="164,42"
+          Id="Package\SlicerDicer Stage"
+          TopLeft="663.619029493695,394.633328181373" /&gt;
         &lt;NodeLayout
           Size="165,42"
           Id="Package\SlicerDicer tables"
@@ -1956,16 +1947,12 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           Size="150,42"
           Id="Package\Tableau Stage"
           TopLeft="929.119020453658,396.833327375518" /&gt;
-        &lt;NodeLayout
-          Size="223,42"
-          Id="Package\Update Runs In ReportObject"
-          TopLeft="1019.11904747443,890.5" /&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="731.999979933104,233.300001508395"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="10.000020066896,41.199998491605"
               Start="0,0"
               End="10.000020066896,33.699998491605"&gt;
@@ -1999,7 +1986,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="587,716"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="90.833329695558,138.627458771299"
               Start="0,0"
               End="90.833329695558,131.127458771299"&gt;
@@ -2033,7 +2020,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="170.809523737214,235.731373310498"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,72.268626689502"
               Start="0,0"
               End="0,64.768626689502"&gt;
@@ -2055,7 +2042,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="173.05952333985,350"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,46.899995681445"
               Start="0,0"
               End="0,39.399995681445"&gt;
@@ -2077,7 +2064,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="176.6190466797,438.899995681445"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="341.3809533203,72.100004318555"
               Start="0,0"
               End="341.3809533203,64.600004318555"&gt;
@@ -2111,7 +2098,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="535.185708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-80.0190439974909,48.0420249012961"
               Start="0,0"
               End="-80.0190439974909,40.5420249012961"&gt;
@@ -2145,7 +2132,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="572.385708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="180.733320981927,54.6000000000001"
               Start="0,0"
               End="180.733320981927,47.1000000000001"&gt;
@@ -2179,7 +2166,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="438.380949545339,434.390757127507"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="105.619050454661,76.609242872493"
               Start="0,0"
               End="105.619050454661,69.109242872493"&gt;
@@ -2213,7 +2200,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="745.619029493695,436.633328181373"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-175.619029493695,74.366671818627"
               Start="0,0"
               End="-175.619029493695,66.866671818627"&gt;
@@ -2247,7 +2234,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="1004.11902045366,438.833327375518"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-408.119020453658,72.166672624482"
               Start="0,0"
               End="-408.119020453658,64.666672624482"&gt;
@@ -2281,7 +2268,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="578.666666666667,553"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="158.333333333333,27.5"
               Start="0,0"
               End="158.333333333333,20"&gt;
@@ -2315,7 +2302,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="609.585708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="375.914291686914,227.700007356008"
               Start="0,0"
               End="375.914291686914,220.200007356008"&gt;
@@ -2349,7 +2336,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="174.952380426954,139.766660908593"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,53.964712401905"
               Start="0,0"
               End="0,46.464712401905"&gt;
@@ -2371,7 +2358,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="743.5,715"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-36.1666703044421,139.627458771299"
               Start="0,0"
               End="-36.1666703044421,132.127458771299"&gt;
@@ -2401,33 +2388,11 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 21]"
-          TopLeft="1128.89285435522,859.76666727278"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,30.73333272722"
-              Start="0,0"
-              End="0,23.23333272722"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,23.23333272722" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 22]"
           TopLeft="521,816"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="64.333329695558,59.627458771299"
               Start="0,0"
               End="56.833329695558,59.627458771299"&gt;
@@ -2461,7 +2426,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="898,718"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-175.916670304442,136.627458771299"
               Start="0,0"
               End="-175.916670304442,129.127458771299"&gt;
@@ -2495,7 +2460,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="427.75,720"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,75"
               Start="0,0"
               End="0,67.5"&gt;
@@ -2517,7 +2482,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="535.333333333333,553"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-111.333333333333,125"
               Start="0,0"
               End="-111.333333333333,117.5"&gt;
@@ -2551,7 +2516,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="702.5,622.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-115.5,51.5"
               Start="0,0"
               End="-115.5,44"&gt;
@@ -2585,7 +2550,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="740.25,622.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,50.5"
               Start="0,0"
               End="0,43"&gt;
@@ -2607,7 +2572,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="985.5,319"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="18.619020453658,77.833327375518"
               Start="0,0"
               End="18.619020453658,70.333327375518"&gt;
@@ -2641,7 +2606,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="771.5,622.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="126.5,53.5"
               Start="0,0"
               End="126.5,46"&gt;
@@ -2675,7 +2640,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="743.809514746848,316.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,78.133328181373"
               Start="0,0"
               End="0,70.633328181373"&gt;
@@ -2697,7 +2662,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="451.916667097145,139.342017545288"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,51.524649851469"
               Start="0,0"
               End="0,44.024649851469"&gt;
@@ -2719,7 +2684,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="448.333334939348,232.866667396757"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,57.633332603243"
               Start="0,0"
               End="0,50.133332603243"&gt;
@@ -2741,7 +2706,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="448,332.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-9.61905045466102,59.890757127507"
               Start="0,0"
               End="-9.61905045466102,52.390757127507"&gt;
@@ -2775,7 +2740,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="753.119029295013,145.899992643992"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-21.119049361909,45.400008864403"
               Start="0,0"
               End="-21.119049361909,37.900008864403"&gt;
@@ -2809,7 +2774,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="497.985708313086,49.2999926439919"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-320.199994933606,48.4666682646011"
               Start="0,0"
               End="-320.199994933606,40.9666682646011"&gt;
@@ -2845,27 +2810,35 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package\Clarity Bridge"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
-          Size="145,42"
-          Id="Package\Clarity Bridge\IDN to Bridge"
-          TopLeft="102,482" /&gt;
-        &lt;NodeLayout
-          Size="142,42"
-          Id="Package\Clarity Bridge\HRX to HGR"
-          TopLeft="117,238" /&gt;
-        &lt;NodeLayout
-          Size="210,42"
-          Id="Package\Clarity Bridge\IDM to IDB (Dash to comp)"
-          TopLeft="333,226" /&gt;
+          Size="138,42"
+          Id="Package\Clarity Bridge\HRX to LPP"
+          TopLeft="351,65" /&gt;
         &lt;NodeLayout
           Size="144,42"
           Id="Package\Clarity Bridge\IDB to Bridge"
           TopLeft="370,305" /&gt;
         &lt;NodeLayout
+          Size="147,42"
+          Id="Package\Clarity Bridge\PAF to Bridge"
+          TopLeft="103,134" /&gt;
+        &lt;NodeLayout
           Size="214,42"
           Id="Package\Clarity Bridge\IDM to IDN (Dash to metric)"
           TopLeft="60,406" /&gt;
+        &lt;NodeLayout
+          Size="142,42"
+          Id="Package\Clarity Bridge\HRX to HGR"
+          TopLeft="117,238" /&gt;
+        &lt;NodeLayout
+          Size="145,42"
+          Id="Package\Clarity Bridge\IDN to Bridge"
+          TopLeft="102,482" /&gt;
+        &lt;NodeLayout
+          Size="139,42"
+          Id="Package\Clarity Bridge\HRX to PAF"
+          TopLeft="114,60" /&gt;
         &lt;NodeLayout
           Size="147,42"
           Id="Package\Clarity Bridge\LPP to Bridge"
@@ -2875,23 +2848,15 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           Id="Package\Clarity Bridge\HGR to Bridge"
           TopLeft="106,312" /&gt;
         &lt;NodeLayout
-          Size="139,42"
-          Id="Package\Clarity Bridge\HRX to PAF"
-          TopLeft="114,60" /&gt;
-        &lt;NodeLayout
-          Size="147,42"
-          Id="Package\Clarity Bridge\PAF to Bridge"
-          TopLeft="103,134" /&gt;
-        &lt;NodeLayout
-          Size="138,42"
-          Id="Package\Clarity Bridge\HRX to LPP"
-          TopLeft="351,65" /&gt;
+          Size="210,42"
+          Id="Package\Clarity Bridge\IDM to IDB (Dash to comp)"
+          TopLeft="333,226" /&gt;
         &lt;EdgeLayout
           Id="Package\Clarity Bridge.Paths[OLE DB Source Output]"
           TopLeft="440,268"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,37"
               Start="0,0"
               End="0,29.5"&gt;
@@ -2909,33 +2874,11 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
-          Id="Package\Clarity Bridge.Paths[OLE DB Source Output1]"
-          TopLeft="170.75,448"&gt;
+          Id="Package\Clarity Bridge.Paths[OLE DB Source Output4]"
+          TopLeft="184.5,280"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,34"
-              Start="0,0"
-              End="0,26.5"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,26.5" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;EdgeLayout
-          Id="Package\Clarity Bridge.Paths[OLE DB Source Output2]"
-          TopLeft="180,102"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,32"
               Start="0,0"
               End="0,24.5"&gt;
@@ -2957,7 +2900,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="416.75,107"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,32"
               Start="0,0"
               End="0,24.5"&gt;
@@ -2975,11 +2918,11 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
-          Id="Package\Clarity Bridge.Paths[OLE DB Source Output4]"
-          TopLeft="184.5,280"&gt;
+          Id="Package\Clarity Bridge.Paths[OLE DB Source Output2]"
+          TopLeft="180,102"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,32"
               Start="0,0"
               End="0,24.5"&gt;
@@ -2996,14 +2939,141 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\Clarity Bridge.Paths[OLE DB Source Output1]"
+          TopLeft="170.75,448"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,26.5" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\HRX to LPP"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\IDB to Bridge"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\PAF to Bridge"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\IDM to IDN (Dash to metric)"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\HRX to HGR"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\IDN to Bridge"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\HRX to PAF"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\LPP to Bridge"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\HGR to Bridge"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Clarity Bridge\IDM to IDB (Dash to comp)"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
   &lt;TaskHost
     design-time-name="Package\Clarity Raw"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="178,42"
           Id="Package\Clarity Raw\RW_RPT_RUN_DATA"
@@ -3025,7 +3095,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="680.75,262"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,45"
               Start="0,0"
               End="0,37.5"&gt;
@@ -3039,7 +3109,9 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
@@ -3047,7 +3119,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="231.83333333333,264.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,40"
               Start="0,0"
               End="0,32.5"&gt;
@@ -3061,14 +3133,16 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is imported to raw tables from source tables  into &amp;quot;raw&amp;quot; tables. Workbench data is  a simple line for line import, while&amp;#xA;dashboard data is a bit more complex. &amp;#xA;Dashboard run usage is grouped into a daily summary in Clarity, so we need to split it out into 1 row per run before importing it.&amp;#xA;&amp;#xA;Notes&amp;#xA;- only importing data from last two years"
           ParentId="Package\Clarity Raw"
-          FontInfo="{assembly:Null}"
-          Size="708,120"
+          FontInfo="{x:Null}"
+          Size="708,NaN"
           Id="cb7cbdca-e102-43cd-b458-4c39f532a9d5"
           TopLeft="197,65" /&gt;
       &lt;/GraphLayout&gt;
@@ -3120,96 +3194,93 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package\Clarity Stage"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-        &lt;NodeLayout
-          Size="226,42"
-          Id="Package\Clarity Stage\ReportObjectRunDataStaging 4"
-          TopLeft="297.344392220672,336.02688519171" /&gt;
-        &lt;NodeLayout
-          Size="156,42"
-          Id="Package\Clarity Stage\Dashboard Runs"
-          TopLeft="63.5038287371135,264" /&gt;
-        &lt;NodeLayout
-          Size="160,42"
-          Id="Package\Clarity Stage\RunDataStaging"
-          TopLeft="56.0038287371135,336.02688519171" /&gt;
-        &lt;NodeLayout
-          Size="126,42"
-          Id="Package\Clarity Stage\HRX Runs"
-          TopLeft="347.344392220672,264" /&gt;
-        &lt;EdgeLayout
-          Id="Package\Clarity Stage.Paths[OLE DB Source Output1]"
-          TopLeft="138.753828737114,306"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,30.02688519171"
-              Start="0,0"
-              End="0,22.52688519171"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,22.52688519171" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;EdgeLayout
-          Id="Package\Clarity Stage.Paths[OLE DB Source Output]"
-          TopLeft="410.344392220672,306"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,30.02688519171"
-              Start="0,0"
-              End="0,22.52688519171"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,22.52688519171" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;AnnotationLayout
-          Text="Data is moved from raw tables into a common staging tables.&amp;#xA;&amp;#xA;Notes&amp;#xA;- Clarity data uses epic user_id, which is now converted to domain name"
-          ParentId="Package\Clarity Stage"
-          FontInfo="{assembly:Null}"
-          Size="410,88"
-          Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
-          TopLeft="135,62" /&gt;
-        &lt;NodeLayout
-          Size="257,42"
-          Id="Package\Clarity Stage\ReportObjectRunDataParentStaging"
-          TopLeft="297.344392220671,510.05377038342" /&gt;
-        &lt;NodeLayout
-          Size="197,42"
-          Id="Package\Clarity Stage\Dashboard Parent Runs"
-          TopLeft="63.5038287371135,438.02688519171" /&gt;
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="192,42"
           Id="Package\Clarity Stage\RunDataParentStaging"
-          TopLeft="56.0038287371135,510.05377038342" /&gt;
+          TopLeft="135,456.05377038342" /&gt;
         &lt;NodeLayout
           Size="166,42"
           Id="Package\Clarity Stage\HRX Parent Runs"
-          TopLeft="347.344392220672,438.02688519171" /&gt;
+          TopLeft="426.340563483558,384.02688519171" /&gt;
+        &lt;NodeLayout
+          Size="226,42"
+          Id="Package\Clarity Stage\ReportObjectRunDataStaging 4"
+          TopLeft="376.340563483558,282.02688519171" /&gt;
+        &lt;NodeLayout
+          Size="257,42"
+          Id="Package\Clarity Stage\ReportObjectRunDataParentStaging"
+          TopLeft="376.340563483558,456.05377038342" /&gt;
+        &lt;NodeLayout
+          Size="156,42"
+          Id="Package\Clarity Stage\Dashboard Runs"
+          TopLeft="142.5,210" /&gt;
+        &lt;NodeLayout
+          Size="160,42"
+          Id="Package\Clarity Stage\RunDataStaging"
+          TopLeft="135,282.02688519171" /&gt;
+        &lt;NodeLayout
+          Size="197,42"
+          Id="Package\Clarity Stage\Dashboard Parent Runs"
+          TopLeft="142.5,384.02688519171" /&gt;
+        &lt;NodeLayout
+          Size="126,42"
+          Id="Package\Clarity Stage\HRX Runs"
+          TopLeft="426.340563483558,210" /&gt;
         &lt;EdgeLayout
-          Id="Package\Clarity Stage.Paths[OLE DB Source Output2]"
-          TopLeft="162.003828737114,480.02688519171"&gt;
+          Id="Package\Clarity Stage.Paths[OLE DB Source Output]"
+          TopLeft="489.340563483558,252"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
+              EndConnector="0,30.02688519171"
+              Start="0,0"
+              End="0,22.52688519171"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,22.52688519171" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\Clarity Stage.Paths[OLE DB Source Output3]"
+          TopLeft="217.750000000001,252"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,30.02688519171"
+              Start="0,0"
+              End="0,22.52688519171"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,22.52688519171" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\Clarity Stage.Paths[OLE DB Source Output2]"
+          TopLeft="241,426.02688519171"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
               EndConnector="-10,30.02688519171"
               Start="0,0"
               End="-10,22.52688519171"&gt;
@@ -3235,15 +3306,17 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
-          Id="Package\Clarity Stage.Paths[OLE DB Source Output3]"
-          TopLeft="428.094392220671,480.02688519171"&gt;
+          Id="Package\Clarity Stage.Paths[OLE DB Source Output1]"
+          TopLeft="507.090563483558,426.02688519171"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,30.02688519171"
               Start="0,0"
               End="0,22.52688519171"&gt;
@@ -3257,25 +3330,21 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
+        &lt;AnnotationLayout
+          Text="Data is moved from raw tables into a common staging tables.&amp;#xA;&amp;#xA;Notes&amp;#xA;- Clarity data uses epic user_id, which is now converted to domain name"
+          ParentId="Package\Clarity Stage"
+          FontInfo="{x:Null}"
+          Size="410,NaN"
+          Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
+          TopLeft="135,62" /&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Clarity Stage\RunDataParentStaging"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
   &lt;PipelineComponentMetadata
     design-time-name="Package\Clarity Stage\HRX Parent Runs"&gt;
     &lt;Properties&gt;
@@ -3285,49 +3354,10 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     &lt;/Properties&gt;
   &lt;/PipelineComponentMetadata&gt;
   &lt;PipelineComponentMetadata
-    design-time-name="Package\Clarity Stage\ReportObjectRunDataStaging 4"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Clarity Stage\ReportObjectRunDataParentStaging"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
     design-time-name="Package\Clarity Stage\Dashboard Runs"&gt;
     &lt;Properties&gt;
       &lt;Property&gt;
         &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\Clarity Stage\RunDataStaging"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
       &lt;/Property&gt;
     &lt;/Properties&gt;
   &lt;/PipelineComponentMetadata&gt;
@@ -3351,7 +3381,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package\Parent Bridge"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="117,42"
           Id="Package\Parent Bridge\Parents"
@@ -3365,7 +3395,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="242.5,109"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="63,102"
               Start="0,0"
               End="63,94.5"&gt;
@@ -3391,7 +3421,9 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
@@ -3419,48 +3451,214 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     &lt;/Properties&gt;
   &lt;/PipelineComponentMetadata&gt;
   &lt;TaskHost
+    design-time-name="Package\SlicerDicer Raw"&gt;
+    &lt;LayoutInfo&gt;
+      &lt;GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
+        &lt;NodeLayout
+          Size="272,42"
+          Id="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_saveload"
+          TopLeft="74,361.800001942317" /&gt;
+        &lt;NodeLayout
+          Size="216,42"
+          Id="Package\SlicerDicer Raw\SlicerDicer Stats_SaveLoad"
+          TopLeft="89.1666643155946,266.333334731526" /&gt;
+        &lt;NodeLayout
+          Size="245,42"
+          Id="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_query"
+          TopLeft="404.166654182806,164.333334731526" /&gt;
+        &lt;NodeLayout
+          Size="180,42"
+          Id="Package\SlicerDicer Raw\SlicerDicer Stats_Http"
+          TopLeft="89.1666643155946,65.3333344215813" /&gt;
+        &lt;NodeLayout
+          Size="236,42"
+          Id="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_http"
+          TopLeft="60,163.800001632372" /&gt;
+        &lt;NodeLayout
+          Size="190,42"
+          Id="Package\SlicerDicer Raw\SlicerDicer Stats_Query"
+          TopLeft="427.49998602602,60" /&gt;
+        &lt;EdgeLayout
+          Id="Package\SlicerDicer Raw.Paths[OLE DB Source Output2]"
+          TopLeft="197.166664315595,308.333334731526"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="12.8333356844054,53.4666672107907"
+              Start="0,0"
+              End="12.8333356844054,45.9666672107907"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,22.7333336053954" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,22.7333336053954"
+                    Point2="0,26.7333336053954"
+                    Point3="4,26.7333336053954" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="8.8333356844054,26.7333336053954" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="8.8333356844054,26.7333336053954"
+                    Point2="12.8333356844054,26.7333336053954"
+                    Point3="12.8333356844054,30.7333336053954" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="12.8333356844054,45.9666672107907" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\SlicerDicer Raw.Paths[OLE DB Source Output1]"
+          TopLeft="524.433320104413,101.6"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,62.7333347315255"
+              Start="0,0"
+              End="0,55.2333347315255"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,55.2333347315255" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\SlicerDicer Raw.Paths[OLE DB Source Output]"
+          TopLeft="178.583332157797,106.933334421581"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,56.8666672107907"
+              Start="0,0"
+              End="0,49.3666672107907"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,49.3666672107907" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+      &lt;/GraphLayout&gt;
+    &lt;/LayoutInfo&gt;
+  &lt;/TaskHost&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_saveload"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\SlicerDicer Raw\SlicerDicer Stats_SaveLoad"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_query"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\SlicerDicer Raw\SlicerDicer Stats_Http"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\SlicerDicer Raw\SlicerDicer Stats_Query"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;TaskHost
     design-time-name="Package\SlicerDicer Stage"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="173,42"
           Id="Package\SlicerDicer Stage\SlicerDicer Parents"
-          TopLeft="409.5,383.5" /&gt;
+          TopLeft="211,291" /&gt;
         &lt;NodeLayout
           Size="203,42"
           Id="Package\SlicerDicer Stage\SlicerDicer Session Runs"
-          TopLeft="787.5,161.5" /&gt;
+          TopLeft="589,69" /&gt;
         &lt;NodeLayout
           Size="329,42"
           Id="Package\SlicerDicer Stage\ReportObjectRunDataStaging SlicerDicer Sessions"
-          TopLeft="730.5,275.5" /&gt;
+          TopLeft="532,183" /&gt;
         &lt;NodeLayout
           Size="270,42"
           Id="Package\SlicerDicer Stage\ReportObjectRunDataStaging SlicerDicer"
-          TopLeft="352.5,278.5" /&gt;
+          TopLeft="154,186" /&gt;
         &lt;NodeLayout
           Size="215,42"
           Id="Package\SlicerDicer Stage\SlicerDicer Session Parents"
-          TopLeft="787.5,380.5" /&gt;
+          TopLeft="589,288" /&gt;
         &lt;NodeLayout
           Size="361,42"
           Id="Package\SlicerDicer Stage\ReportObjectRunDataParentStaging SlicerDicer Sessions"
-          TopLeft="730.5,494.5" /&gt;
+          TopLeft="532,402" /&gt;
         &lt;NodeLayout
           Size="161,42"
           Id="Package\SlicerDicer Stage\SlicerDicer Runs"
-          TopLeft="409.5,164.5" /&gt;
+          TopLeft="211,72" /&gt;
         &lt;NodeLayout
           Size="313,42"
           Id="Package\SlicerDicer Stage\ReportObjectRunDataParentStaging SlicerDicer"
-          TopLeft="352.5,497.5" /&gt;
+          TopLeft="154,405" /&gt;
         &lt;EdgeLayout
           Id="Package\SlicerDicer Stage.Paths[OLE DB Source Output]"
-          TopLeft="488.75,206.5"&gt;
+          TopLeft="290.25,114"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,72"
               Start="0,0"
               End="0,64.5"&gt;
@@ -3474,49 +3672,41 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package\SlicerDicer Stage.Paths[OLE DB Source Output3]"
-          TopLeft="496,425.5"&gt;
+          TopLeft="693.5,111"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="13,72"
+              StartConnector="{x:Null}"
+              EndConnector="0,72"
               Start="0,0"
-              End="13,64.5"&gt;
+              End="0,64.5"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,32" /&gt;
-                  &lt;mssgle:CubicBezierSegment
-                    Point1="0,32"
-                    Point2="0,36"
-                    Point3="4,36" /&gt;
-                  &lt;mssgle:LineSegment
-                    End="9,36" /&gt;
-                  &lt;mssgle:CubicBezierSegment
-                    Point1="9,36"
-                    Point2="13,36"
-                    Point3="13,40" /&gt;
-                  &lt;mssgle:LineSegment
-                    End="13,64.5" /&gt;
+                    End="0,64.5" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package\SlicerDicer Stage.Paths[OLE DB Source Output2]"
-          TopLeft="895,422.5"&gt;
+          TopLeft="696.5,330"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="16,72"
               Start="0,0"
               End="16,64.5"&gt;
@@ -3542,29 +3732,45 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package\SlicerDicer Stage.Paths[OLE DB Source Output1]"
-          TopLeft="892,203.5"&gt;
+          TopLeft="297.5,333"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,72"
+              StartConnector="{x:Null}"
+              EndConnector="13,72"
               Start="0,0"
-              End="0,64.5"&gt;
+              End="13,64.5"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,64.5" /&gt;
+                    End="0,32" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,32"
+                    Point2="0,36"
+                    Point3="4,36" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="9,36" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="9,36"
+                    Point2="13,36"
+                    Point3="13,40" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="13,64.5" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
@@ -3655,226 +3861,32 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     &lt;/Properties&gt;
   &lt;/PipelineComponentMetadata&gt;
   &lt;TaskHost
-    design-time-name="Package\SlicerDicer Raw"&gt;
-    &lt;LayoutInfo&gt;
-      &lt;GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-        &lt;NodeLayout
-          Size="272,42"
-          Id="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_saveload"
-          TopLeft="74,361.800001942317" /&gt;
-        &lt;NodeLayout
-          Size="216,42"
-          Id="Package\SlicerDicer Raw\SlicerDicer Stats_SaveLoad"
-          TopLeft="89.1666643155946,266.333334731526" /&gt;
-        &lt;NodeLayout
-          Size="245,42"
-          Id="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_query"
-          TopLeft="404.166654182806,164.333334731526" /&gt;
-        &lt;NodeLayout
-          Size="180,42"
-          Id="Package\SlicerDicer Raw\SlicerDicer Stats_Http"
-          TopLeft="89.1666643155946,65.3333344215813" /&gt;
-        &lt;NodeLayout
-          Size="236,42"
-          Id="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_http"
-          TopLeft="60,163.800001632372" /&gt;
-        &lt;NodeLayout
-          Size="190,42"
-          Id="Package\SlicerDicer Raw\SlicerDicer Stats_Query"
-          TopLeft="427.49998602602,60" /&gt;
-        &lt;EdgeLayout
-          Id="Package\SlicerDicer Raw.Paths[OLE DB Source Output2]"
-          TopLeft="197.166664315595,308.333334731526"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="12.8333356844054,53.4666672107907"
-              Start="0,0"
-              End="12.8333356844054,45.9666672107907"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,22.7333336053954" /&gt;
-                  &lt;mssgle:CubicBezierSegment
-                    Point1="0,22.7333336053954"
-                    Point2="0,26.7333336053954"
-                    Point3="4,26.7333336053954" /&gt;
-                  &lt;mssgle:LineSegment
-                    End="8.8333356844054,26.7333336053954" /&gt;
-                  &lt;mssgle:CubicBezierSegment
-                    Point1="8.8333356844054,26.7333336053954"
-                    Point2="12.8333356844054,26.7333336053954"
-                    Point3="12.8333356844054,30.7333336053954" /&gt;
-                  &lt;mssgle:LineSegment
-                    End="12.8333356844054,45.9666672107907" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;EdgeLayout
-          Id="Package\SlicerDicer Raw.Paths[OLE DB Source Output1]"
-          TopLeft="524.433320104413,101.6"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,62.7333347315255"
-              Start="0,0"
-              End="0,55.2333347315255"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,55.2333347315255" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;EdgeLayout
-          Id="Package\SlicerDicer Raw.Paths[OLE DB Source Output]"
-          TopLeft="178.583332157797,106.933334421581"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,56.8666672107907"
-              Start="0,0"
-              End="0,49.3666672107907"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,49.3666672107907" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-      &lt;/GraphLayout&gt;
-    &lt;/LayoutInfo&gt;
-  &lt;/TaskHost&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_saveload"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\SlicerDicer Raw\SlicerDicer Stats_SaveLoad"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\SlicerDicer Raw\slicerdicer_server-slicerdicer-stats_query"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
-        &lt;Value
-          type="q2:string"&gt;Table&lt;/Value&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\SlicerDicer Raw\SlicerDicer Stats_Http"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;PipelineComponentMetadata
-    design-time-name="Package\SlicerDicer Raw\SlicerDicer Stats_Query"&gt;
-    &lt;Properties&gt;
-      &lt;Property&gt;
-        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
-      &lt;/Property&gt;
-    &lt;/Properties&gt;
-  &lt;/PipelineComponentMetadata&gt;
-  &lt;TaskHost
     design-time-name="Package\SSRS Bridge"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="182,42"
           Id="Package\SSRS Bridge\SSRS 1 to sub report"
           TopLeft="146,92" /&gt;
         &lt;NodeLayout
           Size="120,42"
-          Id="Package\SSRS Bridge\Bridge 1"
-          TopLeft="144,176" /&gt;
-        &lt;EdgeLayout
-          Id="Package\SSRS Bridge.Paths[OLE DB Source Output]"
-          TopLeft="237,134"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-33,42"
-              Start="0,0"
-              End="-33,34.5"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,17" /&gt;
-                  &lt;mssgle:CubicBezierSegment
-                    Point1="0,17"
-                    Point2="0,21"
-                    Point3="-4,21" /&gt;
-                  &lt;mssgle:LineSegment
-                    End="-29,21" /&gt;
-                  &lt;mssgle:CubicBezierSegment
-                    Point1="-29,21"
-                    Point2="-33,21"
-                    Point3="-33,25" /&gt;
-                  &lt;mssgle:LineSegment
-                    End="-33,34.5" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
+          Id="Package\SSRS Bridge\Bridge 2"
+          TopLeft="327,173" /&gt;
         &lt;NodeLayout
           Size="182,42"
           Id="Package\SSRS Bridge\SSRS 2 to sub report"
           TopLeft="360,93" /&gt;
         &lt;NodeLayout
           Size="120,42"
-          Id="Package\SSRS Bridge\Bridge 2"
-          TopLeft="327,173" /&gt;
+          Id="Package\SSRS Bridge\Bridge 1"
+          TopLeft="144,176" /&gt;
         &lt;EdgeLayout
           Id="Package\SSRS Bridge.Paths[OLE DB Source Output1]"
           TopLeft="451,135"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-64,38"
               Start="0,0"
               End="-64,30.5"&gt;
@@ -3903,6 +3915,40 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\SSRS Bridge.Paths[OLE DB Source Output]"
+          TopLeft="237,134"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-33,42"
+              Start="0,0"
+              End="-33,34.5"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,17" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,17"
+                    Point2="0,21"
+                    Point3="-4,21" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-29,21" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="-29,21"
+                    Point2="-33,21"
+                    Point3="-33,25" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-33,34.5" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
@@ -3911,6 +3957,19 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     &lt;Properties&gt;
       &lt;Property&gt;
         &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\SSRS Bridge\Bridge 2"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
       &lt;/Property&gt;
     &lt;/Properties&gt;
   &lt;/PipelineComponentMetadata&gt;
@@ -3939,7 +3998,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package\SSRS Raw"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="301,42"
           Id="Package\SSRS Raw\ssrs_database-reportserver-dbo-executionlogstorage"
@@ -3961,7 +4020,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="528.056998556998,511.822222222222"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,57.076479076479"
               Start="0,0"
               End="0,49.576479076479"&gt;
@@ -3975,7 +4034,9 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
@@ -3983,7 +4044,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="180.563492063493,511.822222222222"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,57.076479076479"
               Start="0,0"
               End="0,49.576479076479"&gt;
@@ -3997,14 +4058,16 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;AnnotationLayout
           Text="Data is imported to raw tables from source tables  into &amp;quot;raw&amp;quot; tables from SSRS report servers.&amp;#xA;There are three SSRS report servers in this org.&amp;#xA;&amp;#xA;Notes&amp;#xA;- only importing data from last two years&amp;#xA;- only importing SSRS Report (item type = 2)&amp;#xA;    /*case&amp;#xA;        when c.Type = 1 then N'SSRS Folder'&amp;#xA;        when c.Type = 2 then N'SSRS Report'&amp;#xA;        when c.Type = 3 then N'SSRS File'&amp;#xA;        when c.Type = 4 then N'SSRS Linked Report'&amp;#xA;        when c.Type = 5 then N'SSRS Datasource'&amp;#xA;        when c.Type = 6 then N'SSRS Model'&amp;#xA;        when c.Type = 8 then N'SSRS Shared Dataset'&amp;#xA;        when c.Type = 9 then N'SSRS Report Part'&amp;#xA;        when c.Type = 11 then N'SSRS KPI'&amp;#xA;        when c.Type = 12 then N'SSRS Mobile Report (folder)'&amp;#xA;        when c.Type = 13 then N'SSRS Power BI Desktop Document'&amp;#xA;        else N'SSRS Unknown'&amp;#xA;    end as ReportObjectType,*/"
           ParentId="Package\SSRS Raw"
-          FontInfo="{assembly:Null}"
-          Size="521,343"
+          FontInfo="{x:Null}"
+          Size="521,NaN"
           Id="c216f73b-97db-4269-ad68-7cf67f5fdf3b"
           TopLeft="230,82" /&gt;
       &lt;/GraphLayout&gt;
@@ -4066,7 +4129,15 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package\SSRS Stage"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
+        &lt;NodeLayout
+          Size="194,42"
+          Id="Package\SSRS Stage\ssrs_database SSRS Runs"
+          TopLeft="54.0038287371135,413.42688519171" /&gt;
+        &lt;NodeLayout
+          Size="257,42"
+          Id="Package\SSRS Stage\ReportObjectRunDataParentStaging"
+          TopLeft="30.5038287371135,311.42688519171" /&gt;
         &lt;NodeLayout
           Size="207,42"
           Id="Package\SSRS Stage\ssrs_database SSRS Parents"
@@ -4076,86 +4147,75 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           Id="Package\SSRS Stage\ReportObjectRunDataParentStaging 2"
           TopLeft="299.344392220672,311.42688519171" /&gt;
         &lt;NodeLayout
-          Size="227,42"
-          Id="Package\SSRS Stage\clarity_server SSRS Parents"
-          TopLeft="315.344392220672,235.74285438201" /&gt;
-        &lt;NodeLayout
-          Size="257,42"
-          Id="Package\SSRS Stage\ReportObjectRunDataParentStaging"
-          TopLeft="30.5038287371135,311.42688519171" /&gt;
-        &lt;EdgeLayout
-          Id="Package\SSRS Stage.Paths[OLE DB Source Output1]"
-          TopLeft="158.253828737114,277.74285438201"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,33.6840308097"
-              Start="0,0"
-              End="0,26.1840308097"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,26.1840308097" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;EdgeLayout
-          Id="Package\SSRS Stage.Paths[OLE DB Source Output]"
-          TopLeft="430.594392220672,277.74285438201"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,33.6840308097"
-              Start="0,0"
-              End="0,26.1840308097"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,26.1840308097" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;AnnotationLayout
-          Text="Data is moved from raw tables into a common staging tables.&amp;#xA;&amp;#xA;Notes&amp;#xA;- SSRS users come as domain (ex first-last)"
-          ParentId="Package\SSRS Stage"
-          FontInfo="{assembly:Null}"
-          Size="354,88"
-          Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
-          TopLeft="135,62" /&gt;
-        &lt;NodeLayout
-          Size="194,42"
-          Id="Package\SSRS Stage\ssrs_database SSRS Runs"
-          TopLeft="54.0038287371135,413.42688519171" /&gt;
-        &lt;NodeLayout
           Size="234,42"
           Id="Package\SSRS Stage\ReportObjectRunDataStaging 2"
           TopLeft="299.344392220672,489.11091600141" /&gt;
+        &lt;NodeLayout
+          Size="225,42"
+          Id="Package\SSRS Stage\ReportObjectRunDataStaging"
+          TopLeft="30.5038287371135,489.11091600141" /&gt;
         &lt;NodeLayout
           Size="215,42"
           Id="Package\SSRS Stage\clarity_server SSRS Runs"
           TopLeft="315.344392220672,413.42688519171" /&gt;
         &lt;NodeLayout
-          Size="225,42"
-          Id="Package\SSRS Stage\ReportObjectRunDataStaging"
-          TopLeft="30.5038287371135,489.11091600141" /&gt;
+          Size="227,42"
+          Id="Package\SSRS Stage\clarity_server SSRS Parents"
+          TopLeft="315.344392220672,235.74285438201" /&gt;
+        &lt;EdgeLayout
+          Id="Package\SSRS Stage.Paths[OLE DB Source Output]"
+          TopLeft="430.594392220672,277.74285438201"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,33.6840308097"
+              Start="0,0"
+              End="0,26.1840308097"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,26.1840308097" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\SSRS Stage.Paths[OLE DB Source Output3]"
+          TopLeft="419.594392220672,455.42688519171"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,33.6840308097"
+              Start="0,0"
+              End="0,26.1840308097"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,26.1840308097" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package\SSRS Stage.Paths[OLE DB Source Output2]"
           TopLeft="151.003828737114,455.42688519171"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-8,33.6840308097"
               Start="0,0"
               End="-8,26.1840308097"&gt;
@@ -4181,15 +4241,17 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
-          Id="Package\SSRS Stage.Paths[OLE DB Source Output3]"
-          TopLeft="419.594392220672,455.42688519171"&gt;
+          Id="Package\SSRS Stage.Paths[OLE DB Source Output1]"
+          TopLeft="158.253828737114,277.74285438201"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,33.6840308097"
               Start="0,0"
               End="0,26.1840308097"&gt;
@@ -4203,9 +4265,18 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
+        &lt;AnnotationLayout
+          Text="Data is moved from raw tables into a common staging tables.&amp;#xA;&amp;#xA;Notes&amp;#xA;- SSRS users come as domain (ex first-last)"
+          ParentId="Package\SSRS Stage"
+          FontInfo="{x:Null}"
+          Size="354,NaN"
+          Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
+          TopLeft="135,62" /&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;
@@ -4297,7 +4368,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package\Tableau Bridge"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="212,42"
           Id="Package\Tableau Bridge\Tableau Dash to Workbook"
@@ -4311,7 +4382,7 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
           TopLeft="453,133"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-18.5,32"
               Start="0,0"
               End="-18.5,24.5"&gt;
@@ -4337,7 +4408,9 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
       &lt;/GraphLayout&gt;
@@ -4368,58 +4441,29 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
     design-time-name="Package\Tableau Stage"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
-        &lt;NodeLayout
-          Size="143,42"
-          Id="Package\Tableau Stage\Tableau Runs"
-          TopLeft="196.33333330022,245.633333326446" /&gt;
-        &lt;NodeLayout
-          Size="257,42"
-          Id="Package\Tableau Stage\ReportObjectRunDataStaging Tableau"
-          TopLeft="140.5,326.5" /&gt;
-        &lt;EdgeLayout
-          Id="Package\Tableau Stage.Paths[OLE DB Source Output]"
-          TopLeft="268.41666665011,287.633333326446"&gt;
-          &lt;EdgeLayout.Curve&gt;
-            &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,38.866666673554"
-              Start="0,0"
-              End="0,31.366666673554"&gt;
-              &lt;mssgle:Curve.Segments&gt;
-                &lt;mssgle:SegmentCollection
-                  Capacity="5"&gt;
-                  &lt;mssgle:LineSegment
-                    End="0,31.366666673554" /&gt;
-                &lt;/mssgle:SegmentCollection&gt;
-              &lt;/mssgle:Curve.Segments&gt;
-            &lt;/mssgle:Curve&gt;
-          &lt;/EdgeLayout.Curve&gt;
-          &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
-          &lt;/EdgeLayout.Labels&gt;
-        &lt;/EdgeLayout&gt;
-        &lt;AnnotationLayout
-          Text="Data is moved from raw tables into a common staging tables.&amp;#xA;"
-          ParentId="Package\Tableau Stage"
-          FontInfo="{assembly:Null}"
-          Size="354,56"
-          Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
-          TopLeft="135,62" /&gt;
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph"&gt;
         &lt;NodeLayout
           Size="160,42"
           Id="Package\Tableau Stage\Tableau Parents"
           TopLeft="176.83333330022,487.5" /&gt;
         &lt;NodeLayout
+          Size="257,42"
+          Id="Package\Tableau Stage\ReportObjectRunDataStaging Tableau"
+          TopLeft="140.5,326.5" /&gt;
+        &lt;NodeLayout
           Size="300,42"
           Id="Package\Tableau Stage\ReportObjectRunDataParentStaging Tableau"
           TopLeft="132,571.366666673554" /&gt;
+        &lt;NodeLayout
+          Size="143,42"
+          Id="Package\Tableau Stage\Tableau Runs"
+          TopLeft="196.33333330022,245.633333326446" /&gt;
         &lt;EdgeLayout
           Id="Package\Tableau Stage.Paths[OLE DB Source Output1]"
           TopLeft="256.83333330022,529.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="25.16666669978,41.8666666735539"
               Start="0,0"
               End="25.16666669978,34.3666666735539"&gt;
@@ -4445,9 +4489,42 @@ where r.EventDate &gt; DATEADD(MONTH,-12,getdate())
             &lt;/mssgle:Curve&gt;
           &lt;/EdgeLayout.Curve&gt;
           &lt;EdgeLayout.Labels&gt;
-            &lt;EdgeLabelCollection /&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
+        &lt;EdgeLayout
+          Id="Package\Tableau Stage.Paths[OLE DB Source Output]"
+          TopLeft="268.41666665011,287.633333326446"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,38.866666673554"
+              Start="0,0"
+              End="0,31.366666673554"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,31.366666673554" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;AnnotationLayout
+          Text="Data is moved from raw tables into a common staging tables.&amp;#xA;"
+          ParentId="Package\Tableau Stage"
+          FontInfo="{x:Null}"
+          Size="354,NaN"
+          Id="18c21111-86aa-437f-b6f4-d0c010822ae6"
+          TopLeft="135,62" /&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/TaskHost&gt;

@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSRS2"
   DTS:PackageType="5"
-  DTS:VersionBuild="29"
-  DTS:VersionGUID="{CD7D3C5B-04C9-40E8-85C5-F277D305EF41}">
+  DTS:VersionBuild="40"
+  DTS:VersionGUID="{1A47638D-6576-4E29-A56A-18EA6C28044A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2517,7 +2517,7 @@
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">with #SSRS_XMLOne as ( 
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">with #SSRS_XMLTwo as ( 
 select
   ItemId
   ,Name 
@@ -2533,7 +2533,7 @@ from
   ItemID
    ,Name
   ,CONVERT(varbinary(max),Content) AS Content 
- FROM raw.[ssrs_database-reportserver-dbo-catalog] 
+ FROM raw.[clarity_server-reportserver-dbo-catalog] 
 WHERE Type IN (2,5,7,8) 
 ) as t 
   
@@ -2541,7 +2541,7 @@ WHERE Type IN (2,5,7,8)
  --- query two 
 select 
 concat( 
-       'ssrs_database' 
+       'clarity_server' 
     ,   '||' 
     ,   'reportserver' 
     ,   '||' 
@@ -2575,14 +2575,14 @@ SELECT
 	,T.Query.value('./@Name', 'nvarchar(max)') as Name
     ,T.Query.value('(./*:Query/*:CommandText/text())[1]','nvarchar(max)') AS Query 
       
-FROM #SSRS_XMLOne 
+FROM #SSRS_XMLTwo 
 --Get all the Query elements (The "*:" ignores any xml namespaces) 
-CROSS APPLY #SSRS_XMLOne.Content.nodes('//*:DataSet') T(Query) 
+CROSS APPLY #SSRS_XMLTwo.Content.nodes('//*:DataSet') T(Query) 
   
 )  as t 
 where Query is not null
 ) as t 
-inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</property>
+inner join raw.[clarity_server-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</property>
                 <property
                   dataType="System.String"
                   description="The variable that contains the SQL command to be executed."
@@ -2672,7 +2672,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                     <externalMetadataColumn
                       refId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[BizKey]"
                       dataType="wstr"
-                      length="100"
+                      length="102"
                       name="BizKey" />
                     <externalMetadataColumn
                       refId="Package\Stage\Queries.Outputs[OLE DB Source Output].ExternalColumns[Query]"
@@ -2701,7 +2701,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
                     <outputColumn
                       refId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[BizKey]"
                       dataType="wstr"
-                      length="100"
+                      length="102"
                       lineageId="Package\Stage\Queries.Outputs[OLE DB Source Error Output].Columns[BizKey]"
                       name="BizKey" />
                     <outputColumn
@@ -3197,11 +3197,11 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               </outputs>
             </component>
             <component
-              refId="Package\Stage\ReportObjectSubscriptions"
+              refId="Package\Stage\ReportObjectSubscriptions 1"
               componentClassID="Microsoft.OLEDBDestination"
               contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
               description="OLE DB Destination"
-              name="ReportObjectSubscriptions"
+              name="ReportObjectSubscriptions 1"
               usesDispositions="true"
               version="4">
               <properties>
@@ -3254,7 +3254,7 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               </properties>
               <connections>
                 <connection
-                  refId="Package\Stage\ReportObjectSubscriptions.Connections[OleDbConnection]"
+                  refId="Package\Stage\ReportObjectSubscriptions 1.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
@@ -3262,97 +3262,99 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               </connections>
               <inputs>
                 <input
-                  refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input]"
+                  refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input]"
                   errorOrTruncationOperation="Insert"
                   errorRowDisposition="FailComponent"
                   hasSideEffects="true"
                   name="OLE DB Destination Input">
                   <inputColumns>
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[SubscriptionID]"
-                      cachedDataType="guid"
-                      cachedName="SubscriptionID"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionId]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionID]" />
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[subscriptionid]"
+                      cachedDataType="wstr"
+                      cachedLength="41"
+                      cachedName="subscriptionid"
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionId]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[subscriptionid]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[InactiveFlags]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[InactiveFlags]"
                       cachedDataType="i4"
                       cachedName="InactiveFlags"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[InactiveFlags]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[InactiveFlags]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[InactiveFlags]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[InactiveFlags]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[EmailList]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[EmailList]"
                       cachedDataType="wstr"
                       cachedLength="4000"
                       cachedName="EmailList"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[EmailList]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[EmailList]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[EmailList]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[EmailList]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[Description]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[Description]"
                       cachedDataType="wstr"
                       cachedLength="512"
                       cachedName="Description"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Description]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[Description]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[LastStatus]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[LastStatus]"
                       cachedDataType="wstr"
                       cachedLength="260"
                       cachedName="LastStatus"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[LastStatus]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[LastStatus]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[LastStatus]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[LastStatus]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[LastRunTime]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[LastRunTime]"
                       cachedDataType="dbTimeStamp"
                       cachedName="LastRunTime"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[LastRunTime]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[LastRunTime]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[LastRunTime]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[LastRunTime]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[SubscriptionTo]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[SubscriptionTo]"
                       cachedDataType="wstr"
                       cachedLength="4000"
                       cachedName="SubscriptionTo"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionTo]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionTo]" />
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionTo]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[SubscriptionTo]" />
                     <inputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].Columns[Report_OID]"
-                      cachedDataType="guid"
-                      cachedName="Report_OID"
-                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectId]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Report_OID]" />
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].Columns[report_oid]"
+                      cachedDataType="wstr"
+                      cachedLength="41"
+                      cachedName="report_oid"
+                      externalMetadataColumnId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectId]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[report_oid]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectId]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectId]"
                       dataType="nText"
                       name="ReportObjectId" />
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionId]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionId]"
                       dataType="nText"
                       name="SubscriptionId" />
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[InactiveFlags]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[InactiveFlags]"
                       dataType="i4"
                       name="InactiveFlags" />
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[EmailList]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[EmailList]"
                       dataType="nText"
                       name="EmailList" />
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[Description]"
                       dataType="nText"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[LastStatus]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[LastStatus]"
                       dataType="nText"
                       name="LastStatus" />
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[LastRunTime]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[LastRunTime]"
                       dataType="dbTimeStamp"
                       name="LastRunTime" />
                     <externalMetadataColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionTo]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input].ExternalColumns[SubscriptionTo]"
                       dataType="nText"
                       name="SubscriptionTo" />
                   </externalMetadataColumns>
@@ -3360,22 +3362,22 @@ inner join raw.[ssrs_database-reportserver-dbo-catalog] r on r.ItemId=t.ItemID</
               </inputs>
               <outputs>
                 <output
-                  refId="Package\Stage\ReportObjectSubscriptions.Outputs[OLE DB Destination Error Output]"
+                  refId="Package\Stage\ReportObjectSubscriptions 1.Outputs[OLE DB Destination Error Output]"
                   exclusionGroup="1"
                   isErrorOut="true"
                   name="OLE DB Destination Error Output"
-                  synchronousInputId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input]">
+                  synchronousInputId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input]">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Stage\ReportObjectSubscriptions.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Stage\ReportObjectSubscriptions 1.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Stage\ReportObjectSubscriptions.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      refId="Package\Stage\ReportObjectSubscriptions 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Stage\ReportObjectSubscriptions.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Stage\ReportObjectSubscriptions 1.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -4123,11 +4125,11 @@ left outer join
               </outputs>
             </component>
             <component
-              refId="Package\Stage\Subscriptions"
+              refId="Package\Stage\Subscriptions 1"
               componentClassID="Microsoft.OLEDBSource"
               contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
               description="OLE DB Source"
-              name="Subscriptions"
+              name="Subscriptions 1"
               usesDispositions="true"
               version="7">
               <properties>
@@ -4147,8 +4149,8 @@ left outer join
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">(SELECT distinct [SubscriptionID]
-    ,[Report_OID]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">(SELECT distinct   concat(N'',[SubscriptionID]) as subscriptionid
+    ,  concat(N'',[Report_OID]) as report_oid
     ,[InactiveFlags]
     ,LEFT(
      REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), 
@@ -4158,7 +4160,7 @@ left outer join
     ,[LastStatus]
     ,[LastRunTime]
     ,LTRIM(RTRIM(s.Value)) SubscriptionTo
- FROM [raw].[ssrs_database-reportserver-dbo-subscriptions] Subscriptions
+ FROM [raw].[clarity_server-reportserver-dbo-subscriptions] Subscriptions
    CROSS APPLY STRING_SPLIT(
         LEFT(
           REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''), 
@@ -4169,8 +4171,8 @@ left outer join
 
  union
   
- (SELECT distinct [SubscriptionID]
-    ,[Report_OID]
+ (SELECT distinct   concat(N'',[SubscriptionID]) 
+    ,  concat(N'',[Report_OID])
     ,[InactiveFlags]
 
     ,LEFT(
@@ -4185,7 +4187,7 @@ left outer join
       CHARINDEX('&lt;/Value&gt;', REPLACE(SUBSTRING(ExtensionSettings, CHARINDEX('&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;',ExtensionSettings), 10000), '&lt;Name&gt;TO&lt;/Name&gt;&lt;Value&gt;', ''))-1
       ), '&lt;ParameterValues&gt;&lt;ParameterValue&gt;&lt;Name&gt;PATH&lt;/Name&gt;&lt;Value&gt;', '')
 
- FROM [raw].[ssrs_database-reportserver-dbo-subscriptions] Subscriptions
+ FROM [raw].[clarity_server-reportserver-dbo-subscriptions] Subscriptions
 
  WHERE Subscriptions.ExtensionSettings NOT LIKE '%;%' 
    and LEFT(
@@ -4216,7 +4218,7 @@ left outer join
               </properties>
               <connections>
                 <connection
-                  refId="Package\Stage\Subscriptions.Connections[OleDbConnection]"
+                  refId="Package\Stage\Subscriptions 1.Connections[OleDbConnection]"
                   connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]"
                   description="The OLE DB runtime connection used to access the database."
@@ -4224,185 +4226,191 @@ left outer join
               </connections>
               <outputs>
                 <output
-                  refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output]"
+                  refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output]"
                   name="OLE DB Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionID]"
-                      dataType="guid"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionID]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionID]"
-                      name="SubscriptionID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Report_OID]"
-                      dataType="guid"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[Report_OID]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Report_OID]"
-                      name="Report_OID"
-                      truncationRowDisposition="FailComponent" />
-                    <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[InactiveFlags]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[InactiveFlags]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[InactiveFlags]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[InactiveFlags]"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[InactiveFlags]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[InactiveFlags]"
                       name="InactiveFlags"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[EmailList]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[EmailList]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[EmailList]"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[EmailList]"
                       length="4000"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[EmailList]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[EmailList]"
                       name="EmailList"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Description]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[Description]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[Description]"
                       length="512"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[Description]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[Description]"
                       name="Description"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[LastStatus]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[LastStatus]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[LastStatus]"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[LastStatus]"
                       length="260"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[LastStatus]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[LastStatus]"
                       name="LastStatus"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[LastRunTime]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[LastRunTime]"
                       dataType="dbTimeStamp"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[LastRunTime]"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[LastRunTime]"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[LastRunTime]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[LastRunTime]"
                       name="LastRunTime"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionTo]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[SubscriptionTo]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionTo]"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionTo]"
                       length="4000"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].Columns[SubscriptionTo]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[SubscriptionTo]"
                       name="SubscriptionTo"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[subscriptionid]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[subscriptionid]"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[subscriptionid]"
+                      name="subscriptionid"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[report_oid]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[report_oid]"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].Columns[report_oid]"
+                      name="report_oid"
                       truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionID]"
-                      dataType="guid"
-                      name="SubscriptionID" />
-                    <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[Report_OID]"
-                      dataType="guid"
-                      name="Report_OID" />
-                    <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[InactiveFlags]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[InactiveFlags]"
                       dataType="i4"
                       name="InactiveFlags" />
                     <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[EmailList]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[EmailList]"
                       dataType="wstr"
                       length="4000"
                       name="EmailList" />
                     <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[Description]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[Description]"
                       dataType="wstr"
                       length="512"
                       name="Description" />
                     <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[LastStatus]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[LastStatus]"
                       dataType="wstr"
                       length="260"
                       name="LastStatus" />
                     <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[LastRunTime]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[LastRunTime]"
                       dataType="dbTimeStamp"
                       name="LastRunTime" />
                     <externalMetadataColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionTo]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[SubscriptionTo]"
                       dataType="wstr"
                       length="4000"
                       name="SubscriptionTo" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[subscriptionid]"
+                      dataType="wstr"
+                      length="41"
+                      name="subscriptionid" />
+                    <externalMetadataColumn
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output].ExternalColumns[report_oid]"
+                      dataType="wstr"
+                      length="41"
+                      name="report_oid" />
                   </externalMetadataColumns>
                 </output>
                 <output
-                  refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output]"
+                  refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output]"
                   isErrorOut="true"
                   name="OLE DB Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[SubscriptionID]"
-                      dataType="guid"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[SubscriptionID]"
-                      name="SubscriptionID" />
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[subscriptionid]"
+                      dataType="wstr"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[subscriptionid]"
+                      name="subscriptionid" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[Report_OID]"
-                      dataType="guid"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[Report_OID]"
-                      name="Report_OID" />
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[report_oid]"
+                      dataType="wstr"
+                      length="41"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[report_oid]"
+                      name="report_oid" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[InactiveFlags]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[InactiveFlags]"
                       dataType="i4"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[InactiveFlags]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[InactiveFlags]"
                       name="InactiveFlags" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[EmailList]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[EmailList]"
                       dataType="wstr"
                       length="4000"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[EmailList]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[EmailList]"
                       name="EmailList" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[Description]"
                       dataType="wstr"
                       length="512"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[Description]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[Description]"
                       name="Description" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[LastStatus]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[LastStatus]"
                       dataType="wstr"
                       length="260"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[LastStatus]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[LastStatus]"
                       name="LastStatus" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[LastRunTime]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[LastRunTime]"
                       dataType="dbTimeStamp"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[LastRunTime]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[LastRunTime]"
                       name="LastRunTime" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[SubscriptionTo]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[SubscriptionTo]"
                       dataType="wstr"
                       length="4000"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[SubscriptionTo]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[SubscriptionTo]"
                       name="SubscriptionTo" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
                       name="ErrorCode"
                       specialFlags="1" />
                     <outputColumn
-                      refId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      refId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       dataType="i4"
-                      lineageId="Package\Stage\Subscriptions.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      lineageId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -4435,7 +4443,7 @@ left outer join
                   dataType="System.String"
                   description="The SQL command to be executed."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select username from raw.[ssrs_database-reportserver-dbo-users]
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select username from raw.[clarity_server-reportserver-dbo-users]
 where username is not null
 and username != ''</property>
                 <property
@@ -4530,19 +4538,19 @@ and username != ''</property>
               startId="Package\Stage\Reports.Outputs[OLE DB Source Output]" />
             <path
               refId="Package\Stage.Paths[OLE DB Source Output1]"
-              endId="Package\Stage\ReportObjectSubscriptions.Inputs[OLE DB Destination Input]"
-              name="OLE DB Source Output"
-              startId="Package\Stage\Subscriptions.Outputs[OLE DB Source Output]" />
-            <path
-              refId="Package\Stage.Paths[OLE DB Source Output2]"
               endId="Package\Stage\ReportObjectUser.Inputs[OLE DB Destination Input]"
               name="OLE DB Source Output"
               startId="Package\Stage\Users.Outputs[OLE DB Source Output]" />
             <path
-              refId="Package\Stage.Paths[OLE DB Source Output3]"
+              refId="Package\Stage.Paths[OLE DB Source Output2]"
               endId="Package\Stage\ReportObjectQueryStaging.Inputs[OLE DB Destination Input]"
               name="OLE DB Source Output"
               startId="Package\Stage\Queries.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\Stage.Paths[OLE DB Source Output3]"
+              endId="Package\Stage\ReportObjectSubscriptions 1.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Stage\Subscriptions 1.Outputs[OLE DB Source Output]" />
           </paths>
         </pipeline>
       </DTS:ObjectData>
@@ -4897,13 +4905,63 @@ and username != ''</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="203,42"
+          Id="Package\Stage\ReportObjectQueryStaging"
+          TopLeft="34,515.888235285538" />
+        <NodeLayout
           Size="118,42"
           Id="Package\Stage\Reports"
           TopLeft="37.07142858116,31.5" />
         <NodeLayout
+          Size="167,42"
+          Id="Package\Stage\ReportObjectUser"
+          TopLeft="346,523.14033610136" />
+        <NodeLayout
           Size="176,42"
           Id="Package\Stage\ReportObjectStaging"
           TopLeft="34,132.888235285538" />
+        <NodeLayout
+          Size="108,42"
+          Id="Package\Stage\Users"
+          TopLeft="360,454.14033610136" />
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Stage\Queries"
+          TopLeft="46,437.888235285538" />
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output1]"
+          TopLeft="414,496.14033610136">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="15.5,27"
+              Start="0,0"
+              End="15.5,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,9.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,9.5"
+                    Point2="0,13.5"
+                    Point3="4,13.5" />
+                  <mssgle:LineSegment
+                    End="11.5,13.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="11.5,13.5"
+                    Point2="15.5,13.5"
+                    Point3="15.5,17.5" />
+                  <mssgle:LineSegment
+                    End="15.5,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Stage.Paths[OLE DB Source Output]"
           TopLeft="96.07142858116,73.5">
@@ -4938,100 +4996,8 @@ and username != ''</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="145,42"
-          Id="Package\Stage\Subscriptions"
-          TopLeft="34,234.888235285538" />
-        <NodeLayout
-          Size="210,42"
-          Id="Package\Stage\ReportObjectSubscriptions"
-          TopLeft="56,335.888235285538" />
-        <EdgeLayout
-          Id="Package\Stage.Paths[OLE DB Source Output1]"
-          TopLeft="106.5,276.888235285538">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="54.5,59"
-              Start="0,0"
-              End="54.5,51.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,25.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,25.5"
-                    Point2="0,29.5"
-                    Point3="4,29.5" />
-                  <mssgle:LineSegment
-                    End="50.5,29.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="50.5,29.5"
-                    Point2="54.5,29.5"
-                    Point3="54.5,33.5" />
-                  <mssgle:LineSegment
-                    End="54.5,51.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="167,42"
-          Id="Package\Stage\ReportObjectUser"
-          TopLeft="346,523.14033610136" />
-        <NodeLayout
-          Size="108,42"
-          Id="Package\Stage\Users"
-          TopLeft="360,454.14033610136" />
-        <NodeLayout
-          Size="203,42"
-          Id="Package\Stage\ReportObjectQueryStaging"
-          TopLeft="34,515.888235285538" />
-        <NodeLayout
-          Size="118,42"
-          Id="Package\Stage\Queries"
-          TopLeft="46,437.888235285538" />
         <EdgeLayout
           Id="Package\Stage.Paths[OLE DB Source Output2]"
-          TopLeft="414,496.14033610136">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="15.5,27"
-              Start="0,0"
-              End="15.5,19.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,9.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,9.5"
-                    Point2="0,13.5"
-                    Point3="4,13.5" />
-                  <mssgle:LineSegment
-                    End="11.5,13.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="11.5,13.5"
-                    Point2="15.5,13.5"
-                    Point3="15.5,17.5" />
-                  <mssgle:LineSegment
-                    End="15.5,19.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Stage.Paths[OLE DB Source Output3]"
           TopLeft="105,479.888235285538">
           <EdgeLayout.Curve>
             <mssgle:Curve
@@ -5064,11 +5030,77 @@ and username != ''</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="210,42"
+          Id="Package\Stage\ReportObjectSubscriptions 1"
+          TopLeft="316,133" />
+        <NodeLayout
+          Size="154,42"
+          Id="Package\Stage\Subscriptions 1"
+          TopLeft="294,32" />
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output3]"
+          TopLeft="371,74">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="50,59"
+              Start="0,0"
+              End="50,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5"
+                    Point2="0,29.5"
+                    Point3="4,29.5" />
+                  <mssgle:LineSegment
+                    End="46,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="46,29.5"
+                    Point2="50,29.5"
+                    Point3="50,33.5" />
+                  <mssgle:LineSegment
+                    End="50,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\Stage\Reports">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\Users">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\Queries">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\Subscriptions 1">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
