@@ -7,12 +7,12 @@
   DTS:CreatorName="YOURORGNAME\Sean-Pickering"
   DTS:DTSID="{CB45E589-FB42-4A03-BC38-FA6C3BCBF7AE}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-Setup"
   DTS:PackageType="5"
-  DTS:VersionBuild="25"
-  DTS:VersionGUID="{57A41A79-EA26-4008-9459-0B6DF57F342A}">
+  DTS:VersionBuild="27"
+  DTS:VersionGUID="{5F97E6DA-E125-4A4E-A680-6F7D3CF144E3}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>

@@ -1,0 +1,937 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="2/7/2023 1:14:32 PM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS10755" DTS:CreatorName="YOURORGNAME\Sean-Pickering" DTS:DTSID="{C8A6E6AA-10D5-41E9-84AC-454349968EB0}" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.68" DTS:LocaleID="1033" DTS:ObjectName="ETL-AtlasHub" DTS:PackageType="5" DTS:VersionBuild="28" DTS:VersionGUID="{0D700682-4866-4883-9907-D3FEA9E2BFAF}">
+  <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[atlas_database.atlas_staging]" DTS:CreationName="OLEDB" DTS:DTSID="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}" DTS:ObjectName="atlas_database.atlas_staging">
+      <DTS:PropertyExpression DTS:Name="InitialCatalog">@[$Package::DG_Staging_InitialCatalog]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="Data Source=ssrs_database;Initial Catalog=atlas_staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;"/>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" DTS:CreationName="ODBC" DTS:DTSID="{C2C1A33D-0E6E-4B63-B6F4-03D672E33465}" DTS:ObjectName="atlas_hub_database.atlas_hub_staging">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager DTS:ConnectionString="atlas_hub_connectionstring">
+          <DTS:Password DTS:Name="pwd" Sensitive="1" Encrypted="1"></DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter DTS:CreationName="" DTS:DataType="8" DTS:DTSID="{4DA5DEF6-3539-49FE-AA4D-B80076DD92AA}" DTS:ObjectName="Data_Governance_InitialCatalog">
+      <DTS:Property DTS:DataType="8" DTS:Name="ParameterValue">atlas</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter DTS:CreationName="" DTS:DataType="8" DTS:DTSID="{F7539A84-E1FC-443D-B91A-4E94F2B99CB2}" DTS:ObjectName="DG_Staging_InitialCatalog">
+      <DTS:Property DTS:DataType="8" DTS:Name="ParameterValue">atlas_staging</DTS:Property>
+    </DTS:PackageParameter>
+    <DTS:PackageParameter DTS:CreationName="" DTS:DataType="8" DTS:DTSID="{3EE0DD4D-166C-4C97-B7B8-B1A922710D8A}" DTS:ObjectName="Org_AD_Name">
+      <DTS:Property DTS:DataType="8" DTS:Name="ParameterValue">YOURORGNAME</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables/>
+  <DTS:Executables>
+    <DTS:Executable DTS:refId="Package\Atlas Hub Staging" DTS:CreationName="Microsoft.Pipeline" DTS:DelayValidation="True" DTS:Description="Data Flow Task" DTS:DTSID="{46fb8d86-c58b-4132-88d7-dfb027893294}" DTS:ExecutableType="Microsoft.Pipeline" DTS:LocaleID="-1" DTS:ObjectName="Atlas Hub Staging" DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables/>
+      <DTS:ObjectData>
+        <pipeline version="1">
+          <components>
+            <component refId="Package\Atlas Hub Staging\atlas_hub_hierarchy" componentClassID="Attunity.SSISODBCSrc" description="ODBC Source" name="atlas_hub_hierarchy" usesDispositions="true" version="6">
+              <properties>
+                <property dataType="System.String" description="The name of the table to be fetched." expressionType="Notify" name="TableName"/>
+                <property dataType="System.String" description="The SQL command to be executed." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select 
+	concat(
+		'atlas_hub_database'
+		,   '||'
+		,  'atlas_hub'
+		,   '||'
+		,   'atlas-hub-project'
+		,   '||'
+		,   '||'
+		,   '||'
+		,   p.id
+		) as ParentReportObjectBizKey
+	,concat(
+		'atlas_hub_database'
+		,   '||'
+		,  'atlas_hub'
+		,   '||'
+		,   'atlas-hub-task'
+		,   '||'
+		,   '||'
+		,   '||'
+		,   t.id
+	) as ChildReportObjectBizKey
+,case
+	when t."order" is null or t."order" = 0 then 1
+	else t."order" end as line
+from task t
+left join project p on t.project_id=p.id</property>
+                <property dataType="System.Int32" description="Specify the number of rows fetched per batch." expressionType="Notify" name="BatchSize">1000</property>
+                <property dataType="System.Int32" description="Determines the chunk size allocation for LOB columns" expressionType="Notify" name="LobChunkSize">32768</property>
+                <property dataType="System.Boolean" description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)" expressionType="Notify" name="ExposeCharColumnsAsUnicode">false</property>
+                <property dataType="System.Int32" description="The number of seconds to wait for an SQL statement to execute before returning to the application." expressionType="Notify" name="StatementTimeout">0</property>
+                <property dataType="System.Int32" description="The code page to use when code page information is unavailable from the data source." expressionType="Notify" name="DefaultCodePage">1252</property>
+                <property dataType="System.Int32" description="The method used for fetching data." expressionType="Notify" name="FetchMethod">1</property>
+                <property dataType="System.Int32" description="The ODBC C data type for binding numeric data." expressionType="Notify" name="BindNumericAs">0</property>
+                <property dataType="System.Int32" description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)." expressionType="Notify" name="BindCharColumnsAs">0</property>
+                <property dataType="System.Int32" description="The mode used to access the database." expressionType="Notify" name="AccessMode" typeConverter="AccessMode">1</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Connections[ODBCConnection]" connectionManagerID="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" description="The ODBC runtime connection used to access the database." name="ODBCConnection"/>
+              </connections>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output]" errorRowDisposition="FailComponent" name="ODBC Source Output" truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[parentreportobjectbizkey]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[parentreportobjectbizkey]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[parentreportobjectbizkey]" name="parentreportobjectbizkey"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[childreportobjectbizkey]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[childreportobjectbizkey]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[childreportobjectbizkey]" name="childreportobjectbizkey"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[line]" dataType="i4" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[line]" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[line]" name="line"/>
+                  </outputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[parentreportobjectbizkey]" dataType="nText" name="parentreportobjectbizkey"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[childreportobjectbizkey]" dataType="nText" name="childreportobjectbizkey"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[line]" dataType="i4" name="line"/>
+                  </externalMetadataColumns>
+                </output>
+                <output refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output]" isErrorOut="true" name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[parentreportobjectbizkey]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[parentreportobjectbizkey]" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[parentreportobjectbizkey]" name="parentreportobjectbizkey"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[childreportobjectbizkey]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[childreportobjectbizkey]" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[childreportobjectbizkey]" name="childreportobjectbizkey"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[line]" dataType="i4" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].ExternalColumns[line]" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[line]" name="line"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+            <component refId="Package\Atlas Hub Staging\atlas_hub_project" componentClassID="Attunity.SSISODBCSrc" description="ODBC Source" name="atlas_hub_project" usesDispositions="true" validateExternalMetadata="False" version="6">
+              <properties>
+                <property dataType="System.String" description="The name of the table to be fetched." expressionType="Notify" name="TableName"/>
+                <property dataType="System.String" description="The SQL command to be executed." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select
+	'atlas_hub_database' as sourceserver
+	,'atlas_hub' as SourceDB
+	,'atlas_hub_project' as SourceTable
+	,name
+	,description
+	,null as detaileddescription
+	,'atlas-hub-project' as reportobjecttype
+	,CONCAT('YOURORGNAME\',u.account_name) as author
+	,CONCAT('YOURORGNAME\',u2.account_name) as lastmodifiedby
+	,cast(updated as date) as lastmodifieddate
+	,CONCAT('https://taskscheduler.example.com/project/',p.id) as ReportObjectURL
+	,null as epicmasterfile
+	,p.id as epicrecordid
+	,null as reportservercatalogid
+	,'Y' as DefaultVisibilityYN
+	,NULL AS ReportTemplateId
+	,'Public' as Availability
+
+	
+from project p
+left join public."user" u on u.id=p.owner_id
+left join public."user" u2 on u2.id=p.updater_id</property>
+                <property dataType="System.Int32" description="Specify the number of rows fetched per batch." expressionType="Notify" name="BatchSize">1000</property>
+                <property dataType="System.Int32" description="Determines the chunk size allocation for LOB columns" expressionType="Notify" name="LobChunkSize">32768</property>
+                <property dataType="System.Boolean" description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)" expressionType="Notify" name="ExposeCharColumnsAsUnicode">false</property>
+                <property dataType="System.Int32" description="The number of seconds to wait for an SQL statement to execute before returning to the application." expressionType="Notify" name="StatementTimeout">0</property>
+                <property dataType="System.Int32" description="The code page to use when code page information is unavailable from the data source." expressionType="Notify" name="DefaultCodePage">1252</property>
+                <property dataType="System.Int32" description="The method used for fetching data." expressionType="Notify" name="FetchMethod">1</property>
+                <property dataType="System.Int32" description="The ODBC C data type for binding numeric data." expressionType="Notify" name="BindNumericAs">0</property>
+                <property dataType="System.Int32" description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)." expressionType="Notify" name="BindCharColumnsAs">0</property>
+                <property dataType="System.Int32" description="The mode used to access the database." expressionType="Notify" name="AccessMode" typeConverter="AccessMode">1</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\atlas_hub_project.Connections[ODBCConnection]" connectionManagerID="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" description="The ODBC runtime connection used to access the database." name="ODBCConnection"/>
+              </connections>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output]" errorRowDisposition="FailComponent" name="ODBC Source Output" truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourceserver]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourceserver]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourceserver]" name="sourceserver"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourcedb]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourcedb]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourcedb]" name="sourcedb"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourcetable]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourcetable]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourcetable]" name="sourcetable"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[name]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[name]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[name]" name="name"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[description]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[description]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[description]" name="description"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[detaileddescription]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[detaileddescription]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[detaileddescription]" name="detaileddescription"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportobjecttype]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportobjecttype]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportobjecttype]" name="reportobjecttype"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[author]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[author]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[author]" name="author"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[lastmodifiedby]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[lastmodifiedby]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[lastmodifiedby]" name="lastmodifiedby"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[lastmodifieddate]" dataType="dbTimeStamp" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[lastmodifieddate]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[lastmodifieddate]" name="lastmodifieddate"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportobjecturl]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportobjecturl]" length="500" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportobjecturl]" name="reportobjecturl"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[epicmasterfile]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[epicmasterfile]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[epicmasterfile]" name="epicmasterfile"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[epicrecordid]" dataType="i4" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[epicrecordid]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[epicrecordid]" name="epicrecordid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportservercatalogid]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportservercatalogid]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportservercatalogid]" name="reportservercatalogid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[defaultvisibilityyn]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[defaultvisibilityyn]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[defaultvisibilityyn]" name="defaultvisibilityyn"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reporttemplateid]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reporttemplateid]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reporttemplateid]" name="reporttemplateid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[availability]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[availability]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[availability]" name="availability"/>
+                  </outputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourceserver]" dataType="nText" name="sourceserver"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourcedb]" dataType="nText" name="sourcedb"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourcetable]" dataType="nText" name="sourcetable"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[name]" dataType="wstr" length="120" name="name"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[description]" dataType="nText" name="description"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[detaileddescription]" dataType="nText" name="detaileddescription"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportobjecttype]" dataType="nText" name="reportobjecttype"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[author]" dataType="nText" name="author"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[lastmodifiedby]" dataType="nText" name="lastmodifiedby"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[lastmodifieddate]" dataType="dbDate" name="lastmodifieddate"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportobjecturl]" dataType="nText" name="reportobjecturl"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[epicmasterfile]" dataType="nText" name="epicmasterfile"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[epicrecordid]" dataType="i4" name="epicrecordid"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportservercatalogid]" dataType="nText" name="reportservercatalogid"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[defaultvisibilityyn]" dataType="nText" name="defaultvisibilityyn"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reporttemplateid]" dataType="nText" name="reporttemplateid"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[availability]" dataType="nText" name="availability"/>
+                  </externalMetadataColumns>
+                </output>
+                <output refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output]" isErrorOut="true" name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[sourceserver]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourceserver]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[sourceserver]" name="sourceserver"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[sourcedb]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourcedb]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[sourcedb]" name="sourcedb"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[sourcetable]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[sourcetable]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[sourcetable]" name="sourcetable"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[name]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[name]" length="120" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[name]" name="name"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[description]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[description]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[description]" name="description"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[detaileddescription]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[detaileddescription]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[detaileddescription]" name="detaileddescription"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reportobjecttype]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportobjecttype]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reportobjecttype]" name="reportobjecttype"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[author]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[author]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[author]" name="author"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[lastmodifiedby]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[lastmodifiedby]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[lastmodifiedby]" name="lastmodifiedby"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[lastmodifieddate]" dataType="dbDate" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[lastmodifieddate]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[lastmodifieddate]" name="lastmodifieddate"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reportobjecturl]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportobjecturl]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reportobjecturl]" name="reportobjecturl"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[epicmasterfile]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[epicmasterfile]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[epicmasterfile]" name="epicmasterfile"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[epicrecordid]" dataType="i4" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[epicrecordid]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[epicrecordid]" name="epicrecordid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reportservercatalogid]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reportservercatalogid]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reportservercatalogid]" name="reportservercatalogid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[defaultvisibilityyn]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[defaultvisibilityyn]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[defaultvisibilityyn]" name="defaultvisibilityyn"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reporttemplateid]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[reporttemplateid]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[reporttemplateid]" name="reporttemplateid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[availability]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].ExternalColumns[availability]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[availability]" name="availability"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+            <component refId="Package\Atlas Hub Staging\atlas_hub_query" componentClassID="Attunity.SSISODBCSrc" description="ODBC Source" name="atlas_hub_query" usesDispositions="true" validateExternalMetadata="False" version="6">
+              <properties>
+                <property dataType="System.String" description="The name of the table to be fetched." expressionType="Notify" name="TableName"/>
+                <property dataType="System.String" description="The SQL command to be executed." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select
+	concat(
+	'atlas_hub_database'
+	,   '||'
+	,  'atlas_hub'
+	,   '||'
+	,   'atlas-hub-task'
+	,   '||'
+	,   '||'
+	,   '||'
+	,   id
+	) as BizKey
+	,	processing_command as query
+	,cast(current_date as date) as lastloaddate
+	,'Python' as  language
+from task t
+where exists (select processing_command from task) and processing_command &lt;&gt;''
+
+union
+
+select
+	concat(
+	'atlas_hub_database'
+	,   '||'
+	,  'atlas_hub'
+	,   '||'
+	,   'atlas-hub-task'
+	,   '||'
+	,   '||'
+	,   '||'
+	,   id
+	) as BizKey
+	,	source_cache as query
+	,cast(current_date as date) as lastloaddate
+	,'SQL' as language
+from task t
+where exists (select source_cache from task) and source_cache &lt;&gt;''
+
+union
+
+select
+	concat(
+	'atlas_hub_database'
+	,   '||'
+	,  'atlas_hub'
+	,   '||'
+	,   'atlas-hub-task'
+	,   '||'
+	,   '||'
+	,   '||'
+	,   id
+	) as BizKey
+	,	source_code as query
+	,cast(current_date as date) as lastloaddate
+	,'SQL' as language
+from task t
+where exists (select source_code from task) and source_code &lt;&gt;''</property>
+                <property dataType="System.Int32" description="Specify the number of rows fetched per batch." expressionType="Notify" name="BatchSize">1000</property>
+                <property dataType="System.Int32" description="Determines the chunk size allocation for LOB columns" expressionType="Notify" name="LobChunkSize">32768</property>
+                <property dataType="System.Boolean" description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)" expressionType="Notify" name="ExposeCharColumnsAsUnicode">false</property>
+                <property dataType="System.Int32" description="The number of seconds to wait for an SQL statement to execute before returning to the application." expressionType="Notify" name="StatementTimeout">0</property>
+                <property dataType="System.Int32" description="The code page to use when code page information is unavailable from the data source." expressionType="Notify" name="DefaultCodePage">1252</property>
+                <property dataType="System.Int32" description="The method used for fetching data." expressionType="Notify" name="FetchMethod">1</property>
+                <property dataType="System.Int32" description="The ODBC C data type for binding numeric data." expressionType="Notify" name="BindNumericAs">0</property>
+                <property dataType="System.Int32" description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)." expressionType="Notify" name="BindCharColumnsAs">0</property>
+                <property dataType="System.Int32" description="The mode used to access the database." expressionType="Notify" name="AccessMode" typeConverter="AccessMode">1</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\atlas_hub_query.Connections[ODBCConnection]" connectionManagerID="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" description="The ODBC runtime connection used to access the database." name="ODBCConnection"/>
+              </connections>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output]" errorRowDisposition="FailComponent" name="ODBC Source Output" truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[bizkey]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[bizkey]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[bizkey]" name="bizkey"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[query]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[query]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[query]" name="query"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[lastloaddate]" dataType="dbDate" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[lastloaddate]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[lastloaddate]" name="lastloaddate"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[language]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[language]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[language]" name="language"/>
+                  </outputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[bizkey]" dataType="nText" name="bizkey"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[query]" dataType="wstr" length="255" name="query"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[lastloaddate]" dataType="dbDate" name="lastloaddate"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[language]" dataType="nText" name="language"/>
+                  </externalMetadataColumns>
+                </output>
+                <output refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output]" isErrorOut="true" name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[bizkey]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[bizkey]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[bizkey]" name="bizkey"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[query]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[query]" length="255" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[query]" name="query"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[lastloaddate]" dataType="dbDate" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[lastloaddate]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[lastloaddate]" name="lastloaddate"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[language]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].ExternalColumns[language]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[language]" name="language"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+            <component refId="Package\Atlas Hub Staging\atlas_task" componentClassID="Attunity.SSISODBCSrc" description="ODBC Source" name="atlas_task" usesDispositions="true" validateExternalMetadata="False" version="6">
+              <properties>
+                <property dataType="System.String" description="The name of the table to be fetched." expressionType="Notify" name="TableName"/>
+                <property dataType="System.String" description="The SQL command to be executed." expressionType="Notify" name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">select
+	'atlas_hub_database' as sourceserver
+	,'atlas_hub' as SourceDB
+	,'atlas_hub_task' as SourceTable
+	,name
+	,null as description
+	,null as detaileddescription
+	,'atlas-hub-task' as reportobjecttype
+	,case when t.creator_id is null then null else CONCAT('YOURORGNAME\',u.account_name) end as author
+	,case when t.updater_id is null then null else CONCAT('YOURORGNAME\',u2.account_name) end as lastmodifiedby
+	,cast(updated as date) as lastmodifieddate
+	,CONCAT('https://taskscheduler.example.com/task/',t.id) as ReportObjectURL
+	,null as epicmasterfile
+	,t.id as epicrecordid
+	,null as reportservercatalogid
+	,'Y' as DefaultVisibilityYN
+	,NULL AS ReportTemplateId
+	,'Public' as Availability
+
+	
+from task t
+left join public."user" u on u.id=t.creator_id
+left join public."user" u2 on u2.id=t.updater_id</property>
+                <property dataType="System.Int32" description="Specify the number of rows fetched per batch." expressionType="Notify" name="BatchSize">1000</property>
+                <property dataType="System.Int32" description="Determines the chunk size allocation for LOB columns" expressionType="Notify" name="LobChunkSize">32768</property>
+                <property dataType="System.Boolean" description="Determines how the component exposes CHAR columns. If False, CHAR columns are exposed as (multi-)byte strings (DT_STR), if True, CHAR columns are exposed as wide strings (DT_WSTR)" expressionType="Notify" name="ExposeCharColumnsAsUnicode">false</property>
+                <property dataType="System.Int32" description="The number of seconds to wait for an SQL statement to execute before returning to the application." expressionType="Notify" name="StatementTimeout">0</property>
+                <property dataType="System.Int32" description="The code page to use when code page information is unavailable from the data source." expressionType="Notify" name="DefaultCodePage">1252</property>
+                <property dataType="System.Int32" description="The method used for fetching data." expressionType="Notify" name="FetchMethod">1</property>
+                <property dataType="System.Int32" description="The ODBC C data type for binding numeric data." expressionType="Notify" name="BindNumericAs">0</property>
+                <property dataType="System.Int32" description="Determines how the component would bind columns of (multi)-byte string types (i.e., SQL_CHAR, SQL_VARCHAR, SQL_LONGVARCHAR). The options are: Unicode (SQL_C_WCHAR) and ANSI (SQL_C_CHAR)." expressionType="Notify" name="BindCharColumnsAs">0</property>
+                <property dataType="System.Int32" description="The mode used to access the database." expressionType="Notify" name="AccessMode" typeConverter="AccessMode">1</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\atlas_task.Connections[ODBCConnection]" connectionManagerID="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_hub_database.atlas_hub_staging]" description="The ODBC runtime connection used to access the database." name="ODBCConnection"/>
+              </connections>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output]" errorRowDisposition="FailComponent" name="ODBC Source Output" truncationRowDisposition="FailComponent">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourceserver]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourceserver]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourceserver]" name="sourceserver"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourcedb]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourcedb]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourcedb]" name="sourcedb"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourcetable]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourcetable]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourcetable]" name="sourcetable"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[name]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[name]" length="1000" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[name]" name="name"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[description]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[description]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[description]" name="description"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[detaileddescription]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[detaileddescription]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[detaileddescription]" name="detaileddescription"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportobjecttype]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportobjecttype]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportobjecttype]" name="reportobjecttype"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[author]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[author]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[author]" name="author"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[lastmodifiedby]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[lastmodifiedby]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[lastmodifiedby]" name="lastmodifiedby"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[lastmodifieddate]" dataType="dbTimeStamp" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[lastmodifieddate]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[lastmodifieddate]" name="lastmodifieddate"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportobjecturl]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportobjecturl]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportobjecturl]" name="reportobjecturl"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[epicmasterfile]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[epicmasterfile]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[epicmasterfile]" name="epicmasterfile"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[epicrecordid]" dataType="i4" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[epicrecordid]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[epicrecordid]" name="epicrecordid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportservercatalogid]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportservercatalogid]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportservercatalogid]" name="reportservercatalogid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[defaultvisibilityyn]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[defaultvisibilityyn]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[defaultvisibilityyn]" name="defaultvisibilityyn"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reporttemplateid]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reporttemplateid]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reporttemplateid]" name="reporttemplateid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[availability]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[availability]" length="255" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[availability]" name="availability"/>
+                  </outputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourceserver]" dataType="nText" name="sourceserver"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourcedb]" dataType="nText" name="sourcedb"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourcetable]" dataType="nText" name="sourcetable"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[name]" dataType="wstr" length="1000" name="name"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[description]" dataType="nText" name="description"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[detaileddescription]" dataType="nText" name="detaileddescription"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportobjecttype]" dataType="nText" name="reportobjecttype"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[author]" dataType="nText" name="author"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[lastmodifiedby]" dataType="nText" name="lastmodifiedby"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[lastmodifieddate]" dataType="dbDate" name="lastmodifieddate"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportobjecturl]" dataType="nText" name="reportobjecturl"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[epicmasterfile]" dataType="nText" name="epicmasterfile"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[epicrecordid]" dataType="i4" name="epicrecordid"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportservercatalogid]" dataType="nText" name="reportservercatalogid"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[defaultvisibilityyn]" dataType="nText" name="defaultvisibilityyn"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reporttemplateid]" dataType="nText" name="reporttemplateid"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[availability]" dataType="nText" name="availability"/>
+                  </externalMetadataColumns>
+                </output>
+                <output refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output]" isErrorOut="true" name="ODBC Source Error Output">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[sourceserver]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourceserver]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[sourceserver]" name="sourceserver"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[sourcedb]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourcedb]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[sourcedb]" name="sourcedb"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[sourcetable]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[sourcetable]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[sourcetable]" name="sourcetable"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[name]" dataType="wstr" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[name]" length="1000" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[name]" name="name"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[description]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[description]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[description]" name="description"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[detaileddescription]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[detaileddescription]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[detaileddescription]" name="detaileddescription"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reportobjecttype]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportobjecttype]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reportobjecttype]" name="reportobjecttype"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[author]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[author]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[author]" name="author"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[lastmodifiedby]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[lastmodifiedby]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[lastmodifiedby]" name="lastmodifiedby"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[lastmodifieddate]" dataType="dbDate" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[lastmodifieddate]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[lastmodifieddate]" name="lastmodifieddate"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reportobjecturl]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportobjecturl]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reportobjecturl]" name="reportobjecturl"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[epicmasterfile]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[epicmasterfile]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[epicmasterfile]" name="epicmasterfile"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[epicrecordid]" dataType="i4" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[epicrecordid]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[epicrecordid]" name="epicrecordid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reportservercatalogid]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reportservercatalogid]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reportservercatalogid]" name="reportservercatalogid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[defaultvisibilityyn]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[defaultvisibilityyn]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[defaultvisibilityyn]" name="defaultvisibilityyn"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reporttemplateid]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[reporttemplateid]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[reporttemplateid]" name="reporttemplateid"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[availability]" dataType="nText" externalMetadataColumnId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].ExternalColumns[availability]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[availability]" name="availability"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+            <component refId="Package\Atlas Hub Staging\report object hierarchy staging" componentClassID="Microsoft.OLEDBDestination" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" description="OLE DB Destination" name="report object hierarchy staging" usesDispositions="true" version="4">
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[stage].[ReportObjectHierarchyStaging]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable"/>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\report object hierarchy staging.Connections[OleDbConnection]" connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection"/>
+              </connections>
+              <inputs>
+                <input refId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input]" errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].Columns[parentreportobjectbizkey]" cachedDataType="wstr" cachedLength="255" cachedName="parentreportobjectbizkey" externalMetadataColumnId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].ExternalColumns[ParentReportObjectBizKey]" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[parentreportobjectbizkey]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].Columns[childreportobjectbizkey]" cachedDataType="wstr" cachedLength="255" cachedName="childreportobjectbizkey" externalMetadataColumnId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].ExternalColumns[ChildReportObjectBizKey]" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[childreportobjectbizkey]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].Columns[line]" cachedDataType="i4" cachedName="line" externalMetadataColumnId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].ExternalColumns[Line]" lineageId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output].Columns[line]"/>
+                  </inputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].ExternalColumns[ParentReportObjectBizKey]" dataType="wstr" length="255" name="ParentReportObjectBizKey"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].ExternalColumns[ChildReportObjectBizKey]" dataType="wstr" length="255" name="ChildReportObjectBizKey"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input].ExternalColumns[Line]" dataType="i4" name="Line"/>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\report object hierarchy staging.Outputs[OLE DB Destination Error Output]" exclusionGroup="1" isErrorOut="true" name="OLE DB Destination Error Output" synchronousInputId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\report object hierarchy staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\report object hierarchy staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\report object hierarchy staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+            <component refId="Package\Atlas Hub Staging\report object query staging" componentClassID="Microsoft.OLEDBDestination" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" description="OLE DB Destination" name="report object query staging" usesDispositions="true" version="4">
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[stage].[ReportObjectQueryStaging]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable"/>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\report object query staging.Connections[OleDbConnection]" connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection"/>
+              </connections>
+              <inputs>
+                <input refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input]" errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].Columns[bizkey]" cachedDataType="wstr" cachedLength="255" cachedName="bizkey" externalMetadataColumnId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[bizkey]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].Columns[query]" cachedDataType="nText" cachedName="query" externalMetadataColumnId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[Query]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[query]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].Columns[language]" cachedDataType="nText" cachedName="language" externalMetadataColumnId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[Language]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[language]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].Columns[lastloaddate]" cachedDataType="dbDate" cachedName="lastloaddate" externalMetadataColumnId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]" lineageId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output].Columns[lastloaddate]"/>
+                  </inputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[BizKey]" dataType="nText" name="BizKey"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[Query]" dataType="nText" name="Query"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[Name]" dataType="nText" name="Name"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[LastLoadDate]" dataType="dbTimeStamp" name="LastLoadDate"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input].ExternalColumns[Language]" dataType="nText" name="Language"/>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\report object query staging.Outputs[OLE DB Destination Error Output]" exclusionGroup="1" isErrorOut="true" name="OLE DB Destination Error Output" synchronousInputId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\report object query staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\report object query staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\report object query staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\report object query staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+            <component refId="Package\Atlas Hub Staging\Report Object Staging" componentClassID="Microsoft.OLEDBDestination" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" description="OLE DB Destination" name="Report Object Staging" usesDispositions="true" version="4">
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[stage].[ReportObjectStaging]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable"/>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\Report Object Staging.Connections[OleDbConnection]" connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection"/>
+              </connections>
+              <inputs>
+                <input refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input]" errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[name]" cachedDataType="wstr" cachedLength="1000" cachedName="name" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Name]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[name]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[sourceserver]" cachedDataType="wstr" cachedLength="255" cachedName="sourceserver" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourceserver]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[sourcedb]" cachedDataType="wstr" cachedLength="255" cachedName="sourcedb" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourcedb]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[sourcetable]" cachedDataType="wstr" cachedLength="255" cachedName="sourcetable" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[sourcetable]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[description]" cachedDataType="wstr" cachedLength="255" cachedName="description" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Description]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[description]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[detaileddescription]" cachedDataType="wstr" cachedLength="255" cachedName="detaileddescription" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[detaileddescription]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[reportobjecttype]" cachedDataType="wstr" cachedLength="255" cachedName="reportobjecttype" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportobjecttype]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[author]" cachedDataType="wstr" cachedLength="255" cachedName="author" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Author]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[author]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[lastmodifiedby]" cachedDataType="wstr" cachedLength="255" cachedName="lastmodifiedby" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[lastmodifiedby]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[lastmodifieddate]" cachedDataType="dbTimeStamp" cachedName="lastmodifieddate" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[lastmodifieddate]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[reportobjecturl]" cachedDataType="wstr" cachedLength="255" cachedName="reportobjecturl" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportobjecturl]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[epicmasterfile]" cachedDataType="wstr" cachedLength="255" cachedName="epicmasterfile" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[epicmasterfile]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[epicrecordid]" cachedDataType="i4" cachedName="epicrecordid" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[epicrecordid]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[reportservercatalogid]" cachedDataType="wstr" cachedLength="255" cachedName="reportservercatalogid" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reportservercatalogid]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[defaultvisibilityyn]" cachedDataType="wstr" cachedLength="255" cachedName="defaultvisibilityyn" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[defaultvisibilityyn]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[availability]" cachedDataType="wstr" cachedLength="255" cachedName="availability" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Availability]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[availability]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].Columns[reporttemplateid]" cachedDataType="wstr" cachedLength="255" cachedName="reporttemplateid" externalMetadataColumnId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicReportTemplateId]" lineageId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output].Columns[reporttemplateid]"/>
+                  </inputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]" dataType="wstr" length="255" name="SourceServer"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]" dataType="wstr" length="255" name="SourceDB"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]" dataType="wstr" length="255" name="SourceTable"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Name]" dataType="nText" name="Name"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Description]" dataType="nText" name="Description"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]" dataType="nText" name="DetailedDescription"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]" dataType="wstr" length="255" name="ReportObjectType"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Author]" dataType="nText" name="Author"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]" dataType="nText" name="LastModifiedBy"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]" dataType="dbTimeStamp" name="LastModifiedDate"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]" dataType="nText" name="ReportObjectURL"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]" dataType="wstr" length="3" name="EpicMasterFile"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]" dataType="numeric" name="EpicRecordID" precision="18"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]" dataType="nText" name="ReportServerCatalogID"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]" dataType="wstr" length="1" name="DefaultVisibilityYN"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicReportTemplateId]" dataType="numeric" name="EpicReportTemplateId" precision="18"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerPath]" dataType="nText" name="ReportServerPath"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[DisplayTitle]" dataType="nText" name="DisplayTitle"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input].ExternalColumns[Availability]" dataType="nText" name="Availability"/>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\Report Object Staging.Outputs[OLE DB Destination Error Output]" exclusionGroup="1" isErrorOut="true" name="OLE DB Destination Error Output" synchronousInputId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\Report Object Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\Report Object Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\Report Object Staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+            <component refId="Package\Atlas Hub Staging\report_object_staging" componentClassID="Microsoft.OLEDBDestination" contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4" description="OLE DB Destination" name="report_object_staging" usesDispositions="true" version="4">
+              <properties>
+                <property dataType="System.Int32" description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out." name="CommandTimeout">0</property>
+                <property dataType="System.String" description="Specifies the name of the database object used to open a rowset." name="OpenRowset">[stage].[ReportObjectStaging]</property>
+                <property dataType="System.String" description="Specifies the variable that contains the name of the database object used to open a rowset." name="OpenRowsetVariable"/>
+                <property dataType="System.String" description="The SQL command to be executed." name="SqlCommand" UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"/>
+                <property dataType="System.Int32" description="Specifies the column code page to use when code page information is unavailable from the data source." name="DefaultCodePage">1252</property>
+                <property dataType="System.Boolean" description="Forces the use of the DefaultCodePage property value when describing character data." name="AlwaysUseDefaultCodePage">false</property>
+                <property dataType="System.Int32" description="Specifies the mode used to access the database." name="AccessMode" typeConverter="AccessMode">3</property>
+                <property dataType="System.Boolean" description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on." name="FastLoadKeepIdentity">false</property>
+                <property dataType="System.Boolean" description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on." name="FastLoadKeepNulls">false</property>
+                <property dataType="System.String" description="Specifies options to be used with fast load.  Applies only if fast load is turned on." name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property dataType="System.Int32" description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on." name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection refId="Package\Atlas Hub Staging\report_object_staging.Connections[OleDbConnection]" connectionManagerID="Package.ConnectionManagers[atlas_database.atlas_staging]" connectionManagerRefId="Package.ConnectionManagers[atlas_database.atlas_staging]" description="The OLE DB runtime connection used to access the database." name="OleDbConnection"/>
+              </connections>
+              <inputs>
+                <input refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input]" errorOrTruncationOperation="Insert" errorRowDisposition="FailComponent" hasSideEffects="true" name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[sourceserver]" cachedDataType="wstr" cachedLength="255" cachedName="sourceserver" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourceserver]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[sourcedb]" cachedDataType="wstr" cachedLength="255" cachedName="sourcedb" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourcedb]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[sourcetable]" cachedDataType="wstr" cachedLength="255" cachedName="sourcetable" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[sourcetable]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[name]" cachedDataType="wstr" cachedLength="255" cachedName="name" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Name]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[name]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[description]" cachedDataType="wstr" cachedLength="255" cachedName="description" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Description]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[description]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[detaileddescription]" cachedDataType="wstr" cachedLength="255" cachedName="detaileddescription" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[detaileddescription]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[reportobjecttype]" cachedDataType="wstr" cachedLength="255" cachedName="reportobjecttype" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportobjecttype]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[author]" cachedDataType="wstr" cachedLength="255" cachedName="author" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Author]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[author]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[lastmodifiedby]" cachedDataType="wstr" cachedLength="255" cachedName="lastmodifiedby" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[lastmodifiedby]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[lastmodifieddate]" cachedDataType="dbTimeStamp" cachedName="lastmodifieddate" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[lastmodifieddate]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[reportobjecturl]" cachedDataType="wstr" cachedLength="500" cachedName="reportobjecturl" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportobjecturl]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[epicmasterfile]" cachedDataType="wstr" cachedLength="255" cachedName="epicmasterfile" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[epicmasterfile]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[epicrecordid]" cachedDataType="i4" cachedName="epicrecordid" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[epicrecordid]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[reportservercatalogid]" cachedDataType="wstr" cachedLength="255" cachedName="reportservercatalogid" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reportservercatalogid]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[defaultvisibilityyn]" cachedDataType="wstr" cachedLength="255" cachedName="defaultvisibilityyn" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[defaultvisibilityyn]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[availability]" cachedDataType="wstr" cachedLength="255" cachedName="availability" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Availability]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[availability]"/>
+                    <inputColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].Columns[reporttemplateid]" cachedDataType="wstr" cachedLength="255" cachedName="reporttemplateid" externalMetadataColumnId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicReportTemplateId]" lineageId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output].Columns[reporttemplateid]"/>
+                  </inputColumns>
+                  <externalMetadataColumns isUsed="True">
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceServer]" dataType="wstr" length="255" name="SourceServer"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceDB]" dataType="wstr" length="255" name="SourceDB"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[SourceTable]" dataType="wstr" length="255" name="SourceTable"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Name]" dataType="nText" name="Name"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Description]" dataType="nText" name="Description"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[DetailedDescription]" dataType="nText" name="DetailedDescription"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectType]" dataType="wstr" length="255" name="ReportObjectType"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Author]" dataType="nText" name="Author"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedBy]" dataType="nText" name="LastModifiedBy"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[LastModifiedDate]" dataType="dbTimeStamp" name="LastModifiedDate"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportObjectURL]" dataType="nText" name="ReportObjectURL"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicMasterFile]" dataType="wstr" length="3" name="EpicMasterFile"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicRecordID]" dataType="numeric" name="EpicRecordID" precision="18"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerCatalogID]" dataType="nText" name="ReportServerCatalogID"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[DefaultVisibilityYN]" dataType="wstr" length="1" name="DefaultVisibilityYN"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[EpicReportTemplateId]" dataType="numeric" name="EpicReportTemplateId" precision="18"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[ReportServerPath]" dataType="nText" name="ReportServerPath"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[DisplayTitle]" dataType="nText" name="DisplayTitle"/>
+                    <externalMetadataColumn refId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input].ExternalColumns[Availability]" dataType="nText" name="Availability"/>
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output refId="Package\Atlas Hub Staging\report_object_staging.Outputs[OLE DB Destination Error Output]" exclusionGroup="1" isErrorOut="true" name="OLE DB Destination Error Output" synchronousInputId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn refId="Package\Atlas Hub Staging\report_object_staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" dataType="i4" lineageId="Package\Atlas Hub Staging\report_object_staging.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" name="ErrorCode" specialFlags="1"/>
+                    <outputColumn refId="Package\Atlas Hub Staging\report_object_staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" dataType="i4" lineageId="Package\Atlas Hub Staging\report_object_staging.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" name="ErrorColumn" specialFlags="2"/>
+                  </outputColumns>
+                  <externalMetadataColumns/>
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path refId="Package\Atlas Hub Staging.Paths[ODBC Source Output]" endId="Package\Atlas Hub Staging\Report Object Staging.Inputs[OLE DB Destination Input]" name="ODBC Source Output" startId="Package\Atlas Hub Staging\atlas_task.Outputs[ODBC Source Output]"/>
+            <path refId="Package\Atlas Hub Staging.Paths[ODBC Source Output1]" endId="Package\Atlas Hub Staging\report_object_staging.Inputs[OLE DB Destination Input]" name="ODBC Source Output" startId="Package\Atlas Hub Staging\atlas_hub_project.Outputs[ODBC Source Output]"/>
+            <path refId="Package\Atlas Hub Staging.Paths[ODBC Source Output2]" endId="Package\Atlas Hub Staging\report object query staging.Inputs[OLE DB Destination Input]" name="ODBC Source Output" startId="Package\Atlas Hub Staging\atlas_hub_query.Outputs[ODBC Source Output]"/>
+            <path refId="Package\Atlas Hub Staging.Paths[ODBC Source Output3]" endId="Package\Atlas Hub Staging\report object hierarchy staging.Inputs[OLE DB Destination Input]" name="ODBC Source Output" startId="Package\Atlas Hub Staging\atlas_hub_hierarchy.Outputs[ODBC Source Output]"/>
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties>&lt;?xml version="1.0"?&gt;
+&lt;!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.--&gt;
+&lt;!--If you manually edit this section and make a mistake, you can delete it. --&gt;
+&lt;!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.--&gt;
+&lt;Objects
+  Version="8"&gt;
+  &lt;!--Each node below will contain properties that do not affect runtime behavior.--&gt;
+  &lt;Package
+    design-time-name="Package"&gt;
+    &lt;LayoutInfo&gt;
+      &lt;GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph"&gt;
+        &lt;NodeLayout
+          Size="163,42"
+          Id="Package\Atlas Hub Staging"
+          TopLeft="107,111" /&gt;
+      &lt;/GraphLayout&gt;
+    &lt;/LayoutInfo&gt;
+  &lt;/Package&gt;
+  &lt;TaskHost
+    design-time-name="Package\Atlas Hub Staging"&gt;
+    &lt;LayoutInfo&gt;
+      &lt;GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
+        &lt;NodeLayout
+          Size="224,42"
+          Id="Package\Atlas Hub Staging\report object hierarchy staging"
+          TopLeft="1183,661" /&gt;
+        &lt;NodeLayout
+          Size="183,42"
+          Id="Package\Atlas Hub Staging\Report Object Staging"
+          TopLeft="138,252" /&gt;
+        &lt;NodeLayout
+          Size="182,42"
+          Id="Package\Atlas Hub Staging\report_object_staging"
+          TopLeft="308,633" /&gt;
+        &lt;NodeLayout
+          Size="207,42"
+          Id="Package\Atlas Hub Staging\report object query staging"
+          TopLeft="626,539" /&gt;
+        &lt;NodeLayout
+          Size="126,42"
+          Id="Package\Atlas Hub Staging\atlas_task"
+          TopLeft="182,149" /&gt;
+        &lt;EdgeLayout
+          Id="Package\Atlas Hub Staging.Paths[ODBC Source Output]"
+          TopLeft="245,191"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-15.5,61"
+              Start="0,0"
+              End="-15.5,53.5"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,26.5" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,26.5"
+                    Point2="0,30.5"
+                    Point3="-4,30.5" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-11.5,30.5" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="-11.5,30.5"
+                    Point2="-15.5,30.5"
+                    Point3="-15.5,34.5" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-15.5,53.5" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;NodeLayout
+          Size="163,42"
+          Id="Package\Atlas Hub Staging\atlas_hub_project"
+          TopLeft="204,466" /&gt;
+        &lt;EdgeLayout
+          Id="Package\Atlas Hub Staging.Paths[ODBC Source Output1]"
+          TopLeft="285.5,508"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="113.5,125"
+              Start="0,0"
+              End="113.5,117.5"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,58.5" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,58.5"
+                    Point2="0,62.5"
+                    Point3="4,62.5" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="109.5,62.5" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="109.5,62.5"
+                    Point2="113.5,62.5"
+                    Point3="113.5,66.5" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="113.5,117.5" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;NodeLayout
+          Size="157,42"
+          Id="Package\Atlas Hub Staging\atlas_hub_query"
+          TopLeft="857,308" /&gt;
+        &lt;EdgeLayout
+          Id="Package\Atlas Hub Staging.Paths[ODBC Source Output2]"
+          TopLeft="935.5,350"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-206,189"
+              Start="0,0"
+              End="-206,181.5"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,90.5" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,90.5"
+                    Point2="0,94.5"
+                    Point3="-4,94.5" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-202,94.5" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="-202,94.5"
+                    Point2="-206,94.5"
+                    Point3="-206,98.5" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-206,181.5" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+        &lt;NodeLayout
+          Size="174,42"
+          Id="Package\Atlas Hub Staging\atlas_hub_hierarchy"
+          TopLeft="1355,375" /&gt;
+        &lt;EdgeLayout
+          Id="Package\Atlas Hub Staging.Paths[ODBC Source Output3]"
+          TopLeft="1442,417"&gt;
+          &lt;EdgeLayout.Curve&gt;
+            &lt;mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-147,244"
+              Start="0,0"
+              End="-147,236.5"&gt;
+              &lt;mssgle:Curve.Segments&gt;
+                &lt;mssgle:SegmentCollection
+                  Capacity="5"&gt;
+                  &lt;mssgle:LineSegment
+                    End="0,118" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="0,118"
+                    Point2="0,122"
+                    Point3="-4,122" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-143,122" /&gt;
+                  &lt;mssgle:CubicBezierSegment
+                    Point1="-143,122"
+                    Point2="-147,122"
+                    Point3="-147,126" /&gt;
+                  &lt;mssgle:LineSegment
+                    End="-147,236.5" /&gt;
+                &lt;/mssgle:SegmentCollection&gt;
+              &lt;/mssgle:Curve.Segments&gt;
+            &lt;/mssgle:Curve&gt;
+          &lt;/EdgeLayout.Curve&gt;
+          &lt;EdgeLayout.Labels&gt;
+            &lt;EdgeLabelCollection /&gt;
+          &lt;/EdgeLayout.Labels&gt;
+        &lt;/EdgeLayout&gt;
+      &lt;/GraphLayout&gt;
+    &lt;/LayoutInfo&gt;
+  &lt;/TaskHost&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\report object hierarchy staging"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\Report Object Staging"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\report_object_staging"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\report object query staging"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;TableInfoObjectType&lt;/Name&gt;
+        &lt;Value
+          type="q2:string"&gt;Table&lt;/Value&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\atlas_task"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\atlas_hub_project"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\atlas_hub_query"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+  &lt;PipelineComponentMetadata
+    design-time-name="Package\Atlas Hub Staging\atlas_hub_hierarchy"&gt;
+    &lt;Properties&gt;
+      &lt;Property&gt;
+        &lt;Name&gt;DataSourceViewID&lt;/Name&gt;
+      &lt;/Property&gt;
+    &lt;/Properties&gt;
+  &lt;/PipelineComponentMetadata&gt;
+&lt;/Objects&gt;</DTS:DesignTimeProperties>
+</DTS:Executable>

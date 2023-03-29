@@ -7,12 +7,12 @@
   DTS:CreatorName="YOURORGNAME\Sean-Pickering"
   DTS:DTSID="{36777970-2F57-48CE-B5AD-0C4C8B10C2D2}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-LDAP"
   DTS:PackageType="5"
-  DTS:VersionBuild="14"
-  DTS:VersionGUID="{C7A22583-0ED6-42AD-946B-2BC708FF65F3}">
+  DTS:VersionBuild="16"
+  DTS:VersionGUID="{6D8895C5-6E35-46F3-B1B8-0C62FE8ECDFF}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>

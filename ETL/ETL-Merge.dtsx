@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{8A51CD3F-D59F-45C3-BFE4-49C7D24C9457}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.152" DTS:LocaleID="1033" DTS:ObjectName="ETL-Merge" DTS:PackageType="5" DTS:VersionBuild="530" DTS:VersionGUID="{F8BFA02F-1213-4D52-A4B2-597A594327B1}">
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts" DTS:refId="Package" DTS:CreationDate="3/22/2019 10:12:33 AM" DTS:CreationName="Microsoft.Package" DTS:CreatorComputerName="WS3865" DTS:CreatorName="YOURORGNAME\eric-shultz" DTS:DTSID="{8A51CD3F-D59F-45C3-BFE4-49C7D24C9457}" DTS:EnableConfig="True" DTS:ExecutableType="Microsoft.Package" DTS:LastModifiedProductVersion="15.0.2000.68" DTS:LocaleID="1033" DTS:ObjectName="ETL-Merge" DTS:PackageType="5" DTS:VersionBuild="535" DTS:VersionGUID="{5A93DF2F-CC99-4CD4-922B-F0B720CFD984}">
   <DTS:Property DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager DTS:refId="Package.ConnectionManagers[atlas_database.atlas]" DTS:CreationName="OLEDB" DTS:DTSID="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" DTS:ObjectName="atlas_database.atlas">
@@ -39,7 +39,9 @@
     <DTS:Executable DTS:refId="Package\Add Index" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Add Index" DTS:DTSID="{4DCFA3C4-7358-4615-B2E7-E00FAF2088B9}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Add Index" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
-        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}" SQLTask:SqlStatementSource="CREATE INDEX [IX_ReportObjectUser_UserID_F01EA] ON [atlas_staging].[stage].[ReportObjectUser] ([UserID]) INCLUDE ([Username], [AccountName], [FullName], [FirstName])"/>
+        <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{33DD8A07-CCB7-40C7-BBD6-678CBDB78BAD}" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;SELECT @DG_STAGE_DB = ?;&#10;&#10;SELECT @SQL =  'CREATE INDEX [IX_ReportObjectUser_UserID_F01EA] ON ' + @DG_STAGE_DB + '.[stage].[ReportObjectUser] ([UserID]) INCLUDE ([Username], [AccountName], [FullName], [FirstName]);'&#10;exec sp_executesql @SQL">
+          <SQLTask:ParameterBinding SQLTask:ParameterName="0" SQLTask:DtsVariableName="$Package::DG_Staging_InitialCatalog" SQLTask:ParameterDirection="Input" SQLTask:DataType="130" SQLTask:ParameterSize="-1"/>
+        </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable DTS:refId="Package\Clean Users" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{e50c94dc-3fe1-4d17-b89b-c74c8ae1fadf}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Clean Users" DTS:ThreadHint="0">
@@ -50,7 +52,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Cubes Run Link" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{22d053b4-b7a1-4d4c-83ee-0d6c9c7c3b72}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Cubes Run Link" DTS:ThreadHint="3">
+    <DTS:Executable DTS:refId="Package\Cubes Run Link" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{22d053b4-b7a1-4d4c-83ee-0d6c9c7c3b72}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Cubes Run Link" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:SqlStatementSource="update ReportObject&#10;set ReportObjectURL=CONCAT('/data/File?handler=Cube&amp;id=', ReportObjectID)&#10;from dbo.reportobject&#10;where ReportObjectTypeID=42 and OrphanedReportObjectYN='N'&#10;;&#10;update ReportObject&#10;set DefaultVisibilityYN='Y'&#10;from dbo.reportobject&#10;where ReportObjectTypeID=42 and OrphanedReportObjectYN='N'"/>
@@ -62,7 +64,7 @@
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:SqlStatementSource="update r &#10;set r.EpicReleased='Y'&#10;from dbo.reportobject r&#10;where ((r.EpicMasterFile='HGR' and EpicRecordID&lt;100000)&#10;or (r.EpicMasterFile='IDM' and EpicRecordID&lt;100000)&#10;or (r.EpicMasterFile='IDB' and EpicRecordID&lt;100000)&#10;or (r.EpicMasterFile='IDK' and EpicRecordID&lt;1000000)&#10;or (r.EpicMasterFile='IDN' and EpicRecordID&lt;1000000)) &#10;and r.RepositoryDescription is not null"/>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Hide Reports" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{0d53c483-8040-414e-b3fb-fcfe084d8664}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Hide Reports" DTS:ThreadHint="3">
+    <DTS:Executable DTS:refId="Package\Hide Reports" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{0d53c483-8040-414e-b3fb-fcfe084d8664}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Hide Reports" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @SQL nvarchar(max);&#10;SELECT @DG_DB =?;&#10;Set @SQL = 'use ' + @DG_DB;&#10;exec Sp_executesql @SQL&#10;&#10;Declare @Months varchar(100) = (select top(1) cast([Value] as int) from app.globalsitesettings where [Name] = 'Default Visibiliy Time' and isNumeric([Value]) = 1);&#10;&#10;if @Months &gt; 0&#10;&#10;&#9;Set @SQL = 'use ' + @DG_DB + ';&#10;&#9;select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunData'&#10;&#10;&#9;exec Sp_executesql @SQL&#10;&#10;&#9;-- only hide reports if there is run data present.&#10;&#9;-- @@rowcount can only be accesed 1 time and is cleared&#10;&#9;if @@ROWCOUNT &gt; 0&#10;&#9;&#9;Set @SQL = '&#10;&#9;&#9;update ro &#10;&#9;&#9;set DefaultVisibilityYN = ''N'', LastLoadDate = GetDate()&#10;&#9;&#9;&#10;&#9;&#9;&#9;from  ' + @DG_DB + '.dbo.ReportObject ro&#10;&#9;&#9;  where DefaultVisibilityYN = ''Y''&#10;&#9;&#9;  and OrphanedReportObjectYN = ''N''&#10;&#9;&#9;  and reportobjecttypeid &lt;&gt; 23 and reportobjecttypeid &lt;&gt; 42&#10;&#9;&#9;   and (select count(1) from ' + @DG_DB + '.dbo.ReportObjectRunDataBridge b&#10;&#9;&#9;  inner join ' + @DG_DB + '.dbo.ReportObjectRunData d on b.RunId = d.RunDataId&#10;&#9;&#9;  where b.ReportObjectID = ro.reportobjectid&#10;&#9;&#9;  and RunStartTime &gt; Dateadd(month,-' + @Months + ',getdate()))  = 0&#10;&#9;&#9;  and not  exists (select * from ' + @DG_DB + '.app.ReportObject_doc d where d.ReportObjectID = ro.ReportObjectID and DoNotPurge = ''Y'')&#10;&#9;&#9;  and ReportObjectTypeID in (select ReportObjectTypeID from ' + @DG_DB + '.dbo.reportobjecttype where visible = ''Y'')&#10;&#9;&#9;  and ((ReportObjectTypeID &lt;&gt; 21 and coalesce(lastmodifieddate, &#10;&#9;&#9;&#9;&#9;(select coalesce(CreatedDateTime, d.lastupdatedatetime) from app.ReportObject_doc d where ro.reportObjectid = d.reportObjectid ),&#10;&#9;&#9;&#9;&#9;Dateadd(month,-2,getdate())) &lt; Dateadd(month,-1,getdate())) or ReportObjectTypeID = 21)&#10;&#9;&#9;  '&#10;&#9;&#9;  &#10;&#9;&#9;  &#10;&#9;&#9;exec (@SQL)&#10;&#10;-- for children with parents that are not visible&#10;&#10;set @sql = ' use ' + @DG_DB + ';&#10;update ReportObject&#10;set ReportObject.DefaultVisibilityYN = ''N''&#10;from ReportObject r &#10;-- visible reports&#10;where r.DefaultVisibilityYN = ''Y''&#10;-- that have parents&#10;and (&#10;&#9;select count(1) from ReportObjectHierarchy h &#10;&#9;where  r.ReportObjectID = h.ChildReportObjectID&#10;&#9;and h.ParentReportObjectID is not null&#10;&#9;) &gt; 0&#10;&#10;-- and none of the parents are visible&#10;and not exists (&#10;&#10;&#9;select * from ReportObjectHierarchy hcheck&#10;&#9;&#9;inner join ReportObject rpcheck on hcheck.ParentReportObjectID = rpcheck.ReportObjectID&#10;&#9;where rpcheck.DefaultVisibilityYN = ''Y''&#10;&#9;  and  hcheck.ChildReportObjectID = r.ReportObjectID&#10;&#9;)&#10;&#9;';&#10;exec (@SQL)&#10;">
@@ -70,7 +72,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Merge Attachments" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{32ff5ec1-1877-4ae8-bc07-ed88256cc94b}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Attachments" DTS:ThreadHint="4">
+    <DTS:Executable DTS:refId="Package\Merge Attachments" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{32ff5ec1-1877-4ae8-bc07-ed88256cc94b}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Attachments" DTS:ThreadHint="5">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:SqlStatementSource="&#10;DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;&#10;&#10;select @sql = '&#10;&#10;drop table if exists #report_attachments_temp;&#10;&#10;select reportobjectid&#10;             , a.[name]&#10;&#9;&#9;&#9; , a.path as [path]&#10;&#9;&#9;&#9; , a.creationdate&#10;&#9;&#9;&#9; , a.[type]&#10;&#9;&#9;&#9; , a.[source]&#10;&#9;&#9;&#9; , a.lastloaddate&#10;&#9;&#9;into #report_attachments_temp&#10;       from  ' + @DG_STAGE_DB + '.[stage].[ReportObjectAttachmentStaging]  a&#10;&#9;   inner join ' + @DG_DB + '.dbo.ReportObject r &#10;&#9;               on a.bizkey = r.ReportObjectBizKey&#10;&#10;merge ' + @DG_DB + '.dbo.ReportObjectAttachments as target&#10;&#10;using #report_attachments_temp as source&#10;&#10;on (source.[path] = target.[path] and &#10;   source.[creationdate] = target.[creationdate] and&#10;   source.[type] = target.[type] and&#10;   source.[source] = target.[source] and&#10;   source.[name] = target.[name] and&#10;   source.[reportobjectid] = target.[reportobjectid])&#10;&#10;when not matched by target then&#10;&#9;insert (reportobjectid, name, path, creationdate, source, type, lastloaddate)&#10;&#9;values (source.reportobjectid, source.[name], source.[path], source.creationdate, source.[source], source.[type], source.lastloaddate)&#10;&#10;when not matched by source then &#10;    delete;&#10;&#9;&#10;drop table if exists #report_attachments_temp;'&#10;&#10;EXEC sp_executesql @SQL&#10;">
@@ -89,7 +91,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Merge Hierarchies" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{af447675-aa3d-4c8e-b9da-613d0f32e8be}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Hierarchies" DTS:ThreadHint="5">
+    <DTS:Executable DTS:refId="Package\Merge Hierarchies" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{af447675-aa3d-4c8e-b9da-613d0f32e8be}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Hierarchies" DTS:ThreadHint="6">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;&#10;&#10;&#10;exec('&#10;drop table if exists #report_hierarchy_temp;&#10;&#10;SELECT&#9;distinct parent.ReportObjectID&#9;as ParentReportObjectID&#10;&#9;&#9;,&#9;&#9;child.ReportObjectID&#9;as ChildReportObjectID&#10;&#9;&#9;,       map.Line&#9;&#9;&#9;&#9;&#10;&#9;&#9;into #report_hierarchy_temp&#10;&#9;&#9;FROM &#10;&#9;&#9;' + @DG_STAGE_DB + '.stage.ReportObjectHierarchyStaging map&#10;&#9;&#9;inner join ' + @DG_DB + '.dbo.ReportObject parent on parent.ReportObjectBizKey = map.ParentReportObjectBizKey&#10;&#9;&#9;inner join ' + @DG_DB + '.dbo.ReportObject child  on child.ReportObjectBizKey  = map.ChildReportObjectBizKey&#10;&#10;Merge ' + @DG_DB + '.dbo.ReportObjectHierarchy t&#10;using #report_hierarchy_temp as s&#10;on (&#10;     s.parentreportobjectid = t.parentreportobjectid&#10;   and s.childreportobjectid = t.childreportobjectid&#10;  &#10;   )&#10;   when matched and (t.line != s.line)&#10;   then update set&#10;&#9;t.line = s.line,&#10;&#9;t.LastLoadDate = GetDate()&#10;   &#10;when not matched by target&#10;&#9;then insert (&#10;&#9;&#9;&#9;&#9;&#9;ParentReportObjectID&#10;&#9;&#9;&#9;&#9;,&#9;ChildReportObjectID&#10;&#9;&#9;&#9;&#9;,   Line&#10;&#9;&#9;&#9;&#9;, LastLoadDate&#10;&#9;&#9;&#9;&#9;)&#10;&#9;&#9;values (s.parentreportobjectid, s.childreportobjectid, s.line, GetDate())&#10;when not matched by source&#10;&#9;then delete;&#10;&#10;drop table if exists #report_hierarchy_temp;&#10;&#9;')">
@@ -98,7 +100,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Merge Queries" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{2EF45779-67EC-4D2F-90DE-0EF0D6B73868}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Queries" DTS:ThreadHint="6">
+    <DTS:Executable DTS:refId="Package\Merge Queries" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{2EF45779-67EC-4D2F-90DE-0EF0D6B73868}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Queries" DTS:ThreadHint="7">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;&#10;&#10;&#10;select @sql = 'DELETE DUP&#10;FROM&#10;(&#10;&#160;SELECT ROW_NUMBER() OVER (PARTITION BY bizkey,query ORDER BY bizkey,query ) AS Val&#10;&#160;FROM ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging&#10;) DUP&#10;WHERE DUP.Val &gt; 1;'&#10;EXEC sp_executesql @SQL&#10;&#10;SELECT @SQL = '&#10;drop table if exists #report_query_temp;&#10;&#10; select     &#10;     ro.reportobjectid&#10;    ,r.Query&#10;    ,r.LastLoadDate&#10;&#9;,ro.sourceserver&#10;&#9;,r.Language&#10;&#9;,r.Name&#10;&#9;into #report_query_temp&#10;    from            ' + @DG_STAGE_DB + '.stage.ReportObjectQueryStaging r&#10;    inner join ' + @DG_DB + '.dbo.ReportObject ro on ro.reportobjectbizkey = r.BizKey&#10;&#10;merge into ' + @DG_DB + '.dbo.ReportObjectQuery as target&#10;using #report_query_temp as source&#10;on source.ReportObjectID = target.ReportObjectID and source.query=target.query&#10;when matched and (target.LastLoadDate != source.LastLoadDate&#10;                  or target.sourceserver != source.sourceserver&#10;&#9;or target.Language != source.Language&#10;&#9;or target.Name != source.Name)&#10;&#9;then update set target.sourceserver = source.sourceserver&#10;&#9;&#9;&#9;&#9;  ,target.LastLoadDate = GetDate()&#10;&#9;&#9;&#9;&#9;,target.Language=source.Language&#10;&#9;&#9;&#9;&#9;,target.Name=source.Name&#10;when not matched by target then&#10;    insert (&#10;        [ReportObjectId]&#10;&#9;,   [Query]&#10;&#9;,   [LastLoadDate]&#10;    ,   [SourceServer]&#10;&#9;,[Language]&#10;&#9;,[Name]&#10;    )&#10;    values (&#10;               source.ReportObjectId, source.Query, GetDate(), source.SourceServer, source.Language, source.Name&#10;           )&#10;&#10;when not matched by source then delete;&#10;drop table if exists #report_query_temp;'&#10;&#10;EXEC sp_executesql @SQL&#10;&#10;select @sql = 'DELETE DUP&#10;FROM&#10;(&#10;&#160;SELECT ROW_NUMBER() OVER (PARTITION BY reportobjectid,query ORDER BY reportobjectid,query ) AS Val&#10;&#160;FROM ' + @DG_DB + '.dbo.reportobjectquery&#10;) DUP&#10;WHERE DUP.Val &gt; 1;'&#10;&#10;EXEC sp_executesql @SQL&#10;">
@@ -107,7 +109,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Merge Report Groups" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{f3ac92af-32c1-4f41-8670-c5541ebc7136}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Report Groups" DTS:ThreadHint="7">
+    <DTS:Executable DTS:refId="Package\Merge Report Groups" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{f3ac92af-32c1-4f41-8670-c5541ebc7136}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Report Groups" DTS:ThreadHint="8">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;DECLARE @ORG_AD_NAME VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB =?;&#10;&#10;&#10;exec ('&#10;drop table if exists #report_group_memberships_temp;&#10;&#10;select distinct reportobjectid, dug.GroupId &#10;into #report_group_memberships_temp&#10;from ' + @DG_STAGE_DB + '.[stage].[ReportObjectGroupsMemberships] d&#10;&#9;&#9;join ' + @DG_DB + '.dbo.ReportObject r on d.bizkey = r.reportobjectbizkey&#10;&#9;&#9;join ' + @DG_DB + '.dbo.UserGroups dug on  dug.GroupName = d.GroupName and dug.GroupSource = d.groupsource and dug.GroupType = d.grouptype and dug.epicid=d.groupid&#10;&#10;merge  ' + @DG_DB + '.[dbo].ReportGroupsMemberships m&#10;using #report_group_memberships_temp g&#10;on (m.GroupId = g.GroupId and m.ReportId =g.ReportObjectId)&#10;when not matched by target&#10;&#9;then insert(GroupId,ReportId, LastLoadDate) values (g.GroupId, g.ReportObjectId, GetDate()) &#10;when not matched by source&#10;&#9;then delete;&#10;&#10;drop table if exists #report_group_memberships_temp;&#10;')">
@@ -116,7 +118,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Merge Report Parameters" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{535b8791-0868-4d4a-ab77-a5d6ebc30f0a}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Report Parameters" DTS:ThreadHint="2">
+    <DTS:Executable DTS:refId="Package\Merge Report Parameters" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{535b8791-0868-4d4a-ab77-a5d6ebc30f0a}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Report Parameters" DTS:ThreadHint="3">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB =?;&#10;&#10;&#10;&#10;exec ('&#10;drop table if exists #report_param_temp;&#10;&#10;select distinct reportobjectid, param.ParameterName, param.ParameterValue&#10;into #report_param_temp&#10;from ' + @DG_STAGE_DB + '.[stage].[ReportObjectParameters] param&#10;join ' + @DG_DB + '.dbo.ReportObject r on param.EpicRecordId=r.EpicRecordId and param.EpicMasterFile=r.EpicMasterFile&#10;&#10;merge  ' + @DG_DB + '.[dbo].ReportObjectParameters p&#10;using #report_param_temp g&#10;on (p.ParameterName = g.ParameterName and p.ReportObjectId =g.ReportObjectId and p.ParameterValue=g.ParameterValue)&#10;when not matched by target&#10;&#9;then insert(ReportObjectId,ParameterName, ParameterValue) values (g.ReportObjectId, g.ParameterName, g.ParameterValue) &#10;when not matched by source&#10;&#9;then delete;&#10;drop table if exists #report_param_temp;&#10;')">
@@ -125,7 +127,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Merge Report Tag Memberships" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{d5ef615f-96b5-4294-81d4-6e182b0d8a4a}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Report Tag Memberships" DTS:ThreadHint="1">
+    <DTS:Executable DTS:refId="Package\Merge Report Tag Memberships" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{d5ef615f-96b5-4294-81d4-6e182b0d8a4a}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Report Tag Memberships" DTS:ThreadHint="4">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @SQL nvarchar(max);&#10;DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;&#10;&#10;SELECT @SQL =  '&#10;drop table if exists #report_tag_membership_temp;&#10;&#10; select &#10;rt.ReportObjectID&#10;,t.TagID&#10;,r.Line&#10;into #report_tag_membership_temp&#10;    from            ' + @DG_STAGE_DB + '.stage.ReportObjectTagMemberships r&#10;&#9;inner join ' + @DG_DB + '.dbo.ReportObjectTags t on t.EpicTagID=r.Tag_ID&#10;&#9; inner join ' + @DG_DB + '.dbo.ReportObject rt on rt.ReportObjectBizKey = r.ReportObjectBizKey&#10;&#10;merge into ' + @DG_DB + '.dbo.ReportObjectTagMemberships as target&#10;using #report_tag_membership_temp as source&#10;on source.ReportObjectID = target.ReportObjectID and source.TagID=target.TagID&#10;&#10;when not matched by target then&#10;    insert (&#10;        [ReportObjectID]&#10;    ,   [TagID]&#10;    ,   [Line]&#10;    )&#10;    values (&#10;               source.ReportObjectID, source.TagID, source.Line&#10;           )&#10;when not matched by source then delete&#10;;&#10;drop table if exists #report_tag_membership_temp;&#10;'&#10;exec sp_executesql @SQL&#10;&#10;&#10;&#10;&#10;&#10;&#10;">
@@ -161,7 +163,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Merge Subscriptions" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{dc084651-dbcd-430f-95d0-05d5e18a6df6}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Subscriptions" DTS:ThreadHint="8">
+    <DTS:Executable DTS:refId="Package\Merge Subscriptions" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{dc084651-dbcd-430f-95d0-05d5e18a6df6}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Merge Subscriptions" DTS:ThreadHint="2">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:BypassPrepare="False" SQLTask:SqlStatementSource="DECLARE @DG_DB VARCHAR(100);&#10;DECLARE @DG_STAGE_DB VARCHAR(100);&#10;DECLARE @ORG_AD_NAME VARCHAR(100);&#10;SELECT @DG_DB = ?;&#10;SELECT @DG_STAGE_DB = ?;&#10;SELECT @ORG_AD_NAME = ?;&#10;&#10;exec ('&#10;drop table if exists #report_subscriptions_temp;&#10;&#10;SELECT distinct  r.ReportObjectID,&#10;&#9;u.UserId,&#10;&#9;ros.SubscriptionId,&#10;&#9;ros.InactiveFlags,&#10;&#9;ros.EmailList,&#10;&#9;ros.Description,&#10;&#9;ros.LastStatus,&#10;&#9;ros.LastRunTime,&#10;&#9;ros.SubscriptionTo&#10;&#9;into #report_subscriptions_temp&#10;&#9;FROM ' + @DG_STAGE_DB + '.[stage].[ReportObjectSubscriptions] ros&#10;&#9;left join ' + @DG_DB + '.[dbo].ReportObject r on ros.ReportObjectId = r.ReportServerCatalogId&#10;&#9;left outer join ' + @DG_DB + '.dbo.[User] u on REPLACE(ros.SubscriptionTo,''' + @ORG_AD_NAME + ''',''rhc'') = u.Email&#10;&#10;MERGE ' + @DG_DB + '.dbo.ReportObjectSubscriptions t&#10;using #report_subscriptions_temp as s&#10;on (t.ReportObjectId = s.reportobjectId&#10;&#9;and isnull(t.userId,999999) = isnull(s.userid,999999)&#10;&#9;and s.subscriptionid = t.subscriptionid&#10;&#9;and s.inactiveflags = t.inactiveflags&#10;&#9;and s.emaillist = t.emaillist&#10;&#9;and s.description = t.description&#10;&#9;and s.subscriptionto = t.subscriptionto)&#10;when matched and (s.laststatus != t.laststatus or s.lastruntime != t.lastruntime)&#10;&#9;then update&#10;&#9;&#9;set t.laststatus = s.laststatus, &#10;&#9;&#9;    t.lastruntime = s.lastruntime,&#10;&#9;&#9;&#9;t.lastloaddate = GetDate()&#10;When not matched by target&#10;&#9;then insert (&#10;&#9;&#9;&#9;&#9;&#9;[ReportObjectID]&#10;&#9;&#9;&#9;&#9;&#9;,[UserId]&#10;&#9;&#9;&#9;&#9;&#9;,[SubscriptionId]&#10;&#9;&#9;&#9;&#9;&#9;,[InactiveFlags]&#10;&#9;&#9;&#9;&#9;&#9;,[EmailList]&#10;&#9;&#9;&#9;&#9;&#9;,[Description]&#10;&#9;&#9;&#9;&#9;&#9;,[LastStatus]&#10;&#9;&#9;&#9;&#9;&#9;,[LastRunTime]&#10;&#9;&#9;&#9;&#9;&#9;,[SubscriptionTo]&#10;&#9;&#9;&#9;&#9;&#9;,[LastLoadDate]&#10;&#9;&#9;&#9;&#9;)&#10;&#9;&#9; values (s.reportobjectid&#10;&#9;&#9;&#9;&#9;,s.userId&#10;&#9;&#9;&#9;&#9;,s.subscriptionid&#10;&#9;&#9;&#9;&#9;,s.inactiveflags&#10;&#9;&#9;&#9;&#9;,s.emaillist&#10;&#9;&#9;&#9;&#9;,s.description&#10;&#9;&#9;&#9;&#9;,s.laststatus&#10;&#9;&#9;&#9;&#9;,s.lastruntime&#10;&#9;&#9;&#9;&#9;,s.subscriptionto&#10;&#9;&#9;&#9;&#9;,GetDate())&#10;when not matched by source&#10;&#9;then delete;&#10;&#10;drop table if exists #report_subscriptions_temp;&#10;')">
@@ -181,7 +183,7 @@
         </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Update Certification Tag" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{3762353c-3a8a-41f7-a75d-ef093dfe83bb}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Update Certification Tag" DTS:ThreadHint="3">
+    <DTS:Executable DTS:refId="Package\Update Certification Tag" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:Description="Execute SQL Task" DTS:DTSID="{3762353c-3a8a-41f7-a75d-ef093dfe83bb}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Update Certification Tag" DTS:ThreadHint="0">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:SqlStatementSource="declare @SQL nvarchar(max);&#10;&#10;select @SQL = isnull(value,'')&#10;from app.GlobalSiteSettings&#10;where name like 'report_tag_etl'&#10;&#10;exec sp_executesql @SQL"/>
@@ -193,7 +195,7 @@
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:SqlStatementSource="update r&#10;&#10;set RepositoryDescription = p.EpicDocumentation&#10;from dbo.ReportObject r&#10;inner join (select  p.UniqueID, p.EpicDocumentation, d.title, p.Abbreviation from  epicreportlibrary.dbo.report_Processed p &#10;inner join epicreportlibrary.dbo.report_epicrecordlist l on isnumeric(p.uniqueID)=1 and l.uniqueid=p.uniqueid&#10;inner join epicreportlibrary.dbo.report_epicdatahandbook d on d.reportid=l.reportid) p on isnumeric(p.uniqueid)=1 and ((cast(p.uniqueid as numeric)= r.epicrecordid and p.Abbreviation=r.EpicMasterFile) or r.name =p.title)&#10;where ((r.EpicMasterFile='HGR' and EpicRecordID&lt;100000)&#10;&#9;or (r.EpicMasterFile='IDM' and EpicRecordID&lt;100000)&#10;&#9;or (r.EpicMasterFile='IDB' and EpicRecordID&lt;100000)&#10;&#9;or (r.EpicMasterFile='IDK' and EpicRecordID&lt;1000000))&#10;;&#10;&#10;update r &#10;set RepositoryDescription = p.EpicDocumentation&#10;from dbo.ReportObject r&#10;inner join (&#10;&#9;select p.uniqueid, d.title, p.EpicDocumentation, p.Abbreviation&#10;&#9;from epicreportlibrary.dbo.metric_Processed p&#10;&#9;  inner join epicreportlibrary.dbo.Metric_EpicDataHandbook d on isnumeric(p.uniqueID)=1 and d.IDNRecordID=p.uniqueid&#10;&#9;  ) p on isnumeric(p.uniqueid)=1 and ((cast(p.uniqueid as numeric)= r.epicrecordid and p.Abbreviation=r.EpicMasterFile) or r.name =p.title)&#10;&#10;where r.EpicMasterFile='IDN' and EpicRecordID&lt;1000000 -- metric only&#10;;"/>
       </DTS:ObjectData>
     </DTS:Executable>
-    <DTS:Executable DTS:refId="Package\Update Repo Images" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{ed9af19e-ded7-426f-b463-350a634746da}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Update Repo Images" DTS:ThreadHint="0" DTS:Disabled="True">
+    <DTS:Executable DTS:refId="Package\Update Repo Images" DTS:CreationName="Microsoft.ExecuteSQLTask" DTS:DelayValidation="True" DTS:Description="Execute SQL Task" DTS:DTSID="{ed9af19e-ded7-426f-b463-350a634746da}" DTS:ExecutableType="Microsoft.ExecuteSQLTask" DTS:LocaleID="-1" DTS:ObjectName="Update Repo Images" DTS:ThreadHint="1" DTS:Disabled="True">
       <DTS:Variables/>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" SQLTask:Connection="{6C78DD55-6FB2-44EC-BCBF-01010FE5BF03}" SQLTask:SqlStatementSource="delete from app.ReportObjectImages_doc  where ImageSource = 'Report Repository'&#10;&#10;insert into app.ReportObjectImages_doc (ReportObjectID, ImageData, ImageSource)&#10;&#10;select &#10;r.ReportObjectID, &#10;image,&#10;'Report Repository'&#10;from dbo.ReportObject r&#10;inner join (select cast(p.uniqueid as numeric) as uniqueid, p.abbreviation,  CONVERT(varbinary(MAX),CAST('' AS XML).value('xs:base64Binary(sql:column(&quot;image&quot;))', 'VARBINARY(MAX)')) as image&#10;&#9;&#9;&#9;from epicreportlibrary.dbo.Report_EpicRecordList p&#10;&#9;&#9;&#9;inner join (select replace(image, 'data:image/png;base64,','') as image, reportid from epicreportlibrary.dbo.Report_Images) i on p.ReportID = i.ReportID and ISNUMERIC(p.uniqueid) = 1)  p&#10;&#9;&#9;&#9;on  p.uniqueid =r.epicrecordid and p.Abbreviation=r.EpicMasterFile&#10;where EpicReleased = 'Y'&#10;and  image is not null&#10;;&#10;"/>
@@ -232,7 +234,7 @@
     design-time-name="Package"&gt;
     &lt;LayoutInfo&gt;
       &lt;GraphLayout
-        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssge="clr-namespace:Microsoft.SqlServer.Graph.Extended;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"&gt;
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"&gt;
         &lt;NodeLayout
           Size="128,42"
           Id="Package\Add Index"
@@ -292,7 +294,7 @@
         &lt;NodeLayout
           Size="152,42"
           Id="Package\Merge Reports"
-          TopLeft="598.874994834265,451.63333735572" /&gt;
+          TopLeft="600.874994834265,450.63333735572" /&gt;
         &lt;NodeLayout
           Size="179,42"
           Id="Package\Merge Subscriptions"
@@ -318,7 +320,7 @@
           TopLeft="708.625012268624,281.30000357469"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,49.96666721079"
               Start="0,0"
               End="0,42.46666721079"&gt;
@@ -337,18 +339,18 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
-          TopLeft="702.041679713462,373.26667078548"&gt;
+          TopLeft="703.041679713462,373.26667078548"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,78.36666657024"
+              StartConnector="{x:Null}"
+              EndConnector="0,77.36666657024"
               Start="0,0"
-              End="0,70.86666657024"&gt;
+              End="0,69.86666657024"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,70.86666657024" /&gt;
+                    End="0,69.86666657024" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -359,30 +361,30 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 10]"
-          TopLeft="650.874994834265,493.63333735572"&gt;
+          TopLeft="625.446423405694,492.63333735572"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-473.666630241606,55.50000041326"
+              StartConnector="{x:Null}"
+              EndConnector="-448.238058813035,56.50000041326"
               Start="0,0"
-              End="-473.666630241606,48.00000041326"&gt;
+              End="-448.238058813035,49.00000041326"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,18.5468751678869" /&gt;
+                    End="0,9.8039773736942" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,18.5468751678869"
-                    Point2="0,22.5468751678869"
-                    Point3="-4,22.5468751678869" /&gt;
+                    Point1="0,9.8039773736942"
+                    Point2="0,13.8039773736942"
+                    Point3="-4,13.8039773736942" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-469.666630241606,22.5468751678869" /&gt;
+                    End="-444.238058813035,13.8039773736942" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="-469.666630241606,22.5468751678869"
-                    Point2="-473.666630241606,22.5468751678869"
-                    Point3="-473.666630241606,26.5468751678869" /&gt;
+                    Point1="-444.238058813035,13.8039773736942"
+                    Point2="-448.238058813035,13.8039773736942"
+                    Point3="-448.238058813035,17.8039773736942" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-473.666630241606,48.00000041326" /&gt;
+                    End="-448.238058813035,49.00000041326" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -396,7 +398,7 @@
           TopLeft="590,33.1333353927401"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="37.708364592659,0"
               Start="0,0"
               End="30.208364592659,0"&gt;
@@ -418,7 +420,7 @@
           TopLeft="767.66666451428,779.31667100244"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="68.33333548572,0"
               Start="0,0"
               End="60.83333548572,0"&gt;
@@ -437,30 +439,30 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="644.017851977122,493.63333735572"&gt;
+          TopLeft="646.017851977122,492.63333735572"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-417.517851977122,134.36666264428"
+              StartConnector="{x:Null}"
+              EndConnector="-419.517851977122,135.36666264428"
               Start="0,0"
-              End="-417.517851977122,126.86666264428"&gt;
+              End="-419.517851977122,127.86666264428"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,46.0705959853685" /&gt;
+                    End="0,46.4432374948024" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,46.0705959853685"
-                    Point2="0,50.0705959853685"
-                    Point3="-4,50.0705959853685" /&gt;
+                    Point1="0,46.4432374948024"
+                    Point2="0,50.4432374948024"
+                    Point3="-4,50.4432374948024" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-413.517851977122,50.0705959853685" /&gt;
+                    End="-415.517851977122,50.4432374948024" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="-413.517851977122,50.0705959853685"
-                    Point2="-417.517851977122,50.0705959853685"
-                    Point3="-417.517851977122,54.0705959853685" /&gt;
+                    Point1="-415.517851977122,50.4432374948024"
+                    Point2="-419.517851977122,50.4432374948024"
+                    Point3="-419.517851977122,54.4432374948024" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-417.517851977122,126.86666264428" /&gt;
+                    End="-419.517851977122,127.86666264428" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -474,7 +476,7 @@
           TopLeft="687.58333225714,728.5"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,30.13334200488"
               Start="0,0"
               End="0,22.63334200488"&gt;
@@ -493,18 +495,18 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 29]"
-          TopLeft="750.874994834265,473.102818259215"&gt;
+          TopLeft="752.874994834265,472.602818259215"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="163.624970595043,0"
+              StartConnector="{x:Null}"
+              EndConnector="161.624970595043,0"
               Start="0,0"
-              End="156.124970595043,0"&gt;
+              End="154.124970595043,0"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="156.124970595043,0" /&gt;
+                    End="154.124970595043,0" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -515,30 +517,30 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="664.589280548551,493.63333735572"&gt;
+          TopLeft="666.589280548551,492.63333735572"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-366.880915955892,218.63333342976"
+              StartConnector="{x:Null}"
+              EndConnector="-368.880915955892,219.63333342976"
               Start="0,0"
-              End="-366.880915955892,211.13333342976"&gt;
+              End="-368.880915955892,212.13333342976"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,97.3823925178322" /&gt;
+                    End="0,97.8461021952515" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,97.3823925178322"
-                    Point2="0,101.382392517832"
-                    Point3="-4,101.382392517832" /&gt;
+                    Point1="0,97.8461021952515"
+                    Point2="0,101.846102195252"
+                    Point3="-4,101.846102195252" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-362.880915955892,101.382392517832" /&gt;
+                    End="-364.880915955892,101.846102195252" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="-362.880915955892,101.382392517832"
-                    Point2="-366.880915955892,101.382392517832"
-                    Point3="-366.880915955892,105.382392517832" /&gt;
+                    Point1="-364.880915955892,101.846102195252"
+                    Point2="-368.880915955892,101.846102195252"
+                    Point3="-368.880915955892,105.846102195252" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-366.880915955892,211.13333342976" /&gt;
+                    End="-368.880915955892,212.13333342976" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -552,7 +554,7 @@
           TopLeft="707.25,139"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,27"
               Start="0,0"
               End="0,19.5"&gt;
@@ -574,7 +576,7 @@
           TopLeft="710.770829972294,208"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,31.30000357469"
               Start="0,0"
               End="0,23.80000357469"&gt;
@@ -596,7 +598,7 @@
           TopLeft="691.020847903358,973.26667078548"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,46"
               Start="0,0"
               End="0,38.5"&gt;
@@ -618,7 +620,7 @@
           TopLeft="689.83333225714,800.63334200488"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,48.36665799512"
               Start="0,0"
               End="0,40.86665799512"&gt;
@@ -640,7 +642,7 @@
           TopLeft="690.916665607029,891"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,40.2666707854801"
               Start="0,0"
               End="0,32.7666707854801"&gt;
@@ -659,30 +661,30 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="710.874994834265,493.63333735572"&gt;
+          TopLeft="728.303566262836,492.63333735572"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="286.833369758394,46.6333334297601"
+              StartConnector="{x:Null}"
+              EndConnector="269.404798329823,47.6333334297599"
               Start="0,0"
-              End="286.833369758394,39.1333334297601"&gt;
+              End="269.404798329823,40.1333334297599"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,12.0804598033655" /&gt;
+                    End="0,7.63768941749816" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,12.0804598033655"
-                    Point2="0,16.0804598033655"
-                    Point3="4,16.0804598033655" /&gt;
+                    Point1="0,7.63768941749816"
+                    Point2="0,11.6376894174982"
+                    Point3="4,11.6376894174982" /&gt;
                   &lt;mssgle:LineSegment
-                    End="282.833369758394,16.0804598033655" /&gt;
+                    End="265.404798329823,11.6376894174982" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="282.833369758394,16.0804598033655"
-                    Point2="286.833369758394,16.0804598033655"
-                    Point3="286.833369758394,20.0804598033655" /&gt;
+                    Point1="265.404798329823,11.6376894174982"
+                    Point2="269.404798329823,11.6376894174982"
+                    Point3="269.404798329823,15.6376894174982" /&gt;
                   &lt;mssgle:LineSegment
-                    End="286.833369758394,39.1333334297601" /&gt;
+                    End="269.404798329823,40.1333334297599" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -696,7 +698,7 @@
           TopLeft="701.10418229633,53.2666707854801"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="0,43.7333292145199"
               Start="0,0"
               End="0,36.2333292145199"&gt;
@@ -715,30 +717,30 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="650.874994834265,451.63333735572"&gt;
+          TopLeft="652.874994834265,450.63333735572"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-468.541629049513,-34.09999991735"
+              StartConnector="{x:Null}"
+              EndConnector="-470.541629049513,-33.09999991735"
               Start="0,0"
-              End="-468.541629049513,-26.59999991735"&gt;
+              End="-470.541629049513,-25.59999991735"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,-9.85312496642345" /&gt;
+                    End="0,-9.44687496642345" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,-9.85312496642345"
-                    Point2="0,-13.8531249664235"
-                    Point3="-4,-13.8531249664235" /&gt;
+                    Point1="0,-9.44687496642345"
+                    Point2="0,-13.4468749664235"
+                    Point3="-4,-13.4468749664235" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-464.541629049513,-13.8531249664235" /&gt;
+                    End="-466.541629049513,-13.4468749664235" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="-464.541629049513,-13.8531249664235"
-                    Point2="-468.541629049513,-13.8531249664235"
-                    Point3="-468.541629049513,-17.8531249664235" /&gt;
+                    Point1="-466.541629049513,-13.4468749664235"
+                    Point2="-470.541629049513,-13.4468749664235"
+                    Point3="-470.541629049513,-17.4468749664235" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-468.541629049513,-26.59999991735" /&gt;
+                    End="-470.541629049513,-25.59999991735" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -749,30 +751,30 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 8]"
-          TopLeft="698.874994834265,493.63333735572"&gt;
+          TopLeft="687.160709119979,492.63333735572"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-271.999998807907,324.20000024796"
+              StartConnector="{x:Null}"
+              EndConnector="-260.285713093621,325.20000024796"
               Start="0,0"
-              End="-271.999998807907,316.70000024796"&gt;
+              End="-260.285713093621,317.70000024796"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,127.706250100734" /&gt;
+                    End="0,146.798387211756" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,127.706250100734"
-                    Point2="0,131.706250100734"
-                    Point3="-4,131.706250100734" /&gt;
+                    Point1="0,146.798387211756"
+                    Point2="0,150.798387211756"
+                    Point3="-4,150.798387211756" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-267.999998807907,131.706250100734" /&gt;
+                    End="-256.285713093621,150.798387211756" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="-267.999998807907,131.706250100734"
-                    Point2="-271.999998807907,131.706250100734"
-                    Point3="-271.999998807907,135.706250100734" /&gt;
+                    Point1="-256.285713093621,150.798387211756"
+                    Point2="-260.285713093621,150.798387211756"
+                    Point3="-260.285713093621,154.798387211756" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-271.999998807907,316.70000024796" /&gt;
+                    End="-260.285713093621,317.70000024796" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -783,30 +785,30 @@
         &lt;/EdgeLayout&gt;
         &lt;EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 9]"
-          TopLeft="705.732137691408,493.63333735572"&gt;
+          TopLeft="707.732137691408,492.63333735572"&gt;
           &lt;EdgeLayout.Curve&gt;
             &lt;mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-20.2321376914078,192.86666264428"
+              StartConnector="{x:Null}"
+              EndConnector="-22.2321376914078,193.86666264428"
               Start="0,0"
-              End="-20.2321376914078,185.36666264428"&gt;
+              End="-22.2321376914078,186.36666264428"&gt;
               &lt;mssgle:Curve.Segments&gt;
                 &lt;mssgle:SegmentCollection
                   Capacity="5"&gt;
                   &lt;mssgle:LineSegment
-                    End="0,67.8701242872552" /&gt;
+                    End="0,68.2427657966892" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="0,67.8701242872552"
-                    Point2="0,71.8701242872552"
-                    Point3="-4,71.8701242872552" /&gt;
+                    Point1="0,68.2427657966892"
+                    Point2="0,72.2427657966892"
+                    Point3="-4,72.2427657966892" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-16.2321376914078,71.8701242872552" /&gt;
+                    End="-18.2321376914078,72.2427657966892" /&gt;
                   &lt;mssgle:CubicBezierSegment
-                    Point1="-16.2321376914078,71.8701242872552"
-                    Point2="-20.2321376914078,71.8701242872552"
-                    Point3="-20.2321376914078,75.8701242872552" /&gt;
+                    Point1="-18.2321376914078,72.2427657966892"
+                    Point2="-22.2321376914078,72.2427657966892"
+                    Point3="-22.2321376914078,76.2427657966892" /&gt;
                   &lt;mssgle:LineSegment
-                    End="-20.2321376914078,185.36666264428" /&gt;
+                    End="-22.2321376914078,186.36666264428" /&gt;
                 &lt;/mssgle:SegmentCollection&gt;
               &lt;/mssgle:Curve.Segments&gt;
             &lt;/mssgle:Curve&gt;
@@ -815,42 +817,6 @@
             &lt;EdgeLabelCollection /&gt;
           &lt;/EdgeLayout.Labels&gt;
         &lt;/EdgeLayout&gt;
-        &lt;AnnotationLayout
-          Text="^!Execute SQL tasks use package parameters for atlas database and atlas_staging database (Connection intitial catalog and SQL are affected)!"
-          ParentId="Package"
-          Size="1053,41"
-          Id="034aa3be-57d9-4336-b5d2-ee936d124d58"
-          TopLeft="1202.99999711911,110"&gt;
-          &lt;AnnotationLayout.FontInfo&gt;
-            &lt;mssge:FontInfo
-              Family="Tahoma"
-              Size="14.25"
-              Color="#FFFFFFFF"
-              Weight="Bold"&gt;
-              &lt;mssge:FontInfo.TextDecorations&gt;
-                &lt;av:TextDecorationCollection /&gt;
-              &lt;/mssge:FontInfo.TextDecorations&gt;
-            &lt;/mssge:FontInfo&gt;
-          &lt;/AnnotationLayout.FontInfo&gt;
-        &lt;/AnnotationLayout&gt;
-        &lt;AnnotationLayout
-          Text="  Atlas of Information Management business intelligence library and documentation database.&amp;#xA;  Copyright (C) 2020  Riverside Healthcare, Kankakee, IL&amp;#xA;&amp;#xA;  This program is free software: you can redistribute it and/or modify&amp;#xA;  it under the terms of the GNU General Public License as published by&amp;#xA;  the Free Software Foundation, either version 3 of the License, or&amp;#xA;  (at your option) any later version.&amp;#xA;&amp;#xA;  This program is distributed in the hope that it will be useful,&amp;#xA;  but WITHOUT ANY WARRANTY; without even the implied warranty of&amp;#xA;  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the&amp;#xA;  GNU General Public License for more details.&amp;#xA;&amp;#xA;  You should have received a copy of the GNU General Public License&amp;#xA;  along with this program.  If not, see &amp;lt;https://www.gnu.org/licenses/&amp;gt;."
-          ParentId="Package"
-          Size="702,282"
-          Id="3620a276-7915-42d4-9893-8c3f6af30781"
-          TopLeft="1393.33333041933,267.733332210647"&gt;
-          &lt;AnnotationLayout.FontInfo&gt;
-            &lt;mssge:FontInfo
-              Family="Tahoma"
-              Size="14.25"
-              Color="#FFFFFFFF"
-              Weight="Bold"&gt;
-              &lt;mssge:FontInfo.TextDecorations&gt;
-                &lt;av:TextDecorationCollection /&gt;
-              &lt;/mssge:FontInfo.TextDecorations&gt;
-            &lt;/mssge:FontInfo&gt;
-          &lt;/AnnotationLayout.FontInfo&gt;
-        &lt;/AnnotationLayout&gt;
       &lt;/GraphLayout&gt;
     &lt;/LayoutInfo&gt;
   &lt;/Package&gt;

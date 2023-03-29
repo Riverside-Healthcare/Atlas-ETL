@@ -7,12 +7,12 @@
   DTS:CreatorName="YOURORGNAME\Sean-Pickering"
   DTS:DTSID="{F02D9283-1C1E-4319-8EF2-A264B5F32376}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-SSAS"
   DTS:PackageType="5"
-  DTS:VersionBuild="193"
-  DTS:VersionGUID="{F99F0D0C-6CBF-4BD8-BD83-EC81522B317D}">
+  DTS:VersionBuild="195"
+  DTS:VersionGUID="{99C57D17-F0ED-4583-8AE5-E8591797E685}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -3581,7 +3581,7 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
     design-time-name="Package\Cubes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="229,42"
           Id="Package\Cubes\slicerdicer_server-cobalt-dbo-cubes"
@@ -3609,7 +3609,9 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3640,7 +3642,19 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
     design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="220,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions"
+          TopLeft="472,570" />
+        <NodeLayout
+          Size="137,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Dimensions"
+          TopLeft="478,71" />
+        <NodeLayout
+          Size="256,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-dimensions"
+          TopLeft="429,210" />
         <NodeLayout
           Size="248,42"
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures"
@@ -3650,47 +3664,13 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Measures"
           TopLeft="115.5,89.5" />
         <NodeLayout
-          Size="137,42"
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Dimensions"
-          TopLeft="478,71" />
+          Size="158,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column"
+          TopLeft="497.5,466.5" />
         <NodeLayout
-          Size="256,42"
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-dimensions"
-          TopLeft="429,210" />
-        <EdgeLayout
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[OLE DB Source Output]"
-          TopLeft="179,131.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="13.5,88"
-              Start="0,0"
-              End="13.5,80.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,40" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,40"
-                    Point2="0,44"
-                    Point3="4,44" />
-                  <mssgle:LineSegment
-                    End="9.5,44" />
-                  <mssgle:CubicBezierSegment
-                    Point1="9.5,44"
-                    Point2="13.5,44"
-                    Point3="13.5,48" />
-                  <mssgle:LineSegment
-                    End="13.5,80.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+          Size="166,42"
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source"
+          TopLeft="504.5,364.5" />
         <EdgeLayout
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[OLE DB Source Output1]"
           TopLeft="546.5,113">
@@ -3722,21 +3702,71 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="220,42"
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions"
-          TopLeft="472,570" />
-        <NodeLayout
-          Size="166,42"
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source"
-          TopLeft="504.5,364.5" />
-        <NodeLayout
-          Size="158,42"
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions\Derived Column"
-          TopLeft="497.5,466.5" />
+        <EdgeLayout
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[OLE DB Source Output]"
+          TopLeft="179,131.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="13.5,88"
+              Start="0,0"
+              End="13.5,80.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40"
+                    Point2="0,44"
+                    Point3="4,44" />
+                  <mssgle:LineSegment
+                    End="9.5,44" />
+                  <mssgle:CubicBezierSegment
+                    Point1="9.5,44"
+                    Point2="13.5,44"
+                    Point3="13.5,48" />
+                  <mssgle:LineSegment
+                    End="13.5,80.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[Derived Column Output]"
+          TopLeft="579.25,508.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,61.5"
+              Start="0,0"
+              End="0,54">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,54" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[ADO NET Source Output]"
           TopLeft="587.5,406.5">
@@ -3768,36 +3798,16 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Measures and Dimensions\Populate Measures and Dimensions.Paths[Derived Column Output]"
-          TopLeft="579.25,508.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,61.5"
-              Start="0,0"
-              End="0,54">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,54" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures">
+    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -3806,14 +3816,6 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\Measures">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -3838,71 +3840,40 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cobalt-dbo-measures">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\Measures">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Stage Cubes">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="140,42"
-          Id="Package\Stage Cubes\Stage cubes"
-          TopLeft="134.5,94.5" />
-        <NodeLayout
-          Size="159,42"
-          Id="Package\Stage Cubes\Stage measures"
-          TopLeft="376,106" />
-        <NodeLayout
-          Size="211,42"
-          Id="Package\Stage Cubes\ReportObjectQueryStaging"
-          TopLeft="357.5,253.5" />
-        <NodeLayout
-          Size="181,42"
-          Id="Package\Stage Cubes\ReportObjectStaging"
-          TopLeft="113.5,255.5" />
-        <EdgeLayout
-          Id="Package\Stage Cubes.Paths[OLE DB Source Output1]"
-          TopLeft="459.25,148">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,105.5"
-              Start="0,0"
-              End="0,98">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,98" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Stage Cubes.Paths[OLE DB Source Output]"
-          TopLeft="204.25,136.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{x:Null}"
-              EndConnector="0,119"
-              Start="0,0"
-              End="0,111.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,111.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
           Id="Package\Stage Cubes\Stage Partitions"
@@ -3911,6 +3882,22 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
           Size="211,42"
           Id="Package\Stage Cubes\ReportObjectQueryStaging 1"
           TopLeft="113.5,505" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\Stage Cubes\Stage measures"
+          TopLeft="376,106" />
+        <NodeLayout
+          Size="140,42"
+          Id="Package\Stage Cubes\Stage cubes"
+          TopLeft="134.5,94.5" />
+        <NodeLayout
+          Size="181,42"
+          Id="Package\Stage Cubes\ReportObjectStaging"
+          TopLeft="113.5,255.5" />
+        <NodeLayout
+          Size="211,42"
+          Id="Package\Stage Cubes\ReportObjectQueryStaging"
+          TopLeft="357.5,253.5" />
         <EdgeLayout
           Id="Package\Stage Cubes.Paths[OLE DB Source Output2]"
           TopLeft="210.5,399.5">
@@ -3942,17 +3929,80 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Stage Cubes.Paths[OLE DB Source Output1]"
+          TopLeft="459.25,148">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,105.5"
+              Start="0,0"
+              End="0,98">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,98" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Stage Cubes.Paths[OLE DB Source Output]"
+          TopLeft="204.25,136.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="0,119"
+              Start="0,0"
+              End="0,111.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,111.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Stage Cubes\Stage cubes">
+    design-time-name="Package\Stage Cubes\Stage Partitions">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage Cubes\ReportObjectQueryStaging 1">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -3965,15 +4015,10 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Stage Cubes\ReportObjectQueryStaging">
+    design-time-name="Package\Stage Cubes\Stage cubes">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -3991,36 +4036,7 @@ inner join raw.[slicerdicer_server-cobalt-dbo-cubes] c on c.Catalog_Name=cast(p.
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\slicerdicer_server-cube_partitions">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Measures and Dimensions\Populate Measures and Dimensions\ADO NET Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Stage Cubes\Stage Partitions">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Stage Cubes\ReportObjectQueryStaging 1">
+    design-time-name="Package\Stage Cubes\ReportObjectQueryStaging">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

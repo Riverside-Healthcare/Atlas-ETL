@@ -7,12 +7,12 @@
   DTS:CreatorName="YOURORGNAME\Sean-Pickering"
   DTS:DTSID="{1F06120B-FCF3-47D5-935A-30F817959005}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.152"
+  DTS:LastModifiedProductVersion="15.0.2000.68"
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-Tableau"
   DTS:PackageType="5"
-  DTS:VersionBuild="18"
-  DTS:VersionGUID="{DBF8180E-419F-44D4-84C1-3C69E7CD4DC0}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{D90F0D6F-FD2D-411E-B7F1-1433E035F7B8}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -2032,29 +2032,137 @@ where username is not null</property>
     design-time-name="Package\Stage">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="169,42"
-          Id="Package\Stage\Tableau Hierarchy"
-          TopLeft="590.5,31.5" />
+          Size="228,42"
+          Id="Package\Stage\ReportObjectHierarchyStaging"
+          TopLeft="592.5,80.5" />
         <NodeLayout
-          Size="119,42"
-          Id="Package\Stage\Tableau"
-          TopLeft="284.499999503295,29.8666666735543" />
+          Size="203,42"
+          Id="Package\Stage\ReportObjectUserGroups"
+          TopLeft="293,420" />
         <NodeLayout
           Size="176,42"
           Id="Package\Stage\ReportObjectStaging 5"
           TopLeft="284.333331214057,84.399999979337" />
         <NodeLayout
-          Size="228,42"
-          Id="Package\Stage\ReportObjectHierarchyStaging"
-          TopLeft="592.5,80.5" />
+          Size="167,42"
+          Id="Package\Stage\ReportObjectUser"
+          TopLeft="595,323" />
+        <NodeLayout
+          Size="108,42"
+          Id="Package\Stage\Users"
+          TopLeft="593,273" />
+        <NodeLayout
+          Size="119,42"
+          Id="Package\Stage\Tableau"
+          TopLeft="284.499999503295,29.8666666735543" />
+        <NodeLayout
+          Size="118,42"
+          Id="Package\Stage\Queries"
+          TopLeft="284.499999503295,247.5" />
+        <NodeLayout
+          Size="203,42"
+          Id="Package\Stage\ReportObjectQueryStaging"
+          TopLeft="285.333331214057,302.033333305783" />
+        <NodeLayout
+          Size="169,42"
+          Id="Package\Stage\Tableau Hierarchy"
+          TopLeft="590.5,31.5" />
+        <NodeLayout
+          Size="115,42"
+          Id="Package\Stage\Groups"
+          TopLeft="290.333331214057,357.033333305783" />
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output4]"
+          TopLeft="405.333331214057,378.033333305783">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-10.833331214057,41.966666694217"
+              Start="0,0"
+              End="-10.833331214057,34.466666694217">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-6.83333121405701,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-6.83333121405701,0"
+                    Point2="-10.833331214057,0"
+                    Point3="-10.833331214057,4" />
+                  <mssgle:LineSegment
+                    End="-10.833331214057,34.466666694217" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output3]"
+          TopLeft="701,294">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-22.5,29"
+              Start="0,0"
+              End="-22.5,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.5,0"
+                    Point2="-22.5,0"
+                    Point3="-22.5,4" />
+                  <mssgle:LineSegment
+                    End="-22.5,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Stage.Paths[OLE DB Source Output2]"
+          TopLeft="402.499999503295,268.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{x:Null}"
+              EndConnector="-15.666668289238,33.533333305783"
+              Start="0,0"
+              End="-15.666668289238,26.033333305783">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-11.666668289238,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-11.666668289238,0"
+                    Point2="-15.666668289238,0"
+                    Point3="-15.666668289238,4" />
+                  <mssgle:LineSegment
+                    End="-15.666668289238,26.033333305783" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\Stage.Paths[OLE DB Source Output1]"
           TopLeft="759.5,52.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-53,28"
               Start="0,0"
               End="-53,20.5">
@@ -2082,7 +2190,7 @@ where username is not null</property>
           TopLeft="403.499999503295,50.8666666735543">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{assembly:Null}"
+              StartConnector="{x:Null}"
               EndConnector="-31.166668289238,33.5333333057827"
               Start="0,0"
               End="-31.166668289238,26.0333333057827">
@@ -2105,130 +2213,19 @@ where username is not null</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="118,42"
-          Id="Package\Stage\Queries"
-          TopLeft="284.499999503295,247.5" />
-        <NodeLayout
-          Size="203,42"
-          Id="Package\Stage\ReportObjectQueryStaging"
-          TopLeft="285.333331214057,302.033333305783" />
-        <EdgeLayout
-          Id="Package\Stage.Paths[OLE DB Source Output2]"
-          TopLeft="402.499999503295,268.5">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-15.666668289238,33.533333305783"
-              Start="0,0"
-              End="-15.666668289238,26.033333305783">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="-11.666668289238,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-11.666668289238,0"
-                    Point2="-15.666668289238,0"
-                    Point3="-15.666668289238,4" />
-                  <mssgle:LineSegment
-                    End="-15.666668289238,26.033333305783" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="108,42"
-          Id="Package\Stage\Users"
-          TopLeft="593,273" />
-        <NodeLayout
-          Size="115,42"
-          Id="Package\Stage\Groups"
-          TopLeft="290.333331214057,357.033333305783" />
-        <NodeLayout
-          Size="167,42"
-          Id="Package\Stage\ReportObjectUser"
-          TopLeft="595,323" />
-        <EdgeLayout
-          Id="Package\Stage.Paths[OLE DB Source Output3]"
-          TopLeft="701,294">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-22.5,29"
-              Start="0,0"
-              End="-22.5,21.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="-18.5,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-18.5,0"
-                    Point2="-22.5,0"
-                    Point3="-22.5,4" />
-                  <mssgle:LineSegment
-                    End="-22.5,21.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="203,42"
-          Id="Package\Stage\ReportObjectUserGroups"
-          TopLeft="293,420" />
-        <EdgeLayout
-          Id="Package\Stage.Paths[OLE DB Source Output4]"
-          TopLeft="405.333331214057,378.033333305783">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-10.833331214057,41.966666694217"
-              Start="0,0"
-              End="-10.833331214057,34.466666694217">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="-6.83333121405701,0" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-6.83333121405701,0"
-                    Point2="-10.833331214057,0"
-                    Point3="-10.833331214057,4" />
-                  <mssgle:LineSegment
-                    End="-10.833331214057,34.466666694217" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Stage\Users">
+    design-time-name="Package\Stage\ReportObjectUserGroups">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Stage\Groups">
-    <Properties>
       <Property>
-        <Name>DataSourceViewID</Name>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
@@ -2246,15 +2243,18 @@ where username is not null</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Stage\ReportObjectUserGroups">
+    design-time-name="Package\Stage\Users">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\Groups">
+    <Properties>
       <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
