@@ -7,12 +7,12 @@
   DTS:CreatorName="YOURORGNAME\Sean-Pickering"
   DTS:DTSID="{1F06120B-FCF3-47D5-935A-30F817959005}"
   DTS:ExecutableType="Microsoft.Package"
-  DTS:LastModifiedProductVersion="15.0.2000.68"
+  DTS:LastModifiedProductVersion="15.0.2000.152"
   DTS:LocaleID="1033"
   DTS:ObjectName="ETL-Tableau"
   DTS:PackageType="5"
-  DTS:VersionBuild="20"
-  DTS:VersionGUID="{D90F0D6F-FD2D-411E-B7F1-1433E035F7B8}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{F4AE0E9B-C146-4AA3-B339-3FAC07CCAF2F}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -1732,21 +1732,7 @@ N'eptblp01','||'
 , r.id
 ) 
 ,
-ChildReportObjectBizKey =concat(
-N'eptblp01','||'
-, N'tableau'
-,   '||'
-,  N'Tableau Dashboard'
-,   '||'
-,   '||'
-,   '||'
-, case
-	when LEN(h.childid)=5 then RIGHT(h.ChildID,1)
-	when LEN(h.childid)=6 then right(h.ChildID,2)
-	when LEN(h.childid)=7 then right (h.ChildID,3)
-	else right(h.ChildID,4)
-end
-) 
+ChildReportObjectBizKey =concat( N'eptblp01','||' , N'tableau' ,   '||' ,  N'Tableau Dashboard' ,   '||' ,   '||' ,   '||' , SUBSTRING(h.ChildID,PATINDEX('%[0-9]%',h.ChildID),30) )
 ,h.[Index] as line
 from [raw].[tableau-hierarchy] h
 inner join [raw].[tableau-reports] r on (CONCAT('Workbook',r.id)=h.ParentID and r.Type='Workbook')</property>
@@ -2032,7 +2018,7 @@ where username is not null</property>
     design-time-name="Package\Stage">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="228,42"
           Id="Package\Stage\ReportObjectHierarchyStaging"
@@ -2078,7 +2064,7 @@ where username is not null</property>
           TopLeft="405.333331214057,378.033333305783">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-10.833331214057,41.966666694217"
               Start="0,0"
               End="-10.833331214057,34.466666694217">
@@ -2106,7 +2092,7 @@ where username is not null</property>
           TopLeft="701,294">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-22.5,29"
               Start="0,0"
               End="-22.5,21.5">
@@ -2134,7 +2120,7 @@ where username is not null</property>
           TopLeft="402.499999503295,268.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-15.666668289238,33.533333305783"
               Start="0,0"
               End="-15.666668289238,26.033333305783">
@@ -2162,7 +2148,7 @@ where username is not null</property>
           TopLeft="759.5,52.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-53,28"
               Start="0,0"
               End="-53,20.5">
@@ -2190,7 +2176,7 @@ where username is not null</property>
           TopLeft="403.499999503295,50.8666666735543">
           <EdgeLayout.Curve>
             <mssgle:Curve
-              StartConnector="{x:Null}"
+              StartConnector="{assembly:Null}"
               EndConnector="-31.166668289238,33.5333333057827"
               Start="0,0"
               End="-31.166668289238,26.0333333057827">
@@ -2244,6 +2230,14 @@ where username is not null</property>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Stage\Users">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Stage\Tableau Hierarchy">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
